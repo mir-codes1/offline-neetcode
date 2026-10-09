@@ -1,0 +1,168 @@
+{
+  "id": 12,
+  "slug": "best-time-to-buy-and-sell-stock",
+  "title": "Best Time to Buy And Sell Stock",
+  "difficulty": "Easy",
+  "topic": "Sliding Window",
+  "leetcodeUrl": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
+  "videoUrl": null,
+  "description": "`prices[i]` is the price of a stock on day `i`. You may buy on one day and sell on a **later** day. Return the maximum profit you can make, or `0` if no profitable trade exists.",
+  "examples": [
+    {
+      "input": "prices = [10, 1, 5, 6, 7, 1]",
+      "output": "6",
+      "explanation": "Buy at 1, sell at 7."
+    },
+    {
+      "input": "prices = [10, 8, 7, 5, 2]",
+      "output": "0",
+      "explanation": "Prices only fall, so do not trade."
+    }
+  ],
+  "constraints": [
+    "1 <= prices.length <= 100",
+    "0 <= prices[i] <= 100"
+  ],
+  "topics": [
+    "Array",
+    "Sliding Window"
+  ],
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "hints": [
+    "Trying every buy/sell pair is O(n^2). For a fixed selling day, which buying day is best?",
+    "The best buy day for a given sell day is the cheapest price seen before it. Can you maintain that as you scan?",
+    "Scan once, keeping the minimum price so far; at each day update the answer with price - min_so_far."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "maxProfit",
+  "params": [
+    {
+      "name": "prices",
+      "type": "List[int]",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "exact",
+  "starterCode": "class Solution:\n    def maxProfit(self, prices: List[int]) -> int:\n        ",
+  "tests": [
+    {
+      "args": [
+        [
+          10,
+          1,
+          5,
+          6,
+          7,
+          1
+        ]
+      ],
+      "expected": 6,
+      "example": true
+    },
+    {
+      "args": [
+        [
+          10,
+          8,
+          7,
+          5,
+          2
+        ]
+      ],
+      "expected": 0,
+      "example": true
+    },
+    {
+      "args": [
+        [
+          5
+        ]
+      ],
+      "expected": 0
+    },
+    {
+      "args": [
+        [
+          2,
+          4,
+          1
+        ]
+      ],
+      "expected": 2
+    },
+    {
+      "args": [
+        [
+          7,
+          1,
+          5,
+          3,
+          6,
+          4
+        ]
+      ],
+      "expected": 5
+    },
+    {
+      "args": [
+        [
+          7,
+          6,
+          4,
+          3,
+          1
+        ]
+      ],
+      "expected": 0
+    },
+    {
+      "args": [
+        [
+          3,
+          3,
+          3
+        ]
+      ],
+      "expected": 0
+    },
+    {
+      "args": [
+        [
+          2,
+          1,
+          2,
+          1,
+          0,
+          1,
+          2
+        ]
+      ],
+      "expected": 2
+    },
+    {
+      "args": [
+        {
+          "$py": "list(range(100000))"
+        }
+      ],
+      "expected": 99999
+    },
+    {
+      "args": [
+        {
+          "$py": "list(range(100000,0,-1))"
+        }
+      ],
+      "expected": 0
+    }
+  ],
+  "solution": {
+    "explanation": "Track the lowest price seen so far and the best profit. For each day, selling today would earn price minus that minimum, so update the best profit, then update the minimum. This is a single pass using O(n) time and O(1) space.",
+    "code": "class Solution:\n    def maxProfit(self, prices: List[int]) -> int:\n        low = float('inf')\n        best = 0\n        for p in prices:\n            low = min(low, p)\n            best = max(best, p - low)\n        return best\n"
+  }
+}

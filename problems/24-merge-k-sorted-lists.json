@@ -1,0 +1,256 @@
+{
+  "id": 24,
+  "slug": "merge-k-sorted-lists",
+  "title": "Merge K Sorted Lists",
+  "difficulty": "Hard",
+  "topic": "Linked List",
+  "leetcodeUrl": "https://leetcode.com/problems/merge-k-sorted-lists/",
+  "videoUrl": null,
+  "description": "You are given an array `lists` of `k` linked lists, each sorted in non-decreasing order. Merge them all into one sorted linked list and return its head.",
+  "examples": [
+    {
+      "input": "lists = [[1, 2, 4], [1, 3, 5], [3, 6]]",
+      "output": "[1, 1, 2, 3, 3, 4, 5, 6]"
+    },
+    {
+      "input": "lists = []",
+      "output": "[]"
+    }
+  ],
+  "constraints": [
+    "0 <= k <= 10^4",
+    "0 <= each list length <= 500",
+    "-1000 <= Node.val <= 1000",
+    "total number of nodes <= 10^4"
+  ],
+  "topics": [
+    "Linked List",
+    "Heap",
+    "Divide and Conquer"
+  ],
+  "complexity": {
+    "time": "O(N log k)",
+    "space": "O(k)"
+  },
+  "hints": [
+    "You already know how to merge two sorted lists. Merging them one after another into a running result works but repeats a lot of work.",
+    "At any moment, the next output node is the smallest among the k current heads. What structure gives you the minimum quickly?",
+    "Either keep a min-heap of the current heads (pop the smallest, push its successor), or merge the lists pairwise in rounds so the number of lists halves each time."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "mergeKLists",
+  "params": [
+    {
+      "name": "lists",
+      "type": "List[Optional[ListNode]]",
+      "kind": "listarray"
+    }
+  ],
+  "returns": "list",
+  "compare": "exact",
+  "starterCode": "class Solution:\n    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:\n        ",
+  "tests": [
+    {
+      "args": [
+        [
+          [
+            1,
+            2,
+            4
+          ],
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            3,
+            6
+          ]
+        ]
+      ],
+      "expected": [
+        1,
+        1,
+        2,
+        3,
+        3,
+        4,
+        5,
+        6
+      ],
+      "example": true
+    },
+    {
+      "args": [
+        []
+      ],
+      "expected": [],
+      "example": true
+    },
+    {
+      "args": [
+        [
+          []
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "args": [
+        [
+          [
+            1
+          ],
+          [
+            0
+          ]
+        ]
+      ],
+      "expected": [
+        0,
+        1
+      ]
+    },
+    {
+      "args": [
+        [
+          [],
+          [
+            1
+          ]
+        ]
+      ],
+      "expected": [
+        1
+      ]
+    },
+    {
+      "args": [
+        [
+          [
+            2
+          ],
+          [
+            1
+          ],
+          [
+            3
+          ]
+        ]
+      ],
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "args": [
+        [
+          [
+            1,
+            4,
+            5
+          ],
+          [
+            1,
+            3,
+            4
+          ],
+          [
+            2,
+            6
+          ]
+        ]
+      ],
+      "expected": [
+        1,
+        1,
+        2,
+        3,
+        4,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "args": [
+        [
+          [],
+          [],
+          []
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "args": [
+        [
+          [
+            -5,
+            -1
+          ],
+          [
+            -3
+          ],
+          [
+            0,
+            0,
+            2
+          ]
+        ]
+      ],
+      "expected": [
+        -5,
+        -3,
+        -1,
+        0,
+        0,
+        2
+      ]
+    },
+    {
+      "args": [
+        [
+          [
+            1,
+            2,
+            3
+          ]
+        ]
+      ],
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "args": [
+        {
+          "$py": "[[(i*37) % 10007] for i in range(10000)]"
+        }
+      ],
+      "expected": {
+        "$py": "sorted((i*37) % 10007 for i in range(10000))"
+      }
+    },
+    {
+      "args": [
+        {
+          "$py": "[list(range(j, 10000, 100)) for j in range(100)]"
+        }
+      ],
+      "expected": {
+        "$py": "list(range(10000))"
+      }
+    }
+  ],
+  "solution": {
+    "explanation": "Put the head of every non-empty list into a min-heap keyed by value (with an index to break ties). Repeatedly pop the smallest node, append it to the output, and push that node's next if it exists. The heap never holds more than k nodes, so each of the N nodes costs O(log k): O(N log k) time, O(k) space. Pairwise divide-and-conquer merging gives the same time bound.",
+    "code": "import heapq\n\n\nclass Solution:\n    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:\n        heap = []\n        for i, node in enumerate(lists):\n            if node:\n                heap.append((node.val, i, node))\n        heapq.heapify(heap)\n        dummy = ListNode()\n        tail = dummy\n        while heap:\n            _, i, node = heapq.heappop(heap)\n            tail.next = node\n            tail = node\n            if node.next:\n                heapq.heappush(heap, (node.next.val, i, node.next))\n        return dummy.next\n"
+  }
+}

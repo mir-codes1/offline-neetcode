@@ -1,0 +1,121 @@
+{
+  "id": 52,
+  "slug": "longest-palindromic-substring",
+  "title": "Longest Palindromic Substring",
+  "difficulty": "Medium",
+  "topic": "1-D Dynamic Programming",
+  "leetcodeUrl": "https://leetcode.com/problems/longest-palindromic-substring/",
+  "videoUrl": null,
+  "description": "Given a string `s`, return the longest substring of `s` that reads the same forwards and backwards. If several substrings tie for the longest length, any one of them is accepted.",
+  "examples": [
+    {
+      "input": "s = \"babad\"",
+      "output": "\"bab\"",
+      "explanation": "\"aba\" is also a valid answer."
+    },
+    {
+      "input": "s = \"cbbd\"",
+      "output": "\"bb\""
+    }
+  ],
+  "constraints": [
+    "1 <= s.length <= 1000",
+    "s consists of digits and English letters"
+  ],
+  "topics": [
+    "String",
+    "Dynamic Programming",
+    "Two Pointers"
+  ],
+  "complexity": {
+    "time": "O(n^2)",
+    "space": "O(1)"
+  },
+  "hints": [
+    "Checking every substring is O(n^3). A palindrome mirrors around its centre; how many possible centres are there?",
+    "There are 2n-1 centres: n single characters (odd length) and n-1 gaps between characters (even length).",
+    "From each centre expand outward while the two ends match, and remember the longest span found."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "longestPalindrome",
+  "params": [
+    {
+      "name": "s",
+      "type": "str",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "validator",
+  "validator": "def validate(args, got):\n    s = args[0]\n    if not isinstance(got, str) or not got or got not in s or got != got[::-1]:\n        return False\n    best = 0\n    n = len(s)\n    for c in range(2 * n - 1):\n        l, r = c // 2, c // 2 + c % 2\n        while l >= 0 and r < n and s[l] == s[r]:\n            l -= 1\n            r += 1\n        best = max(best, r - l - 1)\n    return len(got) == best",
+  "starterCode": "class Solution:\n    def longestPalindrome(self, s: str) -> str:\n        ",
+  "tests": [
+    {
+      "args": [
+        "babad"
+      ],
+      "expected": "bab",
+      "example": true
+    },
+    {
+      "args": [
+        "cbbd"
+      ],
+      "expected": "bb",
+      "example": true
+    },
+    {
+      "args": [
+        "a"
+      ],
+      "expected": "a"
+    },
+    {
+      "args": [
+        "ac"
+      ],
+      "expected": "a"
+    },
+    {
+      "args": [
+        "aaaa"
+      ],
+      "expected": "aaaa"
+    },
+    {
+      "args": [
+        "forgeeksskeegfor"
+      ],
+      "expected": "geeksskeeg"
+    },
+    {
+      "args": [
+        "abacdfgdcaba"
+      ],
+      "expected": "aba"
+    },
+    {
+      "args": [
+        "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab"
+      ],
+      "expected": "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababa"
+    },
+    {
+      "args": [
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "expected": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "args": [
+        "ccbaccccccabccbbbbabcbaaaabaabcaaacacabcaaacbacbbcbbaabbbbbaaacbcbbcacaacbaccacbcacbcbabacccbcacaabcaacbbcaabbbaccbbcbbaaaabababccabcbcacabcababcbacbbbcacaaaaacbcaccbcbaccaaaccaccabaaababcacbbcbaacbbcccbcacaccabacaaaabccacabccccbacaaabaacbcaabbccccacbbccbcaccbcabababbbacabaacbaacccbababacabbacaacbcbeeedeeeedddddeeeeeededdeddeeeeddeddeddeededdedddeeedddeeddeeeeeeededddddededeedddedddedeededdddddedeeddeddeedddedddeeededddeedededddeeeeeedeeeededeeddfddeededeeeedeeeeeedddededeedddedeeedddedddeeddeddeededdddddedeededddedddeedededddddedeeeeeeeddeedddeeedddeddedeeddeddeddeeeeddeddedeeeeeedddddeeeedeeebccbbbbacabababbacbbbaaacaaccbbacccbacbabbbaaabcbbbcabbbbababbbaacacbbbabbcabbbabaacbcaabbcbabbacbccacaacbbcacbbacaabbbbbbcccbbcabbccbaacaaacbcabbbbacaaaabcababbcaacbbbccabbbabbcbaccccaababbcbbbaaabcbcbaabcbbaaaaaccacccbacaaaacaccbacbccbcaaabccabbacaacbbbbcabcacaabccbaaabccbabacbbabacbcbbcbaabccaababaababbacbcaabbcacabaaacabacaabbcbcaaabaacccbabccbbbbaaaababbacabbbbaacbabcbabbcbacbacbababaabacacb"
+      ],
+      "expected": "eeedeeeedddddeeeeeededdeddeeeeddeddeddeededdedddeeedddeeddeeeeeeededddddededeedddedddedeededdddddedeeddeddeedddedddeeededddeedededddeeeeeedeeeededeeddfddeededeeeedeeeeeedddededeedddedeeedddedddeeddeddeededdddddedeededddedddeedededddddedeeeeeeeddeedddeeedddeddedeeddeddeddeeeeddeddedeeeeeedddddeeeedeee"
+    }
+  ],
+  "solution": {
+    "explanation": "Every palindrome has a centre, either a character or the gap between two. For each of the 2n-1 centres, expand left and right while the characters match, tracking the best span. Each expansion is O(n), giving O(n^2) time and O(1) extra space. Cubic brute force over all substrings is too slow on 1000-character inputs.",
+    "code": "class Solution:\n    def longestPalindrome(self, s: str) -> str:\n        best = (0, 0)\n        n = len(s)\n        for c in range(2 * n - 1):\n            l, r = c // 2, c // 2 + c % 2\n            while l >= 0 and r < n and s[l] == s[r]:\n                l -= 1\n                r += 1\n            if r - l - 1 > best[1] - best[0]:\n                best = (l + 1, r)\n        return s[best[0]:best[1]]\n"
+  }
+}

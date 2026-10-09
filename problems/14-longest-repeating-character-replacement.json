@@ -1,0 +1,149 @@
+{
+  "id": 14,
+  "slug": "longest-repeating-character-replacement",
+  "title": "Longest Repeating Character Replacement",
+  "difficulty": "Medium",
+  "topic": "Sliding Window",
+  "leetcodeUrl": "https://leetcode.com/problems/longest-repeating-character-replacement/",
+  "videoUrl": null,
+  "description": "You are given an uppercase string `s` and an integer `k`. You may change at most `k` characters of `s` to any other uppercase letter. Return the length of the longest substring made of one repeated letter after performing at most `k` changes.",
+  "examples": [
+    {
+      "input": "s = \"XYYX\", k = 2",
+      "output": "4",
+      "explanation": "Change both X to Y (or both Y to X)."
+    },
+    {
+      "input": "s = \"AAABABB\", k = 1",
+      "output": "5",
+      "explanation": "Change the B in \"AAABA\" to A."
+    }
+  ],
+  "constraints": [
+    "1 <= s.length <= 1000",
+    "0 <= k <= s.length",
+    "s consists of uppercase English letters."
+  ],
+  "topics": [
+    "String",
+    "Sliding Window"
+  ],
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "hints": [
+    "For a fixed substring, how many changes are needed to make it uniform?",
+    "The cost is length minus the count of its most frequent letter. A window is acceptable when that cost is at most k.",
+    "Expand right and track letter counts and the max count seen; if length - max_count > k, advance left by one. The window never needs to shrink below its best size."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "characterReplacement",
+  "params": [
+    {
+      "name": "s",
+      "type": "str",
+      "kind": "raw"
+    },
+    {
+      "name": "k",
+      "type": "int",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "exact",
+  "starterCode": "class Solution:\n    def characterReplacement(self, s: str, k: int) -> int:\n        ",
+  "tests": [
+    {
+      "args": [
+        "XYYX",
+        2
+      ],
+      "expected": 4,
+      "example": true
+    },
+    {
+      "args": [
+        "AAABABB",
+        1
+      ],
+      "expected": 5,
+      "example": true
+    },
+    {
+      "args": [
+        "ABCD",
+        0
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        "AABABBA",
+        1
+      ],
+      "expected": 4
+    },
+    {
+      "args": [
+        "ABAB",
+        2
+      ],
+      "expected": 4
+    },
+    {
+      "args": [
+        "A",
+        0
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        "AAAA",
+        2
+      ],
+      "expected": 4
+    },
+    {
+      "args": [
+        "ABBB",
+        2
+      ],
+      "expected": 4
+    },
+    {
+      "args": [
+        {
+          "$py": "'A' * 100000"
+        },
+        0
+      ],
+      "expected": 100000
+    },
+    {
+      "args": [
+        {
+          "$py": "'AB' * 50000"
+        },
+        1
+      ],
+      "expected": 3
+    },
+    {
+      "args": [
+        {
+          "$py": "''.join(chr(65 + i % 26) for i in range(100000))"
+        },
+        0
+      ],
+      "expected": 1
+    }
+  ],
+  "solution": {
+    "explanation": "Keep a sliding window and a count per letter, along with the highest count max_f seen in any window so far. The window is fixable when its length minus max_f is at most k. When it is not, move the left edge one step. Because max_f never needs to decrease, the window size only grows when a better answer exists, and the final window length is the result. Each index is processed once: O(n) time, O(26) space.",
+    "code": "class Solution:\n    def characterReplacement(self, s: str, k: int) -> int:\n        count = {}\n        left = max_f = 0\n        for right, ch in enumerate(s):\n            count[ch] = count.get(ch, 0) + 1\n            max_f = max(max_f, count[ch])\n            if (right - left + 1) - max_f > k:\n                count[s[left]] -= 1\n                left += 1\n        return len(s) - left\n"
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "id": 59,
+  "slug": "unique-paths",
+  "title": "Unique Paths",
+  "difficulty": "Medium",
+  "topic": "2-D Dynamic Programming",
+  "leetcodeUrl": "https://leetcode.com/problems/unique-paths/",
+  "videoUrl": null,
+  "description": "A robot sits in the top-left cell of an `m x n` grid. It can only move **right** or **down** by one cell per move. Return the number of distinct routes to the bottom-right cell.",
+  "examples": [
+    {
+      "input": "m = 3, n = 7",
+      "output": "28"
+    },
+    {
+      "input": "m = 3, n = 2",
+      "output": "3",
+      "explanation": "Right-Down-Down, Down-Right-Down, Down-Down-Right."
+    }
+  ],
+  "constraints": [
+    "1 <= m, n <= 100",
+    "The answer is guaranteed to be at most 2 * 10^9"
+  ],
+  "topics": [
+    "Math",
+    "Dynamic Programming",
+    "Combinatorics"
+  ],
+  "complexity": {
+    "time": "O(m * n)",
+    "space": "O(n)"
+  },
+  "hints": [
+    "The number of ways to reach a cell depends only on its neighbours above and to the left.",
+    "paths[r][c] = paths[r-1][c] + paths[r][c-1], with the first row and column all 1s.",
+    "You only need the previous row, so one array of length n suffices (the closed form C(m+n-2, m-1) also works)."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "uniquePaths",
+  "params": [
+    {
+      "name": "m",
+      "type": "int",
+      "kind": "raw"
+    },
+    {
+      "name": "n",
+      "type": "int",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "exact",
+  "starterCode": "class Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n        ",
+  "tests": [
+    {
+      "args": [
+        3,
+        7
+      ],
+      "expected": 28,
+      "example": true
+    },
+    {
+      "args": [
+        3,
+        2
+      ],
+      "expected": 3,
+      "example": true
+    },
+    {
+      "args": [
+        1,
+        1
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        3,
+        3
+      ],
+      "expected": 6
+    },
+    {
+      "args": [
+        1,
+        10
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        7,
+        3
+      ],
+      "expected": 28
+    },
+    {
+      "args": [
+        51,
+        9
+      ],
+      "expected": 1916797311
+    },
+    {
+      "args": [
+        9,
+        51
+      ],
+      "expected": 1916797311
+    },
+    {
+      "args": [
+        100,
+        1
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        18,
+        18
+      ],
+      "expected": 2333606220
+    }
+  ],
+  "solution": {
+    "explanation": "A cell can only be entered from above or from the left, so its path count is the sum of those two cells' counts. Sweeping row by row, a single array of length n holds the current row: row[c] += row[c-1]. That is O(m*n) time and O(n) space. Alternatively every route is a choice of which m-1 of the m+n-2 moves go down. Naive recursion is exponential.",
+    "code": "class Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n        row = [1] * n\n        for _ in range(m - 1):\n            for c in range(1, n):\n                row[c] += row[c - 1]\n        return row[-1]\n"
+  }
+}

@@ -1,0 +1,293 @@
+{
+ "id": 40,
+ "slug": "design-add-and-search-words-data-structure",
+ "title": "Design Add And Search Words Data Structure",
+ "difficulty": "Medium",
+ "topic": "Tries",
+ "leetcodeUrl": "https://leetcode.com/problems/design-add-and-search-words-data-structure/",
+ "videoUrl": null,
+ "description": "Design a class `WordDictionary`.\n\n- `addWord(word)` stores a word made of lowercase letters.\n- `search(word)` returns `true` if any stored word matches the pattern. The pattern may contain the wildcard `.`, which stands for **exactly one** arbitrary letter. The whole word must match, so lengths must agree.",
+ "examples": [
+  {
+   "input": "addWord(\"day\"), addWord(\"bay\"), addWord(\"may\"), search(\"say\"), search(\"day\"), search(\".ay\"), search(\"b..\")",
+   "output": "null, null, null, false, true, true, true"
+  },
+  {
+   "input": "addWord(\"a\"), search(\".\")",
+   "output": "null, true"
+  }
+ ],
+ "constraints": [
+  "1 <= word.length <= 20",
+  "Added words contain lowercase letters only",
+  "Search patterns contain lowercase letters or '.'"
+ ],
+ "topics": [
+  "Trie",
+  "DFS",
+  "Design"
+ ],
+ "complexity": {
+  "time": "addWord O(L); search O(L) without dots, up to O(26^d * L) worst case with d dots",
+  "space": "O(total characters inserted)"
+ },
+ "hints": [
+  "A plain set answers dot-free searches, but wildcards break hashing. A trie keeps words organised by position.",
+  "Walk the trie letter by letter. For a normal letter follow one child; for '.' you have to consider every child.",
+  "Write search recursively as search(index, node): at '.' return true if any child works; the pattern matches only if you finish on a node marked as a word end."
+ ],
+ "kind": "design",
+ "className": "WordDictionary",
+ "starterCode": "class WordDictionary:\n\n    def __init__(self):\n        pass\n\n    def addWord(self, word: str) -> None:\n        pass\n\n    def search(self, word: str) -> bool:\n        pass\n",
+ "tests": [
+  {
+   "ops": [
+    "WordDictionary",
+    "addWord",
+    "addWord",
+    "addWord",
+    "search",
+    "search",
+    "search",
+    "search"
+   ],
+   "args": [
+    [],
+    [
+     "day"
+    ],
+    [
+     "bay"
+    ],
+    [
+     "may"
+    ],
+    [
+     "say"
+    ],
+    [
+     "day"
+    ],
+    [
+     ".ay"
+    ],
+    [
+     "b.."
+    ]
+   ],
+   "expected": [
+    null,
+    null,
+    null,
+    null,
+    false,
+    true,
+    true,
+    true
+   ],
+   "example": true
+  },
+  {
+   "ops": [
+    "WordDictionary",
+    "addWord",
+    "search"
+   ],
+   "args": [
+    [],
+    [
+     "a"
+    ],
+    [
+     "."
+    ]
+   ],
+   "expected": [
+    null,
+    null,
+    true
+   ],
+   "example": true
+  },
+  {
+   "ops": [
+    "WordDictionary",
+    "search"
+   ],
+   "args": [
+    [],
+    [
+     "a"
+    ]
+   ],
+   "expected": [
+    null,
+    false
+   ]
+  },
+  {
+   "ops": [
+    "WordDictionary",
+    "addWord",
+    "search",
+    "search"
+   ],
+   "args": [
+    [],
+    [
+     "ab"
+    ],
+    [
+     "a.."
+    ],
+    [
+     ".."
+    ]
+   ],
+   "expected": [
+    null,
+    null,
+    false,
+    true
+   ]
+  },
+  {
+   "ops": [
+    "WordDictionary",
+    "addWord",
+    "addWord",
+    "addWord",
+    "search",
+    "search",
+    "search",
+    "search",
+    "search",
+    "search"
+   ],
+   "args": [
+    [],
+    [
+     "bad"
+    ],
+    [
+     "dad"
+    ],
+    [
+     "mad"
+    ],
+    [
+     "pad"
+    ],
+    [
+     "bad"
+    ],
+    [
+     ".ad"
+    ],
+    [
+     "b.."
+    ],
+    [
+     "b."
+    ],
+    [
+     "..."
+    ]
+   ],
+   "expected": [
+    null,
+    null,
+    null,
+    null,
+    false,
+    true,
+    true,
+    true,
+    false,
+    true
+   ]
+  },
+  {
+   "ops": [
+    "WordDictionary",
+    "addWord",
+    "search",
+    "search",
+    "search"
+   ],
+   "args": [
+    [],
+    [
+     "abc"
+    ],
+    [
+     "ab"
+    ],
+    [
+     "abcd"
+    ],
+    [
+     "..d"
+    ]
+   ],
+   "expected": [
+    null,
+    null,
+    false,
+    false,
+    false
+   ]
+  },
+  {
+   "ops": [
+    "WordDictionary",
+    "addWord",
+    "addWord",
+    "search",
+    "search",
+    "search"
+   ],
+   "args": [
+    [],
+    [
+     "at"
+    ],
+    [
+     "and"
+    ],
+    [
+     "a"
+    ],
+    [
+     "an."
+    ],
+    [
+     "a.d"
+    ]
+   ],
+   "expected": [
+    null,
+    null,
+    null,
+    false,
+    true,
+    true
+   ]
+  },
+  {
+   "ops": {
+    "$py": "[\"WordDictionary\"]+[\"addWord\"]*5000+[\"search\"]*5000+[\"search\"]"
+   },
+   "args": {
+    "$py": "[[]]+[[\"a\"*19+chr(97+i%26)+\"b\"*(i%3)] for i in range(5000)]+[[\".\"*19+\"z\"] for _ in range(5000)]+[[\".\"*20]]"
+   },
+   "expected": {
+    "$py": "[None]*5001+[True]*5000+[True]"
+   }
+  }
+ ],
+ "solution": {
+  "explanation": "Store words in a trie of dict nodes with an end marker. addWord is the ordinary trie insert. search runs a DFS over (position, node): a normal letter follows its single child, while '.' tries every child and succeeds if any branch matches. A pattern matches only when the last character lands on a node flagged as a word end. Adding costs O(L); searching costs O(L) with no dots and only branches at dots, so at most a few dots keeps it cheap.",
+  "code": "class WordDictionary:\n\n    def __init__(self):\n        self.root = {}\n\n    def addWord(self, word: str) -> None:\n        node = self.root\n        for ch in word:\n            node = node.setdefault(ch, {})\n        node['$'] = True\n\n    def search(self, word: str) -> bool:\n        def dfs(i, node):\n            if i == len(word):\n                return '$' in node\n            ch = word[i]\n            if ch == '.':\n                return any(dfs(i + 1, child) for k, child in node.items() if k != '$')\n            return ch in node and dfs(i + 1, node[ch])\n        return dfs(0, self.root)\n"
+ }
+}

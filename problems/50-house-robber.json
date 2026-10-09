@@ -1,0 +1,346 @@
+{
+  "id": 50,
+  "slug": "house-robber",
+  "title": "House Robber",
+  "difficulty": "Medium",
+  "topic": "1-D Dynamic Programming",
+  "leetcodeUrl": "https://leetcode.com/problems/house-robber/",
+  "videoUrl": null,
+  "description": "Each house along a street holds some cash, given by `nums[i]`. Neighbouring houses share an alarm, so robbing two adjacent houses is not allowed. Return the largest total you can take without triggering it.",
+  "examples": [
+    {
+      "input": "nums = [1, 2, 3, 1]",
+      "output": "4",
+      "explanation": "Take houses 0 and 2: 1 + 3."
+    },
+    {
+      "input": "nums = [2, 7, 9, 3, 1]",
+      "output": "12",
+      "explanation": "Take 2 + 9 + 1."
+    }
+  ],
+  "constraints": [
+    "1 <= nums.length <= 100",
+    "0 <= nums[i] <= 400"
+  ],
+  "topics": [
+    "Array",
+    "Dynamic Programming"
+  ],
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "hints": [
+    "For each house you either rob it or skip it. What do you need to know about earlier houses for each choice?",
+    "Let best[i] be the answer using the first i+1 houses: best[i] = max(best[i-1], best[i-2] + nums[i]).",
+    "Only the previous two values matter, so two variables are enough."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "rob",
+  "params": [
+    {
+      "name": "nums",
+      "type": "List[int]",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "exact",
+  "starterCode": "class Solution:\n    def rob(self, nums: List[int]) -> int:\n        ",
+  "tests": [
+    {
+      "args": [
+        [
+          1,
+          2,
+          3,
+          1
+        ]
+      ],
+      "expected": 4,
+      "example": true
+    },
+    {
+      "args": [
+        [
+          2,
+          7,
+          9,
+          3,
+          1
+        ]
+      ],
+      "expected": 12,
+      "example": true
+    },
+    {
+      "args": [
+        [
+          5
+        ]
+      ],
+      "expected": 5
+    },
+    {
+      "args": [
+        [
+          2,
+          1,
+          1,
+          2
+        ]
+      ],
+      "expected": 4
+    },
+    {
+      "args": [
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "expected": 0
+    },
+    {
+      "args": [
+        [
+          2,
+          1
+        ]
+      ],
+      "expected": 2
+    },
+    {
+      "args": [
+        [
+          100,
+          1,
+          1,
+          100
+        ]
+      ],
+      "expected": 200
+    },
+    {
+      "args": [
+        [
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400
+        ]
+      ],
+      "expected": 20000
+    },
+    {
+      "args": [
+        [
+          165,
+          77,
+          202,
+          333,
+          24,
+          37,
+          274,
+          48,
+          187,
+          298,
+          29,
+          259,
+          109,
+          19,
+          44,
+          222,
+          214,
+          35,
+          123,
+          46,
+          282,
+          217,
+          30,
+          289,
+          63,
+          114,
+          322,
+          321,
+          298,
+          31,
+          295,
+          299,
+          203,
+          25,
+          113,
+          23,
+          285,
+          68,
+          148,
+          214,
+          73,
+          276,
+          60,
+          292,
+          157,
+          286,
+          349,
+          92,
+          52,
+          297,
+          292,
+          327,
+          96,
+          190,
+          49,
+          280,
+          364,
+          32,
+          288,
+          30,
+          316,
+          105,
+          254,
+          348,
+          272,
+          218,
+          397,
+          160,
+          238,
+          299,
+          232,
+          185,
+          153,
+          127,
+          92,
+          357,
+          399,
+          124,
+          41,
+          294,
+          153,
+          268,
+          253,
+          175,
+          373,
+          229,
+          147,
+          311,
+          37,
+          60,
+          262,
+          214,
+          84,
+          387,
+          175,
+          77,
+          250,
+          215,
+          20,
+          342
+        ]
+      ],
+      "expected": 11348
+    }
+  ],
+  "solution": {
+    "explanation": "At each house choose between skipping it (keep the best so far) and robbing it (add its value to the best from two houses back). Keep those two best-so-far values in variables and roll them forward. One pass, so O(n) time and O(1) space. A brute-force recursion without memoisation is exponential.",
+    "code": "class Solution:\n    def rob(self, nums: List[int]) -> int:\n        prev, cur = 0, 0\n        for x in nums:\n            prev, cur = cur, max(cur, prev + x)\n        return cur\n"
+  }
+}

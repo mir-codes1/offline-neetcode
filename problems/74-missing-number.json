@@ -1,0 +1,146 @@
+{
+ "id": 74,
+ "slug": "missing-number",
+ "title": "Missing Number",
+ "difficulty": "Easy",
+ "topic": "Bit Manipulation",
+ "leetcodeUrl": "https://leetcode.com/problems/missing-number/",
+ "videoUrl": null,
+ "description": "Given an array `nums` containing `n` distinct integers taken from the range `[0, n]`, return the one number in that range that is missing from the array. Aim for O(n) time and O(1) extra space.",
+ "examples": [
+  {
+   "input": "nums = [1,2,3]",
+   "output": "0"
+  },
+  {
+   "input": "nums = [0,2]",
+   "output": "1"
+  }
+ ],
+ "constraints": [
+  "1 <= n <= 1000",
+  "0 <= nums[i] <= n",
+  "All values of nums are unique"
+ ],
+ "topics": [
+  "Array",
+  "Math",
+  "Bit Manipulation"
+ ],
+ "complexity": {
+  "time": "O(n)",
+  "space": "O(1)"
+ },
+ "hints": [
+  "The array has n elements but the range holds n + 1 numbers. What do you know about the full range that you could compare against?",
+  "The sum of 0..n has a closed form. How does it relate to the array's sum?",
+  "Either return n*(n+1)//2 - sum(nums), or XOR every index and every value together with n so that everything cancels except the missing number."
+ ],
+ "kind": "function",
+ "className": "Solution",
+ "methodName": "missingNumber",
+ "params": [
+  {
+   "name": "nums",
+   "type": "List[int]",
+   "kind": "raw"
+  }
+ ],
+ "returns": "raw",
+ "compare": "exact",
+ "starterCode": "class Solution:\n    def missingNumber(self, nums: List[int]) -> int:\n        ",
+ "tests": [
+  {
+   "args": [
+    [
+     1,
+     2,
+     3
+    ]
+   ],
+   "expected": 0,
+   "example": true
+  },
+  {
+   "args": [
+    [
+     0,
+     2
+    ]
+   ],
+   "expected": 1,
+   "example": true
+  },
+  {
+   "args": [
+    [
+     3,
+     0,
+     1
+    ]
+   ],
+   "expected": 2
+  },
+  {
+   "args": [
+    [
+     0
+    ]
+   ],
+   "expected": 1
+  },
+  {
+   "args": [
+    [
+     1
+    ]
+   ],
+   "expected": 0
+  },
+  {
+   "args": [
+    [
+     9,
+     6,
+     4,
+     2,
+     3,
+     5,
+     7,
+     0,
+     1
+    ]
+   ],
+   "expected": 8
+  },
+  {
+   "args": [
+    [
+     0,
+     1
+    ]
+   ],
+   "expected": 2
+  },
+  {
+   "args": [
+    {
+     "$py": "list(range(1,100001))"
+    }
+   ],
+   "expected": 0
+  },
+  {
+   "args": [
+    {
+     "$py": "[i for i in range(100001) if i != 77777]"
+    }
+   ],
+   "expected": 77777
+  }
+ ],
+ "solution": {
+  "explanation": "The full range 0..n sums to n(n+1)/2. The array holds all of those numbers except one, so the missing value is that expected sum minus the actual sum of the array. This uses one pass for the sum and O(1) extra space. XOR-ing all indices, the value n, and all array values gives the same answer without any risk of overflow in other languages.",
+  "code": "class Solution:\n    def missingNumber(self, nums: List[int]) -> int:\n        n = len(nums)\n        return n * (n + 1) // 2 - sum(nums)\n"
+ }
+}

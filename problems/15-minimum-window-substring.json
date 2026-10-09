@@ -1,0 +1,156 @@
+{
+  "id": 15,
+  "slug": "minimum-window-substring",
+  "title": "Minimum Window Substring",
+  "difficulty": "Hard",
+  "topic": "Sliding Window",
+  "leetcodeUrl": "https://leetcode.com/problems/minimum-window-substring/",
+  "videoUrl": null,
+  "description": "Given strings `s` and `t`, return the shortest substring of `s` that contains every character of `t`, counting multiplicity (if `t` has two `a`s, the window needs at least two). If no such window exists, return the empty string `\"\"`. The answer is guaranteed to be unique when it exists.",
+  "examples": [
+    {
+      "input": "s = \"OUZODYXAZV\", t = \"XYZ\"",
+      "output": "\"YXAZ\"",
+      "explanation": "It is the shortest window holding X, Y and Z."
+    },
+    {
+      "input": "s = \"x\", t = \"xy\"",
+      "output": "\"\"",
+      "explanation": "s has no y."
+    }
+  ],
+  "constraints": [
+    "1 <= s.length, t.length <= 1000",
+    "s and t consist of English letters (case-sensitive)."
+  ],
+  "topics": [
+    "String",
+    "Sliding Window",
+    "Hash Map"
+  ],
+  "complexity": {
+    "time": "O(n + m)",
+    "space": "O(m)"
+  },
+  "hints": [
+    "Checking every substring against t is far too slow. Count how many of each letter t requires.",
+    "Grow a window on the right until it satisfies every requirement, then try to shrink it from the left while it stays satisfied.",
+    "Track how many distinct letters currently meet their required count. When that equals the number of distinct letters in t, record the window and move left."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "minWindow",
+  "params": [
+    {
+      "name": "s",
+      "type": "str",
+      "kind": "raw"
+    },
+    {
+      "name": "t",
+      "type": "str",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "exact",
+  "starterCode": "class Solution:\n    def minWindow(self, s: str, t: str) -> str:\n        ",
+  "tests": [
+    {
+      "args": [
+        "OUZODYXAZV",
+        "XYZ"
+      ],
+      "expected": "YXAZ",
+      "example": true
+    },
+    {
+      "args": [
+        "x",
+        "xy"
+      ],
+      "expected": "",
+      "example": true
+    },
+    {
+      "args": [
+        "xyz",
+        "xyz"
+      ],
+      "expected": "xyz"
+    },
+    {
+      "args": [
+        "ADOBECODEBANC",
+        "ABC"
+      ],
+      "expected": "BANC"
+    },
+    {
+      "args": [
+        "aa",
+        "aa"
+      ],
+      "expected": "aa"
+    },
+    {
+      "args": [
+        "a",
+        "a"
+      ],
+      "expected": "a"
+    },
+    {
+      "args": [
+        "ab",
+        "b"
+      ],
+      "expected": "b"
+    },
+    {
+      "args": [
+        "bba",
+        "ab"
+      ],
+      "expected": "ba"
+    },
+    {
+      "args": [
+        "a",
+        "aa"
+      ],
+      "expected": ""
+    },
+    {
+      "args": [
+        {
+          "$py": "'a' * 50000 + 'b' * 50000"
+        },
+        "ab"
+      ],
+      "expected": "ab"
+    },
+    {
+      "args": [
+        {
+          "$py": "'x' * 100000"
+        },
+        "y"
+      ],
+      "expected": ""
+    },
+    {
+      "args": [
+        {
+          "$py": "'x' * 99997 + 'abc'"
+        },
+        "abc"
+      ],
+      "expected": "abc"
+    }
+  ],
+  "solution": {
+    "explanation": "Count the letters t needs. Move the right pointer, decrementing the need for each letter, and count how many distinct letters are fully satisfied. Once all are satisfied, record the window and advance left, re-adding needs as letters leave, until the window becomes invalid again. Each pointer moves at most n times, so time is O(n + m) with O(m) space for the counts.",
+    "code": "class Solution:\n    def minWindow(self, s: str, t: str) -> str:\n        if not t or len(t) > len(s):\n            return ''\n        need = {}\n        for c in t:\n            need[c] = need.get(c, 0) + 1\n        have = {}\n        met = 0\n        required = len(need)\n        best_len = float('inf')\n        best_l = 0\n        left = 0\n        for right, c in enumerate(s):\n            have[c] = have.get(c, 0) + 1\n            if c in need and have[c] == need[c]:\n                met += 1\n            while met == required:\n                if right - left + 1 < best_len:\n                    best_len = right - left + 1\n                    best_l = left\n                lc_ = s[left]\n                have[lc_] -= 1\n                if lc_ in need and have[lc_] < need[lc_]:\n                    met -= 1\n                left += 1\n        return '' if best_len == float('inf') else s[best_l:best_l + best_len]\n"
+  }
+}

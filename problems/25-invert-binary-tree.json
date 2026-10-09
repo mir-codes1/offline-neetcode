@@ -1,0 +1,197 @@
+{
+ "id": 25,
+ "slug": "invert-binary-tree",
+ "title": "Invert Binary Tree",
+ "difficulty": "Easy",
+ "topic": "Trees",
+ "leetcodeUrl": "https://leetcode.com/problems/invert-binary-tree/",
+ "videoUrl": null,
+ "description": "Given the root of a binary tree, mirror it by swapping the left and right children of every node, then return the root of the mirrored tree.",
+ "examples": [
+  {
+   "input": "root = [4, 2, 7, 1, 3, 6, 9]",
+   "output": "[4, 7, 2, 9, 6, 3, 1]"
+  },
+  {
+   "input": "root = [2, 1, 3]",
+   "output": "[2, 3, 1]"
+  },
+  {
+   "input": "root = []",
+   "output": "[]"
+  }
+ ],
+ "constraints": [
+  "0 <= number of nodes <= 100",
+  "-100 <= Node.val <= 100"
+ ],
+ "topics": [
+  "Tree",
+  "DFS",
+  "BFS"
+ ],
+ "complexity": {
+  "time": "O(n)",
+  "space": "O(h)"
+ },
+ "hints": [
+  "Think about what the mirrored version of a single node with two children looks like.",
+  "If you already had the mirrored left subtree and the mirrored right subtree, what would you do with them at the current node?",
+  "Recurse (or use a queue): swap the two children at each node and continue into both. Handle an empty node first."
+ ],
+ "kind": "function",
+ "className": "Solution",
+ "compare": "exact",
+ "methodName": "invertTree",
+ "params": [
+  {
+   "name": "root",
+   "type": "Optional[TreeNode]",
+   "kind": "tree"
+  }
+ ],
+ "returns": "tree",
+ "starterCode": "class Solution:\n    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:\n        ",
+ "tests": [
+  {
+   "args": [
+    [
+     4,
+     2,
+     7,
+     1,
+     3,
+     6,
+     9
+    ]
+   ],
+   "expected": [
+    4,
+    7,
+    2,
+    9,
+    6,
+    3,
+    1
+   ],
+   "example": true
+  },
+  {
+   "args": [
+    [
+     2,
+     1,
+     3
+    ]
+   ],
+   "expected": [
+    2,
+    3,
+    1
+   ],
+   "example": true
+  },
+  {
+   "args": [
+    []
+   ],
+   "expected": []
+  },
+  {
+   "args": [
+    [
+     1
+    ]
+   ],
+   "expected": [
+    1
+   ]
+  },
+  {
+   "args": [
+    [
+     1,
+     2
+    ]
+   ],
+   "expected": [
+    1,
+    null,
+    2
+   ]
+  },
+  {
+   "args": [
+    [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ]
+   ],
+   "expected": [
+    1,
+    3,
+    2,
+    7,
+    6,
+    5,
+    4
+   ]
+  },
+  {
+   "args": [
+    [
+     3,
+     2,
+     1
+    ]
+   ],
+   "expected": [
+    3,
+    1,
+    2
+   ]
+  },
+  {
+   "args": [
+    [
+     1,
+     null,
+     2
+    ]
+   ],
+   "expected": [
+    1,
+    2
+   ]
+  },
+  {
+   "args": [
+    {
+     "$py": "[x for i in range(1,3000) for x in (i,None)]+[3000]"
+    }
+   ],
+   "expected": {
+    "$py": "[1]+[x for i in range(2,3001) for x in (i,None)][:-1]"
+   }
+  },
+  {
+   "args": [
+    {
+     "$py": "[3000]+[x for i in range(2999,0,-1) for x in (i,None)][:-1]"
+    }
+   ],
+   "expected": {
+    "$py": "[x for i in range(3000,1,-1) for x in (i,None)]+[1]"
+   }
+  }
+ ],
+ "solution": {
+  "explanation": "At each node, swap its two children and then invert both subtrees. An empty node is the base case and returns None. Every node is visited exactly once, so time is O(n); the recursion stack is as deep as the tree, giving O(h) space (O(n) for a skewed tree). A BFS with a queue works equally well.",
+  "code": "class Solution:\n    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:\n        if not root:\n            return None\n        root.left, root.right = self.invertTree(root.right), self.invertTree(root.left)\n        return root\n"
+ }
+}

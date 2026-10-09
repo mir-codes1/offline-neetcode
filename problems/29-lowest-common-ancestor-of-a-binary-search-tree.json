@@ -1,0 +1,311 @@
+{
+ "id": 29,
+ "slug": "lowest-common-ancestor-of-a-binary-search-tree",
+ "title": "Lowest Common Ancestor of a Binary Search Tree",
+ "difficulty": "Medium",
+ "topic": "Trees",
+ "leetcodeUrl": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/",
+ "videoUrl": null,
+ "description": "Given a binary search tree and two nodes `p` and `q` that both exist in it, return their **lowest common ancestor**: the deepest node that has both `p` and `q` as descendants. A node counts as a descendant of itself. All values are unique.",
+ "examples": [
+  {
+   "input": "root = [6, 2, 8, 0, 4, 7, 9, null, null, 3, 5], p = 2, q = 8",
+   "output": "6"
+  },
+  {
+   "input": "root = [6, 2, 8, 0, 4, 7, 9, null, null, 3, 5], p = 2, q = 4",
+   "output": "2",
+   "explanation": "A node can be an ancestor of the other node."
+  }
+ ],
+ "constraints": [
+  "2 <= number of nodes <= 10^5",
+  "All Node.val are unique",
+  "p != q, and both exist in the tree"
+ ],
+ "topics": [
+  "Tree",
+  "BST"
+ ],
+ "complexity": {
+  "time": "O(h)",
+  "space": "O(1)"
+ },
+ "hints": [
+  "Use the ordering property of a BST instead of searching the whole tree.",
+  "If both p and q are smaller than the current node, where must their common ancestor be? What if both are larger?",
+  "Walk down from the root: go left if both values are smaller, right if both are larger, otherwise the current node is the answer."
+ ],
+ "kind": "function",
+ "className": "Solution",
+ "compare": "exact",
+ "methodName": "lowestCommonAncestor",
+ "params": [
+  {
+   "name": "root",
+   "type": "Optional[TreeNode]",
+   "kind": "tree"
+  },
+  {
+   "name": "p",
+   "type": "Optional[TreeNode]",
+   "kind": "treeref"
+  },
+  {
+   "name": "q",
+   "type": "Optional[TreeNode]",
+   "kind": "treeref"
+  }
+ ],
+ "returns": "nodeval",
+ "starterCode": "class Solution:\n    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:\n        ",
+ "tests": [
+  {
+   "args": [
+    [
+     6,
+     2,
+     8,
+     0,
+     4,
+     7,
+     9,
+     null,
+     null,
+     3,
+     5
+    ],
+    2,
+    8
+   ],
+   "expected": 6,
+   "example": true
+  },
+  {
+   "args": [
+    [
+     6,
+     2,
+     8,
+     0,
+     4,
+     7,
+     9,
+     null,
+     null,
+     3,
+     5
+    ],
+    2,
+    4
+   ],
+   "expected": 2,
+   "example": true
+  },
+  {
+   "args": [
+    [
+     6,
+     2,
+     8,
+     0,
+     4,
+     7,
+     9,
+     null,
+     null,
+     3,
+     5
+    ],
+    3,
+    5
+   ],
+   "expected": 4
+  },
+  {
+   "args": [
+    [
+     2,
+     1
+    ],
+    2,
+    1
+   ],
+   "expected": 2
+  },
+  {
+   "args": [
+    [
+     6,
+     2,
+     8,
+     0,
+     4,
+     7,
+     9,
+     null,
+     null,
+     3,
+     5
+    ],
+    7,
+    9
+   ],
+   "expected": 8
+  },
+  {
+   "args": [
+    [
+     6,
+     2,
+     8,
+     0,
+     4,
+     7,
+     9,
+     null,
+     null,
+     3,
+     5
+    ],
+    0,
+    5
+   ],
+   "expected": 2
+  },
+  {
+   "args": [
+    [
+     6,
+     2,
+     8,
+     0,
+     4,
+     7,
+     9,
+     null,
+     null,
+     3,
+     5
+    ],
+    9,
+    3
+   ],
+   "expected": 6
+  },
+  {
+   "args": [
+    [
+     5,
+     3,
+     8,
+     1,
+     4,
+     7,
+     9,
+     null,
+     2
+    ],
+    3,
+    8
+   ],
+   "expected": 5
+  },
+  {
+   "args": [
+    [
+     5,
+     3,
+     8,
+     1,
+     4,
+     7,
+     9,
+     null,
+     2
+    ],
+    3,
+    4
+   ],
+   "expected": 3
+  },
+  {
+   "args": [
+    [
+     5,
+     3,
+     8,
+     1,
+     4,
+     7,
+     9,
+     null,
+     2
+    ],
+    2,
+    4
+   ],
+   "expected": 3
+  },
+  {
+   "args": [
+    [
+     6,
+     2,
+     8,
+     0,
+     4,
+     7,
+     9
+    ],
+    0,
+    4
+   ],
+   "expected": 2
+  },
+  {
+   "args": [
+    {
+     "$py": "[x for i in range(1,3000) for x in (i,None)]+[3000]"
+    },
+    2999,
+    3000
+   ],
+   "expected": 2999
+  },
+  {
+   "args": [
+    {
+     "$py": "[x for i in range(1,3000) for x in (i,None)]+[3000]"
+    },
+    1,
+    3000
+   ],
+   "expected": 1
+  },
+  {
+   "args": [
+    {
+     "$py": "[x for i in range(1,3000) for x in (i,None)]+[3000]"
+    },
+    2000,
+    2500
+   ],
+   "expected": 2000
+  },
+  {
+   "args": [
+    {
+     "$py": "[3000]+[x for i in range(2999,0,-1) for x in (i,None)][:-1]"
+    },
+    1,
+    2
+   ],
+   "expected": 2
+  }
+ ],
+ "solution": {
+  "explanation": "Because of the BST ordering, compare p and q with the current node. If both are smaller, the answer is in the left subtree; if both are larger, it is in the right subtree; otherwise the paths to p and q split here (or one of them is this node), so this node is the answer. Walking down iteratively costs O(h) time and O(1) space.",
+  "code": "class Solution:\n    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:\n        cur = root\n        while cur:\n            if p.val < cur.val and q.val < cur.val:\n                cur = cur.left\n            elif p.val > cur.val and q.val > cur.val:\n                cur = cur.right\n            else:\n                return cur\n"
+ }
+}

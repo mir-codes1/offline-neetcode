@@ -1,0 +1,169 @@
+{
+  "id": 62,
+  "slug": "jump-game",
+  "title": "Jump Game",
+  "difficulty": "Medium",
+  "topic": "Greedy",
+  "leetcodeUrl": "https://leetcode.com/problems/jump-game/",
+  "videoUrl": null,
+  "description": "You start at index `0` of `nums`, where `nums[i]` is the maximum number of positions you may jump forward from index `i`. Return `true` if you can reach the last index, otherwise `false`.",
+  "examples": [
+    {
+      "input": "nums = [1, 2, 0, 1, 0]",
+      "output": "true",
+      "explanation": "Jump 1 to index 1, then 2 to index 3, then 1 to index 4."
+    },
+    {
+      "input": "nums = [1, 2, 1, 0, 1]",
+      "output": "false",
+      "explanation": "Every path ends stuck on the 0 at index 3."
+    }
+  ],
+  "constraints": [
+    "1 <= nums.length <= 1000",
+    "0 <= nums[i] <= 1000"
+  ],
+  "topics": [
+    "Array",
+    "Greedy"
+  ],
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "hints": [
+    "Trying every jump choice can be exponential. Instead of which path, ask which indices are reachable at all.",
+    "Track the farthest index reachable so far. Any index at or before it is also reachable.",
+    "Scan left to right: if the current index exceeds the farthest reach, return false; otherwise farthest = max(farthest, i + nums[i])."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "canJump",
+  "params": [
+    {
+      "name": "nums",
+      "type": "List[int]",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "exact",
+  "starterCode": "class Solution:\n    def canJump(self, nums: List[int]) -> bool:\n        ",
+  "tests": [
+    {
+      "args": [
+        [
+          1,
+          2,
+          0,
+          1,
+          0
+        ]
+      ],
+      "expected": true,
+      "example": true
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          1,
+          0,
+          1
+        ]
+      ],
+      "expected": false,
+      "example": true
+    },
+    {
+      "args": [
+        [
+          0
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        [
+          3,
+          2,
+          1,
+          0,
+          4
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        [
+          2,
+          3,
+          1,
+          1,
+          4
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        [
+          0,
+          1
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        [
+          2,
+          0,
+          0
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        [
+          1,
+          0,
+          1
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        {
+          "$py": "[1] * 100000"
+        }
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        {
+          "$py": "[1] * 50000 + [0] + [1] * 49999"
+        }
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        {
+          "$py": "[100000] + [0] * 99999"
+        }
+      ],
+      "expected": true
+    }
+  ],
+  "solution": {
+    "explanation": "Greedily track the farthest index reachable. Walk the array; if the current index is beyond that farthest reach, you are stuck and the answer is false. Otherwise extend the reach with i + nums[i]. If the scan finishes, the last index is reachable. Single pass, O(n) time and O(1) space.",
+    "code": "class Solution:\n    def canJump(self, nums: List[int]) -> bool:\n        reach = 0\n        for i, x in enumerate(nums):\n            if i > reach:\n                return False\n            reach = max(reach, i + x)\n        return True\n"
+  }
+}

@@ -1,0 +1,190 @@
+{
+  "id": 17,
+  "slug": "find-minimum-in-rotated-sorted-array",
+  "title": "Find Minimum In Rotated Sorted Array",
+  "difficulty": "Medium",
+  "topic": "Binary Search",
+  "leetcodeUrl": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/",
+  "videoUrl": null,
+  "description": "A sorted array of **unique** integers was rotated between 1 and `n` times (one rotation moves the last element to the front). Given the rotated array `nums`, return its minimum element. Your algorithm must run in O(log n) time.",
+  "examples": [
+    {
+      "input": "nums = [3, 4, 5, 6, 1, 2]",
+      "output": "1"
+    },
+    {
+      "input": "nums = [4, 5, 0, 1, 2, 3]",
+      "output": "0"
+    }
+  ],
+  "constraints": [
+    "1 <= nums.length <= 1000",
+    "-1000 <= nums[i] <= 1000",
+    "All values are distinct."
+  ],
+  "topics": [
+    "Array",
+    "Binary Search"
+  ],
+  "complexity": {
+    "time": "O(log n)",
+    "space": "O(1)"
+  },
+  "hints": [
+    "A linear scan is O(n). The array has structure: it is two sorted runs joined together.",
+    "Compare nums[mid] with nums[right]. What does nums[mid] > nums[right] tell you about where the drop is?",
+    "If nums[mid] > nums[right], the minimum is in (mid, right]; otherwise it is at mid or to its left, so set right = mid. Stop when left == right."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "findMin",
+  "params": [
+    {
+      "name": "nums",
+      "type": "List[int]",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "exact",
+  "starterCode": "class Solution:\n    def findMin(self, nums: List[int]) -> int:\n        ",
+  "tests": [
+    {
+      "args": [
+        [
+          3,
+          4,
+          5,
+          6,
+          1,
+          2
+        ]
+      ],
+      "expected": 1,
+      "example": true
+    },
+    {
+      "args": [
+        [
+          4,
+          5,
+          0,
+          1,
+          2,
+          3
+        ]
+      ],
+      "expected": 0,
+      "example": true
+    },
+    {
+      "args": [
+        [
+          4,
+          5,
+          6,
+          7
+        ]
+      ],
+      "expected": 4
+    },
+    {
+      "args": [
+        [
+          2,
+          1
+        ]
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        [
+          1
+        ]
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        [
+          3,
+          4,
+          5,
+          1,
+          2
+        ]
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        [
+          4,
+          5,
+          6,
+          7,
+          0,
+          1,
+          2
+        ]
+      ],
+      "expected": 0
+    },
+    {
+      "args": [
+        [
+          11,
+          13,
+          15,
+          17
+        ]
+      ],
+      "expected": 11
+    },
+    {
+      "args": [
+        [
+          5,
+          1,
+          2,
+          3,
+          4
+        ]
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        [
+          -3,
+          -2,
+          -1,
+          -5,
+          -4
+        ]
+      ],
+      "expected": -5
+    },
+    {
+      "args": [
+        {
+          "$py": "list(range(70000, 200000)) + list(range(70000))"
+        }
+      ],
+      "expected": 0
+    },
+    {
+      "args": [
+        {
+          "$py": "list(range(5, 200000)) + list(range(5))"
+        }
+      ],
+      "expected": 0
+    }
+  ],
+  "solution": {
+    "explanation": "Binary search on the rotation point. If nums[mid] is greater than nums[right], the drop (and the minimum) lies strictly right of mid, so move left to mid + 1. Otherwise the right part is sorted and the minimum is at mid or earlier, so set right = mid. The range shrinks by half each step, ending on the minimum: O(log n) time, O(1) space.",
+    "code": "class Solution:\n    def findMin(self, nums: List[int]) -> int:\n        left, right = 0, len(nums) - 1\n        while left < right:\n            mid = (left + right) // 2\n            if nums[mid] > nums[right]:\n                left = mid + 1\n            else:\n                right = mid\n        return nums[left]\n"
+  }
+}

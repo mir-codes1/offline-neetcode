@@ -1,0 +1,160 @@
+{
+  "id": 19,
+  "slug": "reverse-linked-list",
+  "title": "Reverse Linked List",
+  "difficulty": "Easy",
+  "topic": "Linked List",
+  "leetcodeUrl": "https://leetcode.com/problems/reverse-linked-list/",
+  "videoUrl": null,
+  "description": "Given the head of a singly linked list, reverse the order of its nodes and return the head of the reversed list.",
+  "examples": [
+    {
+      "input": "head = [0, 1, 2, 3]",
+      "output": "[3, 2, 1, 0]"
+    },
+    {
+      "input": "head = []",
+      "output": "[]"
+    }
+  ],
+  "constraints": [
+    "0 <= list length <= 1000",
+    "-1000 <= Node.val <= 1000"
+  ],
+  "topics": [
+    "Linked List",
+    "Recursion"
+  ],
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "hints": [
+    "Reversing means every node's next pointer must end up aimed at its former predecessor.",
+    "Walk the list while tracking the node behind you. Before you redirect a node's pointer, what must you save so you don't lose the rest of the list?",
+    "Keep prev (starts as None) and cur. In each step: stash cur.next, point cur.next at prev, then advance both. Return prev at the end."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "reverseList",
+  "params": [
+    {
+      "name": "head",
+      "type": "Optional[ListNode]",
+      "kind": "list"
+    }
+  ],
+  "returns": "list",
+  "compare": "exact",
+  "starterCode": "class Solution:\n    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        ",
+  "tests": [
+    {
+      "args": [
+        [
+          0,
+          1,
+          2,
+          3
+        ]
+      ],
+      "expected": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "example": true
+    },
+    {
+      "args": [
+        []
+      ],
+      "expected": [],
+      "example": true
+    },
+    {
+      "args": [
+        [
+          5
+        ]
+      ],
+      "expected": [
+        5
+      ]
+    },
+    {
+      "args": [
+        [
+          1,
+          2
+        ]
+      ],
+      "expected": [
+        2,
+        1
+      ]
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      ],
+      "expected": [
+        5,
+        4,
+        3,
+        2,
+        1
+      ]
+    },
+    {
+      "args": [
+        [
+          -3,
+          0,
+          3
+        ]
+      ],
+      "expected": [
+        3,
+        0,
+        -3
+      ]
+    },
+    {
+      "args": [
+        [
+          1,
+          1,
+          2,
+          2
+        ]
+      ],
+      "expected": [
+        2,
+        2,
+        1,
+        1
+      ]
+    },
+    {
+      "args": [
+        {
+          "$py": "list(range(5000))"
+        }
+      ],
+      "expected": {
+        "$py": "list(range(4999,-1,-1))"
+      }
+    }
+  ],
+  "solution": {
+    "explanation": "Walk the list with two pointers, prev and cur. At each node, remember cur.next, flip cur.next to point to prev, and move both pointers forward. When cur runs off the end, prev is the new head. Each node is touched once, so O(n) time and O(1) space. A recursive version works too but uses O(n) stack.",
+    "code": "class Solution:\n    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        prev = None\n        cur = head\n        while cur:\n            nxt = cur.next\n            cur.next = prev\n            prev = cur\n            cur = nxt\n        return prev\n"
+  }
+}

@@ -1,0 +1,161 @@
+{
+ "id": 26,
+ "slug": "maximum-depth-of-binary-tree",
+ "title": "Maximum Depth of Binary Tree",
+ "difficulty": "Easy",
+ "topic": "Trees",
+ "leetcodeUrl": "https://leetcode.com/problems/maximum-depth-of-binary-tree/",
+ "videoUrl": null,
+ "description": "Given the root of a binary tree, return its **maximum depth**: the number of nodes on the longest path from the root down to the farthest leaf. An empty tree has depth `0`.",
+ "examples": [
+  {
+   "input": "root = [3, 9, 20, null, null, 15, 7]",
+   "output": "3",
+   "explanation": "The longest path is 3 -> 20 -> 15 (or 7)."
+  },
+  {
+   "input": "root = [1, null, 2]",
+   "output": "2"
+  }
+ ],
+ "constraints": [
+  "0 <= number of nodes <= 10^4",
+  "-100 <= Node.val <= 100"
+ ],
+ "topics": [
+  "Tree",
+  "DFS",
+  "BFS"
+ ],
+ "complexity": {
+  "time": "O(n)",
+  "space": "O(h)"
+ },
+ "hints": [
+  "What is the depth of an empty tree? What about a tree with a single node?",
+  "The depth of a node depends only on the depths of its two subtrees.",
+  "Depth = 1 + max(depth(left), depth(right)), with 0 for an empty tree."
+ ],
+ "kind": "function",
+ "className": "Solution",
+ "compare": "exact",
+ "methodName": "maxDepth",
+ "params": [
+  {
+   "name": "root",
+   "type": "Optional[TreeNode]",
+   "kind": "tree"
+  }
+ ],
+ "returns": "raw",
+ "starterCode": "class Solution:\n    def maxDepth(self, root: Optional[TreeNode]) -> int:\n        ",
+ "tests": [
+  {
+   "args": [
+    [
+     3,
+     9,
+     20,
+     null,
+     null,
+     15,
+     7
+    ]
+   ],
+   "expected": 3,
+   "example": true
+  },
+  {
+   "args": [
+    [
+     1,
+     null,
+     2
+    ]
+   ],
+   "expected": 2,
+   "example": true
+  },
+  {
+   "args": [
+    []
+   ],
+   "expected": 0
+  },
+  {
+   "args": [
+    [
+     1
+    ]
+   ],
+   "expected": 1
+  },
+  {
+   "args": [
+    [
+     1,
+     2,
+     3,
+     4,
+     null,
+     null,
+     5
+    ]
+   ],
+   "expected": 3
+  },
+  {
+   "args": [
+    [
+     1,
+     2,
+     3,
+     null,
+     null,
+     4
+    ]
+   ],
+   "expected": 3
+  },
+  {
+   "args": [
+    [
+     1,
+     null,
+     2,
+     null,
+     3
+    ]
+   ],
+   "expected": 3
+  },
+  {
+   "args": [
+    {
+     "$py": "[x for i in range(1,3000) for x in (i,None)]+[3000]"
+    }
+   ],
+   "expected": 3000
+  },
+  {
+   "args": [
+    {
+     "$py": "[3000]+[x for i in range(2999,0,-1) for x in (i,None)][:-1]"
+    }
+   ],
+   "expected": 3000
+  },
+  {
+   "args": [
+    {
+     "$py": "list(range(1,4096))"
+    }
+   ],
+   "expected": 12
+  }
+ ],
+ "solution": {
+  "explanation": "The depth of a tree is one more than the deeper of its two subtrees, and an empty tree has depth 0. Recursing on both children visits each node once, so time is O(n). The call stack reaches the tree height, so space is O(h), which is O(n) for a fully skewed tree.",
+  "code": "class Solution:\n    def maxDepth(self, root: Optional[TreeNode]) -> int:\n        if not root:\n            return 0\n        return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))\n"
+ }
+}

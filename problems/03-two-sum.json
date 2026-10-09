@@ -1,0 +1,210 @@
+{
+  "id": 3,
+  "slug": "two-sum",
+  "title": "Two Sum",
+  "difficulty": "Easy",
+  "topic": "Arrays & Hashing",
+  "leetcodeUrl": "https://leetcode.com/problems/two-sum/",
+  "videoUrl": null,
+  "description": "Given an integer array `nums` and an integer `target`, return the indices of the two different elements whose values add up to `target`. Exactly one valid pair exists, and you can't use the same element twice. Return the smaller index first.",
+  "examples": [
+    {
+      "input": "nums = [3, 4, 5, 6], target = 7",
+      "output": "[0, 1]",
+      "explanation": "3 + 4 = 7."
+    },
+    {
+      "input": "nums = [4, 5, 6], target = 10",
+      "output": "[0, 2]",
+      "explanation": "4 + 6 = 10."
+    }
+  ],
+  "constraints": [
+    "2 <= nums.length <= 10^5",
+    "-10^9 <= nums[i] <= 10^9",
+    "-10^9 <= target <= 10^9",
+    "Exactly one valid pair exists"
+  ],
+  "topics": [
+    "Array",
+    "Hash Table"
+  ],
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(n)"
+  },
+  "hints": [
+    "Checking every pair is O(n^2). For a given number x, which other value would complete the pair?",
+    "Store each value you have passed together with its index so you can look up `target - x` instantly.",
+    "Scan once: if `target - x` is already in the map, return its stored index and the current one; otherwise record x."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "twoSum",
+  "params": [
+    {
+      "name": "nums",
+      "type": "List[int]",
+      "kind": "raw"
+    },
+    {
+      "name": "target",
+      "type": "int",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "sorted",
+  "starterCode": "class Solution:\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\n        ",
+  "tests": [
+    {
+      "args": [
+        [
+          3,
+          4,
+          5,
+          6
+        ],
+        7
+      ],
+      "expected": [
+        0,
+        1
+      ],
+      "example": true
+    },
+    {
+      "args": [
+        [
+          4,
+          5,
+          6
+        ],
+        10
+      ],
+      "expected": [
+        0,
+        2
+      ],
+      "example": true
+    },
+    {
+      "args": [
+        [
+          5,
+          5
+        ],
+        10
+      ],
+      "expected": [
+        0,
+        1
+      ]
+    },
+    {
+      "args": [
+        [
+          -3,
+          4,
+          3,
+          90
+        ],
+        0
+      ],
+      "expected": [
+        0,
+        2
+      ]
+    },
+    {
+      "args": [
+        [
+          2,
+          7,
+          11,
+          15
+        ],
+        9
+      ],
+      "expected": [
+        0,
+        1
+      ]
+    },
+    {
+      "args": [
+        [
+          3,
+          2,
+          4
+        ],
+        6
+      ],
+      "expected": [
+        1,
+        2
+      ]
+    },
+    {
+      "args": [
+        [
+          -1,
+          -2,
+          -3,
+          -4,
+          -5
+        ],
+        -8
+      ],
+      "expected": [
+        2,
+        4
+      ]
+    },
+    {
+      "args": [
+        [
+          0,
+          4,
+          3,
+          0
+        ],
+        0
+      ],
+      "expected": [
+        0,
+        3
+      ]
+    },
+    {
+      "args": [
+        [
+          1000000000,
+          -1000000000,
+          7
+        ],
+        0
+      ],
+      "expected": [
+        0,
+        1
+      ]
+    },
+    {
+      "args": [
+        {
+          "$py": "list(range(1, 100001))"
+        },
+        199999
+      ],
+      "expected": [
+        99998,
+        99999
+      ]
+    }
+  ],
+  "solution": {
+    "explanation": "Walk through the array while keeping a map from value to index. For each number x, the partner we need is `target - x`; if it is already in the map, we have the answer, otherwise we store x. Each lookup and insert is O(1) on average, so the total is O(n) time and O(n) space for the map. Because we only look at earlier elements, an element is never paired with itself.",
+    "code": "class Solution:\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\n        seen = {}\n        for i, x in enumerate(nums):\n            need = target - x\n            if need in seen:\n                return [seen[need], i]\n            seen[x] = i\n        return []\n"
+  }
+}

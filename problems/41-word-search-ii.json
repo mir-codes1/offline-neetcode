@@ -1,0 +1,344 @@
+{
+ "id": 41,
+ "slug": "word-search-ii",
+ "title": "Word Search II",
+ "difficulty": "Hard",
+ "topic": "Tries",
+ "leetcodeUrl": "https://leetcode.com/problems/word-search-ii/",
+ "videoUrl": null,
+ "description": "You get a rectangular `board` of lowercase letters and a list of distinct `words`. A word is **on the board** if it can be spelled by a path of horizontally or vertically adjacent cells, never using the same cell twice within one word.\n\nReturn every word from `words` that is on the board, each once, in any order.",
+ "examples": [
+  {
+   "input": "board = [[\"o\",\"a\",\"a\",\"n\"],[\"e\",\"t\",\"a\",\"e\"],[\"i\",\"h\",\"k\",\"r\"],[\"i\",\"f\",\"l\",\"v\"]], words = [\"oath\",\"pea\",\"eat\",\"rain\"]",
+   "output": "[\"eat\",\"oath\"]"
+  },
+  {
+   "input": "board = [[\"a\",\"b\"],[\"c\",\"d\"]], words = [\"abcb\"]",
+   "output": "[]",
+   "explanation": "Spelling it would reuse the cell holding b."
+  }
+ ],
+ "constraints": [
+  "1 <= board.length, board[i].length <= 12",
+  "1 <= words.length <= 3 * 10^4",
+  "1 <= words[i].length <= 10",
+  "Lowercase letters only; all words are distinct"
+ ],
+ "topics": [
+  "Trie",
+  "Backtracking",
+  "Matrix"
+ ],
+ "complexity": {
+  "time": "O(m * n * 4 * 3^(L-1)) worst case, pruned heavily by the trie",
+  "space": "O(total characters in words)"
+ },
+ "hints": [
+  "Running a separate Word Search DFS per word repeats the same board exploration thousands of times.",
+  "Put all words into a trie, then explore the board once, moving down the trie in step with the path.",
+  "Stop a path as soon as the trie has no child for the next letter. When you reach a word end, record it and clear its marker so it is not reported twice; mark visited cells and restore them when backtracking."
+ ],
+ "kind": "function",
+ "className": "Solution",
+ "methodName": "findWords",
+ "params": [
+  {
+   "name": "board",
+   "type": "List[List[str]]",
+   "kind": "raw"
+  },
+  {
+   "name": "words",
+   "type": "List[str]",
+   "kind": "raw"
+  }
+ ],
+ "returns": "raw",
+ "starterCode": "class Solution:\n    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:\n        ",
+ "compare": "sorted",
+ "tests": [
+  {
+   "args": [
+    [
+     [
+      "o",
+      "a",
+      "a",
+      "n"
+     ],
+     [
+      "e",
+      "t",
+      "a",
+      "e"
+     ],
+     [
+      "i",
+      "h",
+      "k",
+      "r"
+     ],
+     [
+      "i",
+      "f",
+      "l",
+      "v"
+     ]
+    ],
+    [
+     "oath",
+     "pea",
+     "eat",
+     "rain"
+    ]
+   ],
+   "expected": [
+    "eat",
+    "oath"
+   ],
+   "example": true
+  },
+  {
+   "args": [
+    [
+     [
+      "a",
+      "b"
+     ],
+     [
+      "c",
+      "d"
+     ]
+    ],
+    [
+     "abcb"
+    ]
+   ],
+   "expected": [],
+   "example": true
+  },
+  {
+   "args": [
+    [
+     [
+      "a"
+     ]
+    ],
+    [
+     "a"
+    ]
+   ],
+   "expected": [
+    "a"
+   ]
+  },
+  {
+   "args": [
+    [
+     [
+      "a",
+      "a"
+     ]
+    ],
+    [
+     "aaa"
+    ]
+   ],
+   "expected": []
+  },
+  {
+   "args": [
+    [
+     [
+      "a",
+      "b"
+     ],
+     [
+      "c",
+      "d"
+     ]
+    ],
+    [
+     "ab",
+     "ac",
+     "bd",
+     "cd",
+     "abdc"
+    ]
+   ],
+   "expected": [
+    "ab",
+    "ac",
+    "bd",
+    "cd",
+    "abdc"
+   ]
+  },
+  {
+   "args": [
+    [
+     [
+      "a",
+      "b"
+     ],
+     [
+      "c",
+      "d"
+     ]
+    ],
+    [
+     "ad",
+     "bc",
+     "abdc",
+     "abcd"
+    ]
+   ],
+   "expected": [
+    "abdc"
+   ]
+  },
+  {
+   "args": [
+    [
+     [
+      "a",
+      "b",
+      "c"
+     ]
+    ],
+    [
+     "abc",
+     "cba",
+     "ac",
+     "b"
+    ]
+   ],
+   "expected": [
+    "abc",
+    "cba",
+    "b"
+   ]
+  },
+  {
+   "args": [
+    [
+     [
+      "a",
+      "b"
+     ],
+     [
+      "c",
+      "d"
+     ]
+    ],
+    [
+     "abdca",
+     "dcba",
+     "acdb",
+     "bd"
+    ]
+   ],
+   "expected": [
+    "acdb",
+    "bd"
+   ]
+  },
+  {
+   "args": [
+    [
+     [
+      "o",
+      "a",
+      "a",
+      "n"
+     ],
+     [
+      "e",
+      "t",
+      "a",
+      "e"
+     ],
+     [
+      "i",
+      "h",
+      "k",
+      "r"
+     ],
+     [
+      "i",
+      "f",
+      "l",
+      "v"
+     ]
+    ],
+    [
+     "oath",
+     "oat",
+     "oa",
+     "o",
+     "eat",
+     "ea",
+     "e",
+     "oathi",
+     "oathk",
+     "hf",
+     "ifl",
+     "lfi"
+    ]
+   ],
+   "expected": [
+    "oath",
+    "oat",
+    "oa",
+    "o",
+    "eat",
+    "ea",
+    "e",
+    "oathi",
+    "oathk",
+    "hf",
+    "ifl",
+    "lfi"
+   ]
+  },
+  {
+   "args": [
+    {
+     "$py": "[[\"a\"]*12 for _ in range(12)]"
+    },
+    {
+     "$py": "[\"a\"*7+x+y+z for x in string.ascii_lowercase for y in string.ascii_lowercase for z in string.ascii_lowercase]"
+    }
+   ],
+   "expected": [
+    "aaaaaaaaaa"
+   ]
+  },
+  {
+   "args": [
+    {
+     "$py": "[[\"a\"]*12 for _ in range(12)]"
+    },
+    {
+     "$py": "[\"a\"*k for k in range(1,11)]+[\"a\"*9+\"b\"]"
+    }
+   ],
+   "expected": [
+    "a",
+    "aa",
+    "aaa",
+    "aaaa",
+    "aaaaa",
+    "aaaaaa",
+    "aaaaaaa",
+    "aaaaaaaa",
+    "aaaaaaaaa",
+    "aaaaaaaaaa"
+   ]
+  }
+ ],
+ "solution": {
+  "explanation": "Insert every word into a trie, then run one backtracking DFS from each cell, advancing down the trie as letters match. If the trie has no child for the current letter the branch is abandoned immediately, so every word sharing a prefix is searched together. When a node stores a complete word we append it and delete the word marker to avoid duplicates, temporarily overwriting visited cells to forbid reuse. The work is bounded by about m*n*3^(L-1) paths regardless of how many words there are, far better than searching each word separately.",
+  "code": "class Solution:\n    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:\n        root = {}\n        for word in words:\n            node = root\n            for ch in word:\n                node = node.setdefault(ch, {})\n            node['$'] = word\n        rows, cols = len(board), len(board[0])\n        res = []\n\n        def dfs(r, c, parent):\n            ch = board[r][c]\n            node = parent[ch]\n            if '$' in node:\n                res.append(node.pop('$'))\n            board[r][c] = '#'\n            for dr, dc in ((1, 0), (-1, 0), (0, 1), (0, -1)):\n                nr, nc = r + dr, c + dc\n                if 0 <= nr < rows and 0 <= nc < cols and board[nr][nc] in node:\n                    dfs(nr, nc, node)\n            board[r][c] = ch\n            if not node:\n                del parent[ch]\n\n        for r in range(rows):\n            for c in range(cols):\n                if board[r][c] in root:\n                    dfs(r, c, root)\n        return res\n"
+ }
+}

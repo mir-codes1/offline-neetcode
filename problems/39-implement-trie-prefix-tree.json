@@ -1,0 +1,277 @@
+{
+ "id": 39,
+ "slug": "implement-trie-prefix-tree",
+ "title": "Implement Trie (Prefix Tree)",
+ "difficulty": "Medium",
+ "topic": "Tries",
+ "leetcodeUrl": "https://leetcode.com/problems/implement-trie-prefix-tree/",
+ "videoUrl": null,
+ "description": "Build a prefix tree (trie) class `PrefixTree` for lowercase strings.\n\n- `insert(word)` stores `word`.\n- `search(word)` returns `true` only if exactly `word` was inserted earlier.\n- `startsWith(prefix)` returns `true` if some inserted word begins with `prefix`.",
+ "examples": [
+  {
+   "input": "insert(\"dog\"), search(\"dog\"), search(\"do\"), startsWith(\"do\"), insert(\"do\"), search(\"do\")",
+   "output": "null, true, false, true, null, true",
+   "explanation": "\"do\" is only a prefix of \"dog\" until it is inserted itself."
+  },
+  {
+   "input": "search(\"a\") on an empty trie",
+   "output": "false"
+  }
+ ],
+ "constraints": [
+  "1 <= word.length, prefix.length <= 1000",
+  "Lowercase English letters only"
+ ],
+ "topics": [
+  "Trie",
+  "Design"
+ ],
+ "complexity": {
+  "time": "O(L) per operation",
+  "space": "O(total characters inserted)"
+ },
+ "hints": [
+  "Storing all words in a list makes startsWith scan every word. Can words that share a beginning share storage?",
+  "Give each node a map from a letter to a child node, plus a flag saying whether a word ends here.",
+  "Walk one node per character. search needs the final node's end flag; startsWith only needs the walk to succeed."
+ ],
+ "kind": "design",
+ "className": "PrefixTree",
+ "starterCode": "class PrefixTree:\n\n    def __init__(self):\n        pass\n\n    def insert(self, word: str) -> None:\n        pass\n\n    def search(self, word: str) -> bool:\n        pass\n\n    def startsWith(self, prefix: str) -> bool:\n        pass\n",
+ "tests": [
+  {
+   "ops": [
+    "PrefixTree",
+    "insert",
+    "search",
+    "search",
+    "startsWith",
+    "insert",
+    "search"
+   ],
+   "args": [
+    [],
+    [
+     "dog"
+    ],
+    [
+     "dog"
+    ],
+    [
+     "do"
+    ],
+    [
+     "do"
+    ],
+    [
+     "do"
+    ],
+    [
+     "do"
+    ]
+   ],
+   "expected": [
+    null,
+    null,
+    true,
+    false,
+    true,
+    null,
+    true
+   ],
+   "example": true
+  },
+  {
+   "ops": [
+    "PrefixTree",
+    "search"
+   ],
+   "args": [
+    [],
+    [
+     "a"
+    ]
+   ],
+   "expected": [
+    null,
+    false
+   ],
+   "example": true
+  },
+  {
+   "ops": [
+    "PrefixTree",
+    "insert",
+    "startsWith",
+    "search"
+   ],
+   "args": [
+    [],
+    [
+     "apple"
+    ],
+    [
+     "app"
+    ],
+    [
+     "app"
+    ]
+   ],
+   "expected": [
+    null,
+    null,
+    true,
+    false
+   ]
+  },
+  {
+   "ops": [
+    "PrefixTree",
+    "insert",
+    "search",
+    "search",
+    "startsWith",
+    "insert",
+    "search",
+    "search",
+    "startsWith"
+   ],
+   "args": [
+    [],
+    [
+     "apple"
+    ],
+    [
+     "apple"
+    ],
+    [
+     "app"
+    ],
+    [
+     "app"
+    ],
+    [
+     "app"
+    ],
+    [
+     "app"
+    ],
+    [
+     "apples"
+    ],
+    [
+     "b"
+    ]
+   ],
+   "expected": [
+    null,
+    null,
+    true,
+    false,
+    true,
+    null,
+    true,
+    false,
+    false
+   ]
+  },
+  {
+   "ops": [
+    "PrefixTree",
+    "startsWith",
+    "insert",
+    "startsWith",
+    "startsWith",
+    "search"
+   ],
+   "args": [
+    [],
+    [
+     "a"
+    ],
+    [
+     "a"
+    ],
+    [
+     "a"
+    ],
+    [
+     "ab"
+    ],
+    [
+     "a"
+    ]
+   ],
+   "expected": [
+    null,
+    false,
+    null,
+    true,
+    false,
+    true
+   ]
+  },
+  {
+   "ops": [
+    "PrefixTree",
+    "insert",
+    "insert",
+    "search",
+    "search",
+    "startsWith"
+   ],
+   "args": [
+    [],
+    [
+     "ab"
+    ],
+    [
+     "ab"
+    ],
+    [
+     "ab"
+    ],
+    [
+     "a"
+    ],
+    [
+     "abc"
+    ]
+   ],
+   "expected": [
+    null,
+    null,
+    null,
+    true,
+    false,
+    false
+   ]
+  },
+  {
+   "ops": {
+    "$py": "[\"PrefixTree\"]+[\"insert\"]*2+[\"search\",\"startsWith\",\"search\",\"startsWith\",\"startsWith\"]"
+   },
+   "args": {
+    "$py": "[[],[\"a\"*1000],[\"a\"*999],[\"a\"*1000],[\"a\"*1000],[\"a\"*999],[\"a\"*999+\"b\"],[\"b\"]]"
+   },
+   "expected": {
+    "$py": "[None,None,None,True,True,True,False,False]"
+   }
+  },
+  {
+   "ops": {
+    "$py": "[\"PrefixTree\"]+[\"insert\"]*2000+[\"search\"]*2000+[\"startsWith\"]*2000"
+   },
+   "args": {
+    "$py": "[[]]+[[\"a\"*i+\"b\"] for i in range(1,2001)]+[[\"a\"*i+\"b\"] for i in range(1,2001)]+[[\"a\"*i] for i in range(1,2001)]"
+   },
+   "expected": {
+    "$py": "[None]*2001+[True]*2000+[True]*2000"
+   }
+  }
+ ],
+ "solution": {
+  "explanation": "Each trie node holds a dict of children keyed by letter and a boolean marking the end of an inserted word. insert follows (creating as needed) one node per letter and flags the last. search and startsWith share a helper that walks the letters and returns the final node or None; search additionally requires the end flag. Every operation costs O(L) for a string of length L, and space is proportional to the characters stored.",
+  "code": "class PrefixTree:\n\n    def __init__(self):\n        self.root = {}\n\n    def insert(self, word: str) -> None:\n        node = self.root\n        for ch in word:\n            node = node.setdefault(ch, {})\n        node['$'] = True\n\n    def _walk(self, s: str):\n        node = self.root\n        for ch in s:\n            if ch not in node:\n                return None\n            node = node[ch]\n        return node\n\n    def search(self, word: str) -> bool:\n        node = self._walk(word)\n        return node is not None and '$' in node\n\n    def startsWith(self, prefix: str) -> bool:\n        return self._walk(prefix) is not None\n"
+ }
+}

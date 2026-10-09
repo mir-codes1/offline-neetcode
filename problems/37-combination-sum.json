@@ -1,0 +1,259 @@
+{
+  "id": 37,
+  "slug": "combination-sum",
+  "title": "Combination Sum",
+  "difficulty": "Medium",
+  "topic": "Backtracking",
+  "leetcodeUrl": "https://leetcode.com/problems/combination-sum/",
+  "videoUrl": null,
+  "description": "Given an array `nums` of **distinct** positive integers and a positive integer `target`, return every unique combination of numbers from `nums` that adds up to `target`. A number may be used as many times as you like. Two combinations differ if at least one number is used a different number of times. Order inside a combination and the order of the combinations does not matter.",
+  "examples": [
+    {
+      "input": "nums = [2, 5, 6, 9], target = 9",
+      "output": "[[2, 2, 5], [9]]",
+      "explanation": "2 + 2 + 5 = 9 and 9 = 9."
+    },
+    {
+      "input": "nums = [3], target = 5",
+      "output": "[]"
+    }
+  ],
+  "constraints": [
+    "1 <= nums.length <= 20",
+    "2 <= nums[i] <= 30, all distinct",
+    "2 <= target <= 30"
+  ],
+  "topics": [
+    "Backtracking",
+    "Array"
+  ],
+  "complexity": {
+    "time": "O(2^target) roughly",
+    "space": "O(target) recursion depth"
+  },
+  "hints": [
+    "At each step you choose a number and add it to the running sum. Think of it as a decision tree where you stop when the sum reaches or passes target.",
+    "To avoid getting both [2,3] and [3,2], only allow picking numbers at or after the index you are currently on. Staying on the same index lets you reuse a number.",
+    "Write dfs(start, path, remaining). If remaining == 0 record a copy of path. For i from start, if nums[i] <= remaining, push it, recurse with the same i, then pop."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "combinationSum",
+  "params": [
+    {
+      "name": "nums",
+      "type": "List[int]",
+      "kind": "raw"
+    },
+    {
+      "name": "target",
+      "type": "int",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "sorted_nested",
+  "starterCode": "class Solution:\n    def combinationSum(self, nums: List[int], target: int) -> List[List[int]]:\n        ",
+  "tests": [
+    {
+      "args": [
+        [
+          2,
+          5,
+          6,
+          9
+        ],
+        9
+      ],
+      "expected": [
+        [
+          2,
+          2,
+          5
+        ],
+        [
+          9
+        ]
+      ],
+      "example": true
+    },
+    {
+      "args": [
+        [
+          3
+        ],
+        5
+      ],
+      "expected": [],
+      "example": true
+    },
+    {
+      "args": [
+        [
+          3,
+          4,
+          5
+        ],
+        16
+      ],
+      "expected": [
+        [
+          3,
+          3,
+          3,
+          3,
+          4
+        ],
+        [
+          3,
+          3,
+          5,
+          5
+        ],
+        [
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          3,
+          4,
+          4,
+          5
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          2
+        ],
+        4
+      ],
+      "expected": [
+        [
+          2,
+          2
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          2,
+          3,
+          6,
+          7
+        ],
+        7
+      ],
+      "expected": [
+        [
+          2,
+          2,
+          3
+        ],
+        [
+          7
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          2,
+          3,
+          5
+        ],
+        8
+      ],
+      "expected": [
+        [
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          3,
+          3
+        ],
+        [
+          3,
+          5
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          3
+        ],
+        9
+      ],
+      "expected": [
+        [
+          3,
+          3,
+          3
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          7,
+          3,
+          2
+        ],
+        7
+      ],
+      "expected": [
+        [
+          2,
+          2,
+          3
+        ],
+        [
+          7
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          5,
+          7
+        ],
+        4
+      ],
+      "expected": []
+    },
+    {
+      "args": [
+        [
+          2,
+          3
+        ],
+        6
+      ],
+      "expected": [
+        [
+          2,
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ]
+    }
+  ],
+  "solution": {
+    "explanation": "Backtrack over a start index. At each call, loop over candidates from start onward, skip any that exceed the remaining sum, add one to the path and recurse with the same index (so it can be reused). Moving only forward means each multiset of numbers is built in one order, so no duplicates appear. When the remaining sum hits zero the path is recorded. Depth is at most target / min(nums); the number of explored paths is exponential in the worst case, bounded by the small constraints.",
+    "code": "class Solution:\n    def combinationSum(self, nums: List[int], target: int) -> List[List[int]]:\n        res = []\n        path = []\n\n        def dfs(start, remaining):\n            if remaining == 0:\n                res.append(path[:])\n                return\n            for i in range(start, len(nums)):\n                if nums[i] <= remaining:\n                    path.append(nums[i])\n                    dfs(i, remaining - nums[i])\n                    path.pop()\n\n        dfs(0, target)\n        return res\n"
+  }
+}

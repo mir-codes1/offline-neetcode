@@ -1,0 +1,223 @@
+{
+  "id": 22,
+  "slug": "reorder-list",
+  "title": "Reorder List",
+  "difficulty": "Medium",
+  "topic": "Linked List",
+  "leetcodeUrl": "https://leetcode.com/problems/reorder-list/",
+  "videoUrl": null,
+  "description": "You are given the head of a singly linked list `L0 -> L1 -> ... -> Ln-1 -> Ln`. Rearrange it in place into `L0 -> Ln -> L1 -> Ln-1 -> L2 -> Ln-2 -> ...`.\n\nYou must relink the nodes themselves, not just overwrite values. Nothing is returned.",
+  "examples": [
+    {
+      "input": "head = [2, 4, 6, 8]",
+      "output": "[2, 8, 4, 6]"
+    },
+    {
+      "input": "head = [2, 4, 6, 8, 10]",
+      "output": "[2, 10, 4, 8, 6]"
+    }
+  ],
+  "constraints": [
+    "1 <= list length <= 1000 (stress tests are longer)",
+    "1 <= Node.val <= 1000"
+  ],
+  "topics": [
+    "Linked List",
+    "Two Pointers"
+  ],
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "hints": [
+    "Look at the target order: front, back, front, back... The back half has to be read from its end, but a singly linked list only goes forward.",
+    "Split the list in the middle (slow/fast pointers), then reverse the second half so it can be read tail-first.",
+    "After finding the middle and reversing the second half, interleave: take one node from the first half, then one from the reversed second half, until the second half is used up. Cut the first half's end so it doesn't loop."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "reorderList",
+  "params": [
+    {
+      "name": "head",
+      "type": "Optional[ListNode]",
+      "kind": "list"
+    }
+  ],
+  "returns": "none",
+  "inPlaceArg": 0,
+  "compare": "exact",
+  "starterCode": "class Solution:\n    def reorderList(self, head: Optional[ListNode]) -> None:\n        \"\"\"\n        Do not return anything, modify head in-place instead.\n        \"\"\"\n        ",
+  "tests": [
+    {
+      "args": [
+        [
+          2,
+          4,
+          6,
+          8
+        ]
+      ],
+      "expected": [
+        2,
+        8,
+        4,
+        6
+      ],
+      "example": true
+    },
+    {
+      "args": [
+        [
+          2,
+          4,
+          6,
+          8,
+          10
+        ]
+      ],
+      "expected": [
+        2,
+        10,
+        4,
+        8,
+        6
+      ],
+      "example": true
+    },
+    {
+      "args": [
+        [
+          1
+        ]
+      ],
+      "expected": [
+        1
+      ]
+    },
+    {
+      "args": [
+        [
+          1,
+          2
+        ]
+      ],
+      "expected": [
+        1,
+        2
+      ]
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "expected": [
+        1,
+        3,
+        2
+      ]
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3,
+          4
+        ]
+      ],
+      "expected": [
+        1,
+        4,
+        2,
+        3
+      ]
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      ],
+      "expected": [
+        1,
+        5,
+        2,
+        4,
+        3
+      ]
+    },
+    {
+      "args": [
+        [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ]
+      ],
+      "expected": [
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+      ]
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      ],
+      "expected": [
+        1,
+        6,
+        2,
+        5,
+        3,
+        4
+      ]
+    },
+    {
+      "args": [
+        {
+          "$py": "list(range(1,50001))"
+        }
+      ],
+      "expected": {
+        "$py": "[x for i in range(25000) for x in (i+1, 50000-i)]"
+      }
+    },
+    {
+      "args": [
+        {
+          "$py": "list(range(1,50000))"
+        }
+      ],
+      "expected": {
+        "$py": "[x for i in range(24999) for x in (i+1, 49999-i)] + [25000]"
+      }
+    }
+  ],
+  "solution": {
+    "explanation": "Do it in three steps. First, find the middle with slow and fast pointers. Second, cut the list there and reverse the second half in place. Third, merge by alternating nodes from the first half and the reversed second half. Each step is a single pass, so O(n) time, and only pointers are used, so O(1) space.",
+    "code": "class Solution:\n    def reorderList(self, head: Optional[ListNode]) -> None:\n        if not head or not head.next:\n            return\n        slow, fast = head, head.next\n        while fast and fast.next:\n            slow = slow.next\n            fast = fast.next.next\n        second = slow.next\n        slow.next = None\n        prev = None\n        while second:\n            nxt = second.next\n            second.next = prev\n            prev = second\n            second = nxt\n        first, second = head, prev\n        while second:\n            t1, t2 = first.next, second.next\n            first.next = second\n            second.next = t1\n            first, second = t1, t2\n"
+  }
+}

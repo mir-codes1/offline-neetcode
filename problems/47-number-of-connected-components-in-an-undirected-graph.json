@@ -1,0 +1,203 @@
+{
+ "id": 47,
+ "slug": "number-of-connected-components-in-an-undirected-graph",
+ "title": "Number of Connected Components In An Undirected Graph",
+ "difficulty": "Medium",
+ "topic": "Graphs",
+ "leetcodeUrl": "https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/",
+ "videoUrl": null,
+ "description": "You are given `n` nodes labelled `0` to `n - 1` and a list of undirected `edges`. Return how many connected components the graph has. Nodes with no edges count as components of their own.",
+ "examples": [
+  {
+   "input": "n = 5, edges = [[0,1],[1,2],[3,4]]",
+   "output": "2",
+   "explanation": "{0,1,2} and {3,4}."
+  },
+  {
+   "input": "n = 5, edges = [[0,1],[1,2],[2,3],[3,4]]",
+   "output": "1"
+  }
+ ],
+ "constraints": [
+  "1 <= n <= 2000",
+  "0 <= edges.length <= 5000",
+  "No duplicate edges"
+ ],
+ "topics": [
+  "Graph",
+  "Union Find",
+  "DFS"
+ ],
+ "complexity": {
+  "time": "O(V + E * alpha(V))",
+  "space": "O(V)"
+ },
+ "hints": [
+  "Start by assuming every node is its own component. What changes when an edge is added?",
+  "An edge between two nodes that are in different components merges them, lowering the count by one.",
+  "Use union-find and decrement a counter on every successful union; or DFS from each unvisited node and count how many DFS launches you need."
+ ],
+ "kind": "function",
+ "className": "Solution",
+ "methodName": "countComponents",
+ "params": [
+  {
+   "name": "n",
+   "type": "int",
+   "kind": "raw"
+  },
+  {
+   "name": "edges",
+   "type": "List[List[int]]",
+   "kind": "raw"
+  }
+ ],
+ "returns": "raw",
+ "starterCode": "class Solution:\n    def countComponents(self, n: int, edges: List[List[int]]) -> int:\n        ",
+ "compare": "exact",
+ "tests": [
+  {
+   "args": [
+    5,
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ],
+     [
+      3,
+      4
+     ]
+    ]
+   ],
+   "expected": 2,
+   "example": true
+  },
+  {
+   "args": [
+    5,
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      4
+     ]
+    ]
+   ],
+   "expected": 1,
+   "example": true
+  },
+  {
+   "args": [
+    4,
+    [
+     [
+      0,
+      1
+     ]
+    ]
+   ],
+   "expected": 3
+  },
+  {
+   "args": [
+    3,
+    [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      2
+     ],
+     [
+      0,
+      2
+     ]
+    ]
+   ],
+   "expected": 1
+  },
+  {
+   "args": [
+    1,
+    []
+   ],
+   "expected": 1
+  },
+  {
+   "args": [
+    4,
+    []
+   ],
+   "expected": 4
+  },
+  {
+   "args": [
+    6,
+    [
+     [
+      0,
+      5
+     ],
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      3
+     ]
+    ]
+   ],
+   "expected": 3
+  },
+  {
+   "args": [
+    2000,
+    {
+     "$py": "[[i,i+1] for i in range(1999)]"
+    }
+   ],
+   "expected": 1
+  },
+  {
+   "args": [
+    2000,
+    {
+     "$py": "[[i,i+1] for i in range(0,2000,2)]"
+    }
+   ],
+   "expected": 1000
+  },
+  {
+   "args": [
+    2000,
+    {
+     "$py": "[[i,j] for i in range(0,1000) for j in range(i+1,min(i+6,1000))]"
+    }
+   ],
+   "expected": 1001
+  }
+ ],
+ "solution": {
+  "explanation": "Union-find with path compression. Begin with n components; for each edge find the roots of both endpoints and, if they differ, union them and subtract one from the component count. What remains is the number of components. Nodes untouched by edges stay as singletons, which is handled automatically. Runs in near-linear time with O(n) space.",
+  "code": "class Solution:\n    def countComponents(self, n: int, edges: List[List[int]]) -> int:\n        parent = list(range(n))\n\n        def find(x):\n            while parent[x] != x:\n                parent[x] = parent[parent[x]]\n                x = parent[x]\n            return x\n\n        count = n\n        for a, b in edges:\n            ra, rb = find(a), find(b)\n            if ra != rb:\n                parent[ra] = rb\n                count -= 1\n        return count\n"
+ }
+}

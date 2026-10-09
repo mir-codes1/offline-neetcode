@@ -1,0 +1,206 @@
+{
+  "id": 21,
+  "slug": "linked-list-cycle",
+  "title": "Linked List Cycle",
+  "difficulty": "Easy",
+  "topic": "Linked List",
+  "leetcodeUrl": "https://leetcode.com/problems/linked-list-cycle/",
+  "videoUrl": null,
+  "description": "Given the head of a linked list, return `true` if the list contains a cycle (some node can be reached again by following `next` pointers), otherwise `false`.\n\nIn the test inputs, `index` is only how the list is built: the position that the tail connects back to, or `-1` for no cycle. Your function receives just `head`. Try to use O(1) extra memory.",
+  "examples": [
+    {
+      "input": "head = [1, 2, 3, 4], index = 1",
+      "output": "true",
+      "explanation": "The tail links back to the node with value 2."
+    },
+    {
+      "input": "head = [1, 2], index = -1",
+      "output": "false"
+    }
+  ],
+  "constraints": [
+    "0 <= list length <= 1000 (stress tests go much longer)",
+    "-1000 <= Node.val <= 1000",
+    "index is -1 or a valid position"
+  ],
+  "topics": [
+    "Linked List",
+    "Two Pointers"
+  ],
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "hints": [
+    "Storing every visited node works, but costs O(n) memory. Can two pointers detect a loop without storing anything?",
+    "If one pointer moves faster than another inside a loop, what must eventually happen to the gap between them?",
+    "Move slow by 1 and fast by 2. If fast reaches None, there is no cycle. If slow and fast ever point to the same node, there is one."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "hasCycle",
+  "params": [
+    {
+      "name": "head",
+      "type": "Optional[ListNode]",
+      "kind": "cyclelist"
+    }
+  ],
+  "returns": "raw",
+  "compare": "exact",
+  "starterCode": "class Solution:\n    def hasCycle(self, head: Optional[ListNode]) -> bool:\n        ",
+  "tests": [
+    {
+      "args": [
+        [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          1
+        ]
+      ],
+      "expected": true,
+      "example": true
+    },
+    {
+      "args": [
+        [
+          [
+            1,
+            2
+          ],
+          -1
+        ]
+      ],
+      "expected": false,
+      "example": true
+    },
+    {
+      "args": [
+        [
+          [
+            1
+          ],
+          0
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        [
+          [],
+          -1
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        [
+          [
+            3,
+            2,
+            0,
+            -4
+          ],
+          1
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        [
+          [
+            1,
+            2
+          ],
+          0
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        [
+          [
+            1
+          ],
+          -1
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          -1
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          4
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        [
+          {
+            "$py": "list(range(100000))"
+          },
+          -1
+        ]
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        [
+          {
+            "$py": "list(range(100000))"
+          },
+          0
+        ]
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        [
+          {
+            "$py": "list(range(100000))"
+          },
+          99999
+        ]
+      ],
+      "expected": true
+    }
+  ],
+  "solution": {
+    "explanation": "Use Floyd's tortoise and hare. Slow advances one node per step, fast advances two. Without a cycle, fast falls off the end and we return false. With a cycle, both enter the loop and fast gains one node on slow each step, so they must meet. That takes O(n) time and only two pointers of memory, O(1) space.",
+    "code": "class Solution:\n    def hasCycle(self, head: Optional[ListNode]) -> bool:\n        slow = fast = head\n        while fast and fast.next:\n            slow = slow.next\n            fast = fast.next.next\n            if slow is fast:\n                return True\n        return False\n"
+  }
+}

@@ -1,0 +1,106 @@
+{
+ "id": 71,
+ "slug": "number-of-1-bits",
+ "title": "Number of 1 Bits",
+ "difficulty": "Easy",
+ "topic": "Bit Manipulation",
+ "leetcodeUrl": "https://leetcode.com/problems/number-of-1-bits/",
+ "videoUrl": null,
+ "description": "Given a non-negative integer `n`, return the number of `1` bits in its binary representation (also called its Hamming weight).",
+ "examples": [
+  {
+   "input": "n = 23",
+   "output": "4",
+   "explanation": "23 is 10111 in binary."
+  },
+  {
+   "input": "n = 128",
+   "output": "1",
+   "explanation": "128 is 10000000."
+  }
+ ],
+ "constraints": [
+  "0 <= n <= 2^31 - 1"
+ ],
+ "topics": [
+  "Bit Manipulation"
+ ],
+ "complexity": {
+  "time": "O(k) where k is the number of set bits",
+  "space": "O(1)"
+ },
+ "hints": [
+  "You can inspect one bit at a time with n & 1 followed by a right shift.",
+  "That takes up to 31 steps even for sparse numbers. Is there a trick that removes just one set bit per step?",
+  "n & (n - 1) clears the lowest set bit. Count how many times you can apply it before n becomes 0."
+ ],
+ "kind": "function",
+ "className": "Solution",
+ "methodName": "hammingWeight",
+ "params": [
+  {
+   "name": "n",
+   "type": "int",
+   "kind": "raw"
+  }
+ ],
+ "returns": "raw",
+ "compare": "exact",
+ "starterCode": "class Solution:\n    def hammingWeight(self, n: int) -> int:\n        ",
+ "tests": [
+  {
+   "args": [
+    23
+   ],
+   "expected": 4,
+   "example": true
+  },
+  {
+   "args": [
+    128
+   ],
+   "expected": 1,
+   "example": true
+  },
+  {
+   "args": [
+    0
+   ],
+   "expected": 0
+  },
+  {
+   "args": [
+    2147483645
+   ],
+   "expected": 30
+  },
+  {
+   "args": [
+    1
+   ],
+   "expected": 1
+  },
+  {
+   "args": [
+    255
+   ],
+   "expected": 8
+  },
+  {
+   "args": [
+    2147483647
+   ],
+   "expected": 31
+  },
+  {
+   "args": [
+    1024
+   ],
+   "expected": 1
+  }
+ ],
+ "solution": {
+  "explanation": "Subtracting 1 from n flips the lowest set bit to 0 and turns all the zeros below it into ones, so n & (n - 1) clears exactly the lowest set bit. Repeat until n is 0 and count the iterations, which equals the number of set bits. That is O(k) for k set bits (at most 31), with O(1) space.",
+  "code": "class Solution:\n    def hammingWeight(self, n: int) -> int:\n        count = 0\n        while n:\n            n &= n - 1\n            count += 1\n        return count\n"
+ }
+}

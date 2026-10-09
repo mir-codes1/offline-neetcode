@@ -1,0 +1,135 @@
+{
+ "id": 35,
+ "slug": "serialize-and-deserialize-binary-tree",
+ "title": "Serialize And Deserialize Binary Tree",
+ "difficulty": "Hard",
+ "topic": "Trees",
+ "leetcodeUrl": "https://leetcode.com/problems/serialize-and-deserialize-binary-tree/",
+ "videoUrl": null,
+ "description": "Design a `Codec` with `serialize(root) -> str` and `deserialize(data) -> root` such that `deserialize(serialize(root))` rebuilds exactly the original tree, including its shape and values. The string format is entirely up to you, but negative values and the empty tree must work, and the two methods must not depend on shared state.",
+ "examples": [
+  {
+   "input": "root = [1, 2, 3, null, null, 4, 5]",
+   "output": "a string s such that deserialize(s) is the same tree"
+  },
+  {
+   "input": "root = []",
+   "output": "empty tree round-trips to an empty tree"
+  }
+ ],
+ "constraints": [
+  "0 <= number of nodes <= 10^4",
+  "-1000 <= Node.val <= 1000"
+ ],
+ "topics": [
+  "Tree",
+  "DFS",
+  "Design"
+ ],
+ "complexity": {
+  "time": "O(n)",
+  "space": "O(n)"
+ },
+ "hints": [
+  "A traversal alone is ambiguous unless it also records where children are missing.",
+  "Do a preorder traversal and write an explicit marker for every empty child. Pick a delimiter between tokens.",
+  "To decode, split on the delimiter and consume tokens in order with a pointer: a marker returns None, otherwise create a node and recursively build its left then its right."
+ ],
+ "kind": "roundtrip",
+ "className": "Codec",
+ "compare": "exact",
+ "roundtrip": {
+  "type": "tree",
+  "encode": "serialize",
+  "decode": "deserialize"
+ },
+ "starterCode": "class Codec:\n\n    # Encodes a tree to a single string.\n    def serialize(self, root: Optional[TreeNode]) -> str:\n        \n\n    # Decodes your encoded data to tree.\n    def deserialize(self, data: str) -> Optional[TreeNode]:\n        ",
+ "tests": [
+  {
+   "input": [
+    1,
+    2,
+    3,
+    null,
+    null,
+    4,
+    5
+   ],
+   "example": true
+  },
+  {
+   "input": [],
+   "example": true
+  },
+  {
+   "input": [
+    1
+   ]
+  },
+  {
+   "input": [
+    1,
+    2
+   ]
+  },
+  {
+   "input": [
+    1,
+    null,
+    2,
+    null,
+    3
+   ]
+  },
+  {
+   "input": [
+    -1,
+    -2,
+    -3
+   ]
+  },
+  {
+   "input": [
+    -1
+   ]
+  },
+  {
+   "input": [
+    1000,
+    -1000,
+    null,
+    0
+   ]
+  },
+  {
+   "input": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ]
+  },
+  {
+   "input": {
+    "$py": "[x for i in range(1,3000) for x in (i,None)]+[3000]"
+   }
+  },
+  {
+   "input": {
+    "$py": "[3000]+[x for i in range(2999,0,-1) for x in (i,None)][:-1]"
+   }
+  },
+  {
+   "input": {
+    "$py": "list(range(1,8192))"
+   }
+  }
+ ],
+ "solution": {
+  "explanation": "Serialize with a preorder DFS, writing each value or a marker such as 'N' for an empty child, joined by commas. Preorder plus null markers determines the tree uniquely. To deserialize, split on commas and consume tokens through an iterator: a marker gives None, otherwise create a node and recursively build its left subtree and then its right subtree. Both directions visit each node once: O(n) time and space.",
+  "code": "class Codec:\n\n    def serialize(self, root: Optional[TreeNode]) -> str:\n        out = []\n\n        def dfs(node):\n            if not node:\n                out.append('N')\n                return\n            out.append(str(node.val))\n            dfs(node.left)\n            dfs(node.right)\n\n        dfs(root)\n        return ','.join(out)\n\n    def deserialize(self, data: str) -> Optional[TreeNode]:\n        it = iter(data.split(','))\n\n        def build():\n            tok = next(it)\n            if tok == 'N':\n                return None\n            node = TreeNode(int(tok))\n            node.left = build()\n            node.right = build()\n            return node\n\n        return build()\n"
+ }
+}

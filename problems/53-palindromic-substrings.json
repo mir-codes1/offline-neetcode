@@ -1,0 +1,109 @@
+{
+  "id": 53,
+  "slug": "palindromic-substrings",
+  "title": "Palindromic Substrings",
+  "difficulty": "Medium",
+  "topic": "1-D Dynamic Programming",
+  "leetcodeUrl": "https://leetcode.com/problems/palindromic-substrings/",
+  "videoUrl": null,
+  "description": "Given a string `s`, count how many of its substrings are palindromes. Substrings that sit at different positions are counted separately even when their text is identical.",
+  "examples": [
+    {
+      "input": "s = \"abc\"",
+      "output": "3",
+      "explanation": "\"a\", \"b\", \"c\"."
+    },
+    {
+      "input": "s = \"aaa\"",
+      "output": "6",
+      "explanation": "\"a\" x3, \"aa\" x2, \"aaa\" x1."
+    }
+  ],
+  "constraints": [
+    "1 <= s.length <= 1000",
+    "s consists of lowercase English letters"
+  ],
+  "topics": [
+    "String",
+    "Dynamic Programming",
+    "Two Pointers"
+  ],
+  "complexity": {
+    "time": "O(n^2)",
+    "space": "O(1)"
+  },
+  "hints": [
+    "Testing every substring costs O(n^3). Can you instead enumerate palindromes by where they are centred?",
+    "Each palindrome has exactly one centre: a character or a gap between two characters.",
+    "Expand from every centre while the ends match, and add one to the total for each successful expansion."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "countSubstrings",
+  "params": [
+    {
+      "name": "s",
+      "type": "str",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "exact",
+  "starterCode": "class Solution:\n    def countSubstrings(self, s: str) -> int:\n        ",
+  "tests": [
+    {
+      "args": [
+        "abc"
+      ],
+      "expected": 3,
+      "example": true
+    },
+    {
+      "args": [
+        "aaa"
+      ],
+      "expected": 6,
+      "example": true
+    },
+    {
+      "args": [
+        "a"
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        "aba"
+      ],
+      "expected": 4
+    },
+    {
+      "args": [
+        "abba"
+      ],
+      "expected": 6
+    },
+    {
+      "args": [
+        "ab"
+      ],
+      "expected": 2
+    },
+    {
+      "args": [
+        "abab"
+      ],
+      "expected": 6
+    },
+    {
+      "args": [
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "expected": 500500
+    }
+  ],
+  "solution": {
+    "explanation": "Every palindrome is determined by its centre, and there are 2n-1 centres. From each one expand outwards while the end characters are equal; each step that succeeds corresponds to one more palindromic substring. Total work is O(n^2) time with O(1) space. For all-equal strings the answer is n(n+1)/2.",
+    "code": "class Solution:\n    def countSubstrings(self, s: str) -> int:\n        n = len(s)\n        count = 0\n        for c in range(2 * n - 1):\n            l, r = c // 2, c // 2 + c % 2\n            while l >= 0 and r < n and s[l] == s[r]:\n                count += 1\n                l -= 1\n                r += 1\n        return count\n"
+  }
+}

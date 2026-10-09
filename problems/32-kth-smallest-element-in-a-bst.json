@@ -1,0 +1,218 @@
+{
+ "id": 32,
+ "slug": "kth-smallest-element-in-a-bst",
+ "title": "Kth Smallest Element in a BST",
+ "difficulty": "Medium",
+ "topic": "Trees",
+ "leetcodeUrl": "https://leetcode.com/problems/kth-smallest-element-in-a-bst/",
+ "videoUrl": null,
+ "description": "Given the root of a binary search tree and an integer `k`, return the `k`-th smallest value (1-indexed) among all node values in the tree.",
+ "examples": [
+  {
+   "input": "root = [3, 1, 4, null, 2], k = 1",
+   "output": "1"
+  },
+  {
+   "input": "root = [5, 3, 6, 2, 4, null, null, 1], k = 3",
+   "output": "3",
+   "explanation": "In sorted order the values are 1, 2, 3, 4, 5, 6."
+  }
+ ],
+ "constraints": [
+  "1 <= k <= number of nodes <= 10^4",
+  "0 <= Node.val <= 10^5"
+ ],
+ "topics": [
+  "Tree",
+  "BST",
+  "DFS"
+ ],
+ "complexity": {
+  "time": "O(h + k)",
+  "space": "O(h)"
+ },
+ "hints": [
+  "What does an in-order traversal of a BST produce?",
+  "You do not need to visit the whole tree; you can stop once you reach the k-th node in order.",
+  "Do an iterative in-order walk with a stack: push the left spine, pop a node and count it, then move to its right child. Return when the count reaches k."
+ ],
+ "kind": "function",
+ "className": "Solution",
+ "compare": "exact",
+ "methodName": "kthSmallest",
+ "params": [
+  {
+   "name": "root",
+   "type": "Optional[TreeNode]",
+   "kind": "tree"
+  },
+  {
+   "name": "k",
+   "type": "int",
+   "kind": "raw"
+  }
+ ],
+ "returns": "raw",
+ "starterCode": "class Solution:\n    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:\n        ",
+ "tests": [
+  {
+   "args": [
+    [
+     3,
+     1,
+     4,
+     null,
+     2
+    ],
+    1
+   ],
+   "expected": 1,
+   "example": true
+  },
+  {
+   "args": [
+    [
+     5,
+     3,
+     6,
+     2,
+     4,
+     null,
+     null,
+     1
+    ],
+    3
+   ],
+   "expected": 3,
+   "example": true
+  },
+  {
+   "args": [
+    [
+     1
+    ],
+    1
+   ],
+   "expected": 1
+  },
+  {
+   "args": [
+    [
+     2,
+     1,
+     3
+    ],
+    3
+   ],
+   "expected": 3
+  },
+  {
+   "args": [
+    [
+     5,
+     3,
+     6,
+     2,
+     4,
+     null,
+     null,
+     1
+    ],
+    6
+   ],
+   "expected": 6
+  },
+  {
+   "args": [
+    [
+     2,
+     1,
+     3
+    ],
+    2
+   ],
+   "expected": 2
+  },
+  {
+   "args": [
+    [
+     4,
+     3,
+     5,
+     2
+    ],
+    4
+   ],
+   "expected": 5
+  },
+  {
+   "args": [
+    [
+     3,
+     1,
+     4,
+     null,
+     2
+    ],
+    4
+   ],
+   "expected": 4
+  },
+  {
+   "args": [
+    [
+     5,
+     3,
+     6,
+     2,
+     4,
+     null,
+     null,
+     1
+    ],
+    1
+   ],
+   "expected": 1
+  },
+  {
+   "args": [
+    {
+     "$py": "[x for i in range(1,3000) for x in (i,None)]+[3000]"
+    },
+    3000
+   ],
+   "expected": 3000
+  },
+  {
+   "args": [
+    {
+     "$py": "[x for i in range(1,3000) for x in (i,None)]+[3000]"
+    },
+    1500
+   ],
+   "expected": 1500
+  },
+  {
+   "args": [
+    {
+     "$py": "[3000]+[x for i in range(2999,0,-1) for x in (i,None)][:-1]"
+    },
+    1
+   ],
+   "expected": 1
+  },
+  {
+   "args": [
+    {
+     "$py": "[3000]+[x for i in range(2999,0,-1) for x in (i,None)][:-1]"
+    },
+    2999
+   ],
+   "expected": 2999
+  }
+ ],
+ "solution": {
+  "explanation": "An in-order traversal of a BST visits values in ascending order. Simulate it iteratively with a stack: go as far left as possible pushing nodes, pop one (that is the next smallest), decrement k, and if k hits 0 return that value; otherwise continue with the popped node's right child. This costs O(h + k) time and O(h) space and stops early.",
+  "code": "class Solution:\n    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:\n        stack = []\n        cur = root\n        while cur or stack:\n            while cur:\n                stack.append(cur)\n                cur = cur.left\n            cur = stack.pop()\n            k -= 1\n            if k == 0:\n                return cur.val\n            cur = cur.right\n"
+ }
+}

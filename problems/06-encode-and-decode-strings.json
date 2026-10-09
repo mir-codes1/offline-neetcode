@@ -1,0 +1,130 @@
+{
+  "id": 6,
+  "slug": "encode-and-decode-strings",
+  "title": "Encode and Decode Strings",
+  "difficulty": "Medium",
+  "topic": "Arrays & Hashing",
+  "leetcodeUrl": "https://leetcode.com/problems/encode-and-decode-strings/",
+  "videoUrl": null,
+  "description": "Write two methods. `encode` turns a list of strings into a single string, and `decode` turns that single string back into the exact original list. The encoded text may be sent over a network, so your format must survive **any** characters inside the strings (including whatever separator you might pick) and must handle empty strings and an empty list.\n\nThe two methods must not rely on shared state; `decode` only receives the string that `encode` produced.",
+  "examples": [
+    {
+      "input": "strs = [\"neet\", \"code\", \"love\", \"you\"]",
+      "output": "[\"neet\", \"code\", \"love\", \"you\"]",
+      "explanation": "decode(encode(strs)) must equal strs."
+    },
+    {
+      "input": "strs = [\"we\", \"say\", \":\", \"yes\"]",
+      "output": "[\"we\", \"say\", \":\", \"yes\"]"
+    }
+  ],
+  "constraints": [
+    "0 <= strs.length <= 1000",
+    "0 <= strs[i].length <= 200",
+    "strs[i] may contain any Unicode characters"
+  ],
+  "topics": [
+    "String",
+    "Design"
+  ],
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(n)"
+  },
+  "hints": [
+    "A single delimiter character fails when a string contains that character. What information could you add that doesn't depend on the contents?",
+    "Put each string's length in front of it. Then you never need to scan inside the string for a boundary.",
+    "Encode each string as `length + '#' + string`. When decoding, read digits up to '#', then take exactly that many characters and continue after them."
+  ],
+  "kind": "roundtrip",
+  "className": "Solution",
+  "roundtrip": {
+    "type": "strlist",
+    "encode": "encode",
+    "decode": "decode"
+  },
+  "starterCode": "class Solution:\n\n    def encode(self, strs: List[str]) -> str:\n        \n\n    def decode(self, s: str) -> List[str]:\n        ",
+  "tests": [
+    {
+      "input": [
+        "neet",
+        "code",
+        "love",
+        "you"
+      ],
+      "example": true
+    },
+    {
+      "input": [
+        "we",
+        "say",
+        ":",
+        "yes"
+      ],
+      "example": true
+    },
+    {
+      "input": [
+        ""
+      ]
+    },
+    {
+      "input": []
+    },
+    {
+      "input": [
+        "a#b",
+        "4#c"
+      ]
+    },
+    {
+      "input": [
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "input": [
+        "3#abc",
+        "#",
+        "##4#"
+      ]
+    },
+    {
+      "input": [
+        "h\u00e9llo",
+        "\u65e5\u672c\u8a9e",
+        "\ud83d\ude42"
+      ]
+    },
+    {
+      "input": [
+        "a\nb",
+        "\t",
+        ", ;"
+      ]
+    },
+    {
+      "input": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "input": {
+        "$py": "['#'+str(i)+'4#' for i in range(10000)]"
+      }
+    },
+    {
+      "input": {
+        "$py": "['x'*199 for _ in range(1000)]"
+      }
+    }
+  ],
+  "solution": {
+    "explanation": "Prefix every string with its length and a '#' marker. Because decode reads the number first, it knows exactly how many characters belong to the string, so any characters inside (including '#' and digits) are harmless. Decoding moves a pointer: find the next '#' from the pointer, parse the length, slice that many characters, and jump past them. Both directions touch each character once, so time and space are O(n) in the total length.",
+    "code": "class Solution:\n\n    def encode(self, strs: List[str]) -> str:\n        return ''.join(str(len(s)) + '#' + s for s in strs)\n\n    def decode(self, s: str) -> List[str]:\n        res = []\n        i = 0\n        while i < len(s):\n            j = s.index('#', i)\n            length = int(s[i:j])\n            res.append(s[j + 1:j + 1 + length])\n            i = j + 1 + length\n        return res\n"
+  }
+}

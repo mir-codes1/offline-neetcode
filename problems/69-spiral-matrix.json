@@ -1,0 +1,287 @@
+{
+ "id": 69,
+ "slug": "spiral-matrix",
+ "title": "Spiral Matrix",
+ "difficulty": "Medium",
+ "topic": "Math & Geometry",
+ "leetcodeUrl": "https://leetcode.com/problems/spiral-matrix/",
+ "videoUrl": null,
+ "description": "Given an `m x n` matrix, return all of its elements in spiral order: start at the top-left, go right along the top row, down the right column, left along the bottom row, up the left column, and keep spiralling inward until every element is listed.",
+ "examples": [
+  {
+   "input": "matrix = [[1,2],[3,4]]",
+   "output": "[1,2,4,3]"
+  },
+  {
+   "input": "matrix = [[1,2,3],[4,5,6],[7,8,9]]",
+   "output": "[1,2,3,6,9,8,7,4,5]"
+  }
+ ],
+ "constraints": [
+  "1 <= m, n <= 10",
+  "-100 <= matrix[i][j] <= 100"
+ ],
+ "topics": [
+  "Array",
+  "Matrix",
+  "Simulation"
+ ],
+ "complexity": {
+  "time": "O(m * n)",
+  "space": "O(1)"
+ },
+ "hints": [
+  "Think of the matrix as concentric rectangles you peel off one at a time.",
+  "Track four boundaries: top, bottom, left, right. After each side is walked, move that boundary inward.",
+  "For non-square grids the boundaries can cross. Re-check top <= bottom and left <= right before walking the bottom row and left column."
+ ],
+ "kind": "function",
+ "className": "Solution",
+ "methodName": "spiralOrder",
+ "params": [
+  {
+   "name": "matrix",
+   "type": "List[List[int]]",
+   "kind": "raw"
+  }
+ ],
+ "returns": "raw",
+ "compare": "exact",
+ "starterCode": "class Solution:\n    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:\n        ",
+ "tests": [
+  {
+   "args": [
+    [
+     [
+      1,
+      2
+     ],
+     [
+      3,
+      4
+     ]
+    ]
+   ],
+   "expected": [
+    1,
+    2,
+    4,
+    3
+   ],
+   "example": true
+  },
+  {
+   "args": [
+    [
+     [
+      1,
+      2,
+      3
+     ],
+     [
+      4,
+      5,
+      6
+     ],
+     [
+      7,
+      8,
+      9
+     ]
+    ]
+   ],
+   "expected": [
+    1,
+    2,
+    3,
+    6,
+    9,
+    8,
+    7,
+    4,
+    5
+   ],
+   "example": true
+  },
+  {
+   "args": [
+    [
+     [
+      1,
+      2,
+      3,
+      4
+     ]
+    ]
+   ],
+   "expected": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "args": [
+    [
+     [
+      1
+     ],
+     [
+      2
+     ],
+     [
+      3
+     ]
+    ]
+   ],
+   "expected": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "args": [
+    [
+     [
+      1
+     ]
+    ]
+   ],
+   "expected": [
+    1
+   ]
+  },
+  {
+   "args": [
+    [
+     [
+      1,
+      2,
+      3,
+      4
+     ],
+     [
+      5,
+      6,
+      7,
+      8
+     ],
+     [
+      9,
+      10,
+      11,
+      12
+     ]
+    ]
+   ],
+   "expected": [
+    1,
+    2,
+    3,
+    4,
+    8,
+    12,
+    11,
+    10,
+    9,
+    5,
+    6,
+    7
+   ]
+  },
+  {
+   "args": [
+    [
+     [
+      1,
+      2,
+      3
+     ],
+     [
+      4,
+      5,
+      6
+     ],
+     [
+      7,
+      8,
+      9
+     ],
+     [
+      10,
+      11,
+      12
+     ]
+    ]
+   ],
+   "expected": [
+    1,
+    2,
+    3,
+    6,
+    9,
+    12,
+    11,
+    10,
+    7,
+    4,
+    5,
+    8
+   ]
+  },
+  {
+   "args": [
+    [
+     [
+      1,
+      2,
+      3,
+      4
+     ],
+     [
+      5,
+      6,
+      7,
+      8
+     ],
+     [
+      9,
+      10,
+      11,
+      12
+     ],
+     [
+      13,
+      14,
+      15,
+      16
+     ]
+    ]
+   ],
+   "expected": [
+    1,
+    2,
+    3,
+    4,
+    8,
+    12,
+    16,
+    15,
+    14,
+    13,
+    9,
+    5,
+    6,
+    7,
+    11,
+    10
+   ]
+  }
+ ],
+ "solution": {
+  "explanation": "Keep four boundaries and peel the matrix layer by layer. Walk the top row left to right and move top down, walk the right column and move right in, then, only if rows remain, walk the bottom row right to left, and, only if columns remain, walk the left column bottom to top. The extra checks prevent double-counting on a single row or column. Each cell is visited once: O(m*n) time, O(1) extra space beyond the output.",
+  "code": "class Solution:\n    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:\n        res = []\n        top, bottom = 0, len(matrix) - 1\n        left, right = 0, len(matrix[0]) - 1\n        while top <= bottom and left <= right:\n            for j in range(left, right + 1):\n                res.append(matrix[top][j])\n            top += 1\n            for i in range(top, bottom + 1):\n                res.append(matrix[i][right])\n            right -= 1\n            if top <= bottom:\n                for j in range(right, left - 1, -1):\n                    res.append(matrix[bottom][j])\n                bottom -= 1\n            if left <= right:\n                for i in range(bottom, top - 1, -1):\n                    res.append(matrix[i][left])\n                left += 1\n        return res\n"
+ }
+}

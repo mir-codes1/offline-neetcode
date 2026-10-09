@@ -1,0 +1,142 @@
+{
+  "id": 16,
+  "slug": "valid-parentheses",
+  "title": "Valid Parentheses",
+  "difficulty": "Easy",
+  "topic": "Stack",
+  "leetcodeUrl": "https://leetcode.com/problems/valid-parentheses/",
+  "videoUrl": null,
+  "description": "Given a string `s` made only of the characters `(`, `)`, `{`, `}`, `[` and `]`, return `true` if it is valid. A string is valid when every opening bracket is closed by the same type of bracket and brackets close in the correct order (each closer matches the most recent unclosed opener).",
+  "examples": [
+    {
+      "input": "s = \"[]\"",
+      "output": "true"
+    },
+    {
+      "input": "s = \"[(])\"",
+      "output": "false",
+      "explanation": "The ] arrives while ( is the most recent open bracket."
+    }
+  ],
+  "constraints": [
+    "1 <= s.length <= 1000"
+  ],
+  "topics": [
+    "String",
+    "Stack"
+  ],
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(n)"
+  },
+  "hints": [
+    "The most recently opened bracket must be the first one closed. Which structure gives last-in, first-out?",
+    "Push each opener. On a closer, compare it with what is on top of that structure.",
+    "If a closer arrives when the stack is empty or the top does not match, return false. At the end the stack must be empty."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "isValid",
+  "params": [
+    {
+      "name": "s",
+      "type": "str",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "exact",
+  "starterCode": "class Solution:\n    def isValid(self, s: str) -> bool:\n        ",
+  "tests": [
+    {
+      "args": [
+        "[]"
+      ],
+      "expected": true,
+      "example": true
+    },
+    {
+      "args": [
+        "[(])"
+      ],
+      "expected": false,
+      "example": true
+    },
+    {
+      "args": [
+        "([{}])"
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        "(("
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        "]"
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        "()[]{}"
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        "([)]"
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        "{[]}"
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        "("
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        ")("
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        {
+          "$py": "'(' * 50000 + ')' * 50000"
+        }
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        {
+          "$py": "'([{' * 20000 + '}])' * 20000"
+        }
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        {
+          "$py": "'(' * 100000"
+        }
+      ],
+      "expected": false
+    }
+  ],
+  "solution": {
+    "explanation": "Use a stack. Push every opening bracket. For a closing bracket, the stack must be non-empty and its top must be the matching opener, which is then popped; otherwise the string is invalid. After the scan the stack must be empty or some opener was never closed. One pass: O(n) time and O(n) space.",
+    "code": "class Solution:\n    def isValid(self, s: str) -> bool:\n        pairs = {')': '(', ']': '[', '}': '{'}\n        stack = []\n        for c in s:\n            if c in pairs:\n                if not stack or stack[-1] != pairs[c]:\n                    return False\n                stack.pop()\n            else:\n                stack.append(c)\n        return not stack\n"
+  }
+}

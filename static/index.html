@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neet75 Offline</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232cbb5d'/%3E%3Cpath d='M9 17l5 5 9-11' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/app.css">
+<script src="/common.js"></script>
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="/"><span class="dot"></span>Neet75 Offline</a>
+  <span class="spacer"></span>
+  <button class="icon-btn" data-theme-toggle title="Toggle theme" id="themebtn"></button>
+</header>
+<div class="page">
+  <main>
+    <section class="card hero">
+      <div>
+        <h1>Blind 75<span>.</span></h1>
+        <p>The Blind 75 is a popular list of algorithm practice problems. Everything here runs locally, no internet needed.</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="lbl"><span id="i-ok"></span> Solved</div><div class="val" id="solvedC">0/75</div></div>
+        <div class="stat"><div class="lbl"><span id="i-star"></span> Starred</div><div class="val" id="starC">0</div></div>
+      </div>
+    </section>
+    <div class="toolbar">
+      <label class="search"><span id="i-search"></span><input id="q" type="search" placeholder="Search problems" autocomplete="off"></label>
+      <select id="fDiff" title="Difficulty"><option value="">All difficulties</option><option>Easy</option><option>Medium</option><option>Hard</option></select>
+      <select id="fStatus" title="Status"><option value="">Any status</option><option value="solved">Solved</option><option value="todo">Unsolved</option></select>
+      <select id="fStar" title="Starred"><option value="">Starred or not</option><option value="1">Starred only</option></select>
+      <button class="icon-btn" id="rand" title="Random problem"></button>
+      <button class="icon-btn" id="reset" title="Reset progress"></button>
+    </div>
+    <div id="sections"></div>
+  </main>
+  <aside class="card side">
+    <h3>Blind 75</h3>
+    <div class="ringwrap">
+      <div class="diffrows" id="diffrows"></div>
+      <div class="ring" id="ring"></div>
+    </div>
+  </aside>
+</div>
+<script src="/list.js"></script>
+</body>
+</html>

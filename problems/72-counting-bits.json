@@ -1,0 +1,159 @@
+{
+ "id": 72,
+ "slug": "counting-bits",
+ "title": "Counting Bits",
+ "difficulty": "Easy",
+ "topic": "Bit Manipulation",
+ "leetcodeUrl": "https://leetcode.com/problems/counting-bits/",
+ "videoUrl": null,
+ "description": "Given an integer `n`, return an array `ans` of length `n + 1` where `ans[i]` is the number of `1` bits in the binary representation of `i`. A solution that runs in O(n) total time is possible.",
+ "examples": [
+  {
+   "input": "n = 4",
+   "output": "[0,1,1,2,1]"
+  },
+  {
+   "input": "n = 5",
+   "output": "[0,1,1,2,1,2]"
+  }
+ ],
+ "constraints": [
+  "0 <= n <= 1000"
+ ],
+ "topics": [
+  "Dynamic Programming",
+  "Bit Manipulation"
+ ],
+ "complexity": {
+  "time": "O(n)",
+  "space": "O(n)"
+ },
+ "hints": [
+  "Counting bits separately for each i is O(n log n). Can an answer you already computed help with the next one?",
+  "Shifting i right by one drops its last bit, giving a smaller number you have already counted.",
+  "ans[i] = ans[i >> 1] + (i & 1)."
+ ],
+ "kind": "function",
+ "className": "Solution",
+ "methodName": "countBits",
+ "params": [
+  {
+   "name": "n",
+   "type": "int",
+   "kind": "raw"
+  }
+ ],
+ "returns": "raw",
+ "compare": "exact",
+ "starterCode": "class Solution:\n    def countBits(self, n: int) -> List[int]:\n        ",
+ "tests": [
+  {
+   "args": [
+    4
+   ],
+   "expected": [
+    0,
+    1,
+    1,
+    2,
+    1
+   ],
+   "example": true
+  },
+  {
+   "args": [
+    5
+   ],
+   "expected": [
+    0,
+    1,
+    1,
+    2,
+    1,
+    2
+   ],
+   "example": true
+  },
+  {
+   "args": [
+    0
+   ],
+   "expected": [
+    0
+   ]
+  },
+  {
+   "args": [
+    1
+   ],
+   "expected": [
+    0,
+    1
+   ]
+  },
+  {
+   "args": [
+    2
+   ],
+   "expected": [
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "args": [
+    8
+   ],
+   "expected": [
+    0,
+    1,
+    1,
+    2,
+    1,
+    2,
+    2,
+    3,
+    1
+   ]
+  },
+  {
+   "args": [
+    16
+   ],
+   "expected": [
+    0,
+    1,
+    1,
+    2,
+    1,
+    2,
+    2,
+    3,
+    1,
+    2,
+    2,
+    3,
+    2,
+    3,
+    3,
+    4,
+    1
+   ]
+  },
+  {
+   "args": [
+    {
+     "$py": "100000"
+    }
+   ],
+   "expected": {
+    "$py": "[sum((i>>k)&1 for k in range(17)) for i in range(100001)]"
+   }
+  }
+ ],
+ "solution": {
+  "explanation": "Use dynamic programming over the numbers. The binary form of i is the binary form of i >> 1 plus one more last bit, so ans[i] = ans[i >> 1] + (i & 1), with ans[0] = 0. Each value is derived from a smaller one in constant time, giving O(n) time and O(n) space for the output.",
+  "code": "class Solution:\n    def countBits(self, n: int) -> List[int]:\n        ans = [0] * (n + 1)\n        for i in range(1, n + 1):\n            ans[i] = ans[i >> 1] + (i & 1)\n        return ans\n"
+ }
+}

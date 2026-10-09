@@ -1,0 +1,222 @@
+{
+ "id": 67,
+ "slug": "meeting-rooms-ii",
+ "title": "Meeting Rooms II",
+ "difficulty": "Medium",
+ "topic": "Intervals",
+ "leetcodeUrl": "https://leetcode.com/problems/meeting-rooms-ii/",
+ "videoUrl": null,
+ "description": "Given a list of meeting `Interval` objects, return the minimum number of conference rooms needed so that every meeting gets a room. Overlapping meetings need separate rooms; a meeting ending at time `t` and another starting at `t` may share a room.",
+ "examples": [
+  {
+   "input": "intervals = [(0,40),(5,10),(15,20)]",
+   "output": "2"
+  },
+  {
+   "input": "intervals = [(4,9)]",
+   "output": "1"
+  }
+ ],
+ "constraints": [
+  "0 <= intervals.length <= 500",
+  "0 <= start < end <= 1,000,000"
+ ],
+ "topics": [
+  "Array",
+  "Heap",
+  "Two Pointers",
+  "Sorting"
+ ],
+ "complexity": {
+  "time": "O(n log n)",
+  "space": "O(n)"
+ },
+ "hints": [
+  "The answer is the largest number of meetings happening at the same moment.",
+  "Consider the start times and end times as two separately sorted lists.",
+  "Sweep the starts; each time a start occurs before the earliest unfinished end, you need a new room, otherwise a room frees up and you advance the end pointer."
+ ],
+ "kind": "function",
+ "className": "Solution",
+ "methodName": "minMeetingRooms",
+ "params": [
+  {
+   "name": "intervals",
+   "type": "List[Interval]",
+   "kind": "intervals"
+  }
+ ],
+ "returns": "raw",
+ "compare": "exact",
+ "starterCode": "\"\"\"\nDefinition of Interval:\nclass Interval(object):\n    def __init__(self, start, end):\n        self.start = start\n        self.end = end\n\"\"\"\n\nclass Solution:\n    def minMeetingRooms(self, intervals: List[Interval]) -> int:\n        ",
+ "tests": [
+  {
+   "args": [
+    [
+     [
+      0,
+      40
+     ],
+     [
+      5,
+      10
+     ],
+     [
+      15,
+      20
+     ]
+    ]
+   ],
+   "expected": 2,
+   "example": true
+  },
+  {
+   "args": [
+    [
+     [
+      4,
+      9
+     ]
+    ]
+   ],
+   "expected": 1,
+   "example": true
+  },
+  {
+   "args": [
+    [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      6
+     ],
+     [
+      3,
+      7
+     ]
+    ]
+   ],
+   "expected": 3
+  },
+  {
+   "args": [
+    [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ]
+   ],
+   "expected": 1
+  },
+  {
+   "args": [
+    []
+   ],
+   "expected": 0
+  },
+  {
+   "args": [
+    [
+     [
+      0,
+      30
+     ],
+     [
+      5,
+      10
+     ],
+     [
+      15,
+      20
+     ]
+    ]
+   ],
+   "expected": 2
+  },
+  {
+   "args": [
+    [
+     [
+      7,
+      10
+     ],
+     [
+      2,
+      4
+     ]
+    ]
+   ],
+   "expected": 1
+  },
+  {
+   "args": [
+    [
+     [
+      1,
+      10
+     ],
+     [
+      2,
+      9
+     ],
+     [
+      3,
+      8
+     ]
+    ]
+   ],
+   "expected": 3
+  },
+  {
+   "args": [
+    [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      6
+     ],
+     [
+      4,
+      7
+     ]
+    ]
+   ],
+   "expected": 2
+  },
+  {
+   "args": [
+    {
+     "$py": "[[i,i+3] for i in range(100000)][::-1]"
+    }
+   ],
+   "expected": 3
+  },
+  {
+   "args": [
+    {
+     "$py": "[[i,100000+i+1] for i in range(100000)]"
+    }
+   ],
+   "expected": 100000
+  }
+ ],
+ "solution": {
+  "explanation": "The number of rooms equals the maximum overlap. Sort start times and end times separately and use two pointers: for each start, if it is before the earliest unmatched end, a new room is needed (count grows); otherwise a meeting has finished and its room is reused (end pointer advances). Track the maximum count. Sorting gives O(n log n) time and O(n) space; a min-heap of end times works equally well.",
+  "code": "class Solution:\n    def minMeetingRooms(self, intervals: List[Interval]) -> int:\n        starts = sorted(i.start for i in intervals)\n        ends = sorted(i.end for i in intervals)\n        res = cur = 0\n        e = 0\n        for s in starts:\n            if s < ends[e]:\n                cur += 1\n            else:\n                e += 1\n            res = max(res, cur)\n        return res\n"
+ }
+}

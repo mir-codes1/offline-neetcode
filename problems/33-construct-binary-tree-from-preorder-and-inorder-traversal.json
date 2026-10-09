@@ -1,0 +1,277 @@
+{
+ "id": 33,
+ "slug": "construct-binary-tree-from-preorder-and-inorder-traversal",
+ "title": "Construct Binary Tree From Preorder And Inorder Traversal",
+ "difficulty": "Medium",
+ "topic": "Trees",
+ "leetcodeUrl": "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/",
+ "videoUrl": null,
+ "description": "You are given the preorder and inorder traversals of a binary tree whose values are all unique. Rebuild the tree and return its root.",
+ "examples": [
+  {
+   "input": "preorder = [3, 9, 20, 15, 7], inorder = [9, 3, 15, 20, 7]",
+   "output": "[3, 9, 20, null, null, 15, 7]"
+  },
+  {
+   "input": "preorder = [-1], inorder = [-1]",
+   "output": "[-1]"
+  }
+ ],
+ "constraints": [
+  "1 <= preorder.length <= 3000",
+  "inorder.length == preorder.length",
+  "-3000 <= preorder[i], inorder[i] <= 3000",
+  "All values are unique and both arrays describe the same tree"
+ ],
+ "topics": [
+  "Tree",
+  "Divide and Conquer",
+  "Hash Map"
+ ],
+ "complexity": {
+  "time": "O(n)",
+  "space": "O(n)"
+ },
+ "hints": [
+  "Which element of the preorder array is always the root?",
+  "Find that root in the inorder array: everything to its left is the left subtree, everything to its right is the right subtree.",
+  "Look up root positions in a value -> index map. Consume preorder with a moving pointer, building left before right, and pass inorder bounds instead of slicing."
+ ],
+ "kind": "function",
+ "className": "Solution",
+ "compare": "exact",
+ "methodName": "buildTree",
+ "params": [
+  {
+   "name": "preorder",
+   "type": "List[int]",
+   "kind": "raw"
+  },
+  {
+   "name": "inorder",
+   "type": "List[int]",
+   "kind": "raw"
+  }
+ ],
+ "returns": "tree",
+ "starterCode": "class Solution:\n    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:\n        ",
+ "tests": [
+  {
+   "args": [
+    [
+     3,
+     9,
+     20,
+     15,
+     7
+    ],
+    [
+     9,
+     3,
+     15,
+     20,
+     7
+    ]
+   ],
+   "expected": [
+    3,
+    9,
+    20,
+    null,
+    null,
+    15,
+    7
+   ],
+   "example": true
+  },
+  {
+   "args": [
+    [
+     -1
+    ],
+    [
+     -1
+    ]
+   ],
+   "expected": [
+    -1
+   ],
+   "example": true
+  },
+  {
+   "args": [
+    [
+     1,
+     2
+    ],
+    [
+     2,
+     1
+    ]
+   ],
+   "expected": [
+    1,
+    2
+   ]
+  },
+  {
+   "args": [
+    [
+     1,
+     2
+    ],
+    [
+     1,
+     2
+    ]
+   ],
+   "expected": [
+    1,
+    null,
+    2
+   ]
+  },
+  {
+   "args": [
+    [
+     1,
+     2,
+     3
+    ],
+    [
+     2,
+     1,
+     3
+    ]
+   ],
+   "expected": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "args": [
+    [
+     1,
+     2,
+     3,
+     4
+    ],
+    [
+     2,
+     1,
+     3,
+     4
+    ]
+   ],
+   "expected": [
+    1,
+    2,
+    3,
+    null,
+    null,
+    null,
+    4
+   ]
+  },
+  {
+   "args": [
+    [
+     1,
+     2,
+     3
+    ],
+    [
+     3,
+     2,
+     1
+    ]
+   ],
+   "expected": [
+    1,
+    2,
+    null,
+    3
+   ]
+  },
+  {
+   "args": [
+    [
+     1,
+     2,
+     3
+    ],
+    [
+     1,
+     3,
+     2
+    ]
+   ],
+   "expected": [
+    1,
+    null,
+    2,
+    3
+   ]
+  },
+  {
+   "args": [
+    [
+     1,
+     2,
+     4,
+     5,
+     3,
+     6
+    ],
+    [
+     4,
+     2,
+     5,
+     1,
+     6,
+     3
+    ]
+   ],
+   "expected": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "args": [
+    {
+     "$py": "list(range(1,3001))"
+    },
+    {
+     "$py": "list(range(1,3001))"
+    }
+   ],
+   "expected": {
+    "$py": "[x for i in range(1,3000) for x in (i,None)]+[3000]"
+   }
+  },
+  {
+   "args": [
+    {
+     "$py": "list(range(3000,0,-1))"
+    },
+    {
+     "$py": "list(range(1,3001))"
+    }
+   ],
+   "expected": {
+    "$py": "[3000]+[x for i in range(2999,0,-1) for x in (i,None)][:-1]"
+   }
+  }
+ ],
+ "solution": {
+  "explanation": "The first preorder value is the root. Its position in the inorder array splits the remaining values into the left subtree (before it) and the right subtree (after it). Precompute a value -> inorder index map, keep a pointer into preorder, and recursively build the left subtree then the right subtree over inorder index ranges, so no slicing is needed. Each node is created once: O(n) time, O(n) space for the map and recursion.",
+  "code": "class Solution:\n    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:\n        idx = {v: i for i, v in enumerate(inorder)}\n        self.pre = 0\n\n        def build(lo, hi):\n            if lo > hi:\n                return None\n            val = preorder[self.pre]\n            self.pre += 1\n            node = TreeNode(val)\n            mid = idx[val]\n            node.left = build(lo, mid - 1)\n            node.right = build(mid + 1, hi)\n            return node\n\n        return build(0, len(inorder) - 1)\n"
+ }
+}

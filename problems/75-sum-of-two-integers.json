@@ -1,0 +1,139 @@
+{
+ "id": 75,
+ "slug": "sum-of-two-integers",
+ "title": "Sum of Two Integers",
+ "difficulty": "Medium",
+ "topic": "Bit Manipulation",
+ "leetcodeUrl": "https://leetcode.com/problems/sum-of-two-integers/",
+ "videoUrl": null,
+ "description": "Given two integers `a` and `b`, return their sum **without using the `+` or `-` operators**. Negative numbers must be handled correctly.",
+ "examples": [
+  {
+   "input": "a = 1, b = 1",
+   "output": "2"
+  },
+  {
+   "input": "a = 4, b = 7",
+   "output": "11"
+  }
+ ],
+ "constraints": [
+  "-1000 <= a, b <= 1000"
+ ],
+ "topics": [
+  "Bit Manipulation",
+  "Math"
+ ],
+ "complexity": {
+  "time": "O(1)",
+  "space": "O(1)"
+ },
+ "hints": [
+  "Add two bits by hand: which bitwise operation gives the digit, and which gives the carry?",
+  "a ^ b is the sum ignoring carries; (a & b) << 1 is the carries. Add those two the same way until no carry is left.",
+  "Python integers never overflow, so negative numbers would loop forever. Mask to 32 bits with 0xFFFFFFFF each step, and at the end convert values above 0x7FFFFFFF back to negative."
+ ],
+ "kind": "function",
+ "className": "Solution",
+ "methodName": "getSum",
+ "params": [
+  {
+   "name": "a",
+   "type": "int",
+   "kind": "raw"
+  },
+  {
+   "name": "b",
+   "type": "int",
+   "kind": "raw"
+  }
+ ],
+ "returns": "raw",
+ "compare": "exact",
+ "starterCode": "class Solution:\n    def getSum(self, a: int, b: int) -> int:\n        ",
+ "tests": [
+  {
+   "args": [
+    1,
+    1
+   ],
+   "expected": 2,
+   "example": true
+  },
+  {
+   "args": [
+    4,
+    7
+   ],
+   "expected": 11,
+   "example": true
+  },
+  {
+   "args": [
+    -1,
+    1
+   ],
+   "expected": 0
+  },
+  {
+   "args": [
+    -2,
+    3
+   ],
+   "expected": 1
+  },
+  {
+   "args": [
+    0,
+    0
+   ],
+   "expected": 0
+  },
+  {
+   "args": [
+    -7,
+    -8
+   ],
+   "expected": -15
+  },
+  {
+   "args": [
+    -1000,
+    -1000
+   ],
+   "expected": -2000
+  },
+  {
+   "args": [
+    1000,
+    1000
+   ],
+   "expected": 2000
+  },
+  {
+   "args": [
+    -1000,
+    1000
+   ],
+   "expected": 0
+  },
+  {
+   "args": [
+    123,
+    -456
+   ],
+   "expected": -333
+  },
+  {
+   "args": [
+    -5,
+    3
+   ],
+   "expected": -2
+  }
+ ],
+ "solution": {
+  "explanation": "XOR adds two numbers ignoring carries, and (a & b) << 1 produces the carries; repeat with the new pair until the carry is zero. Python ints are unbounded, so a negative carry would keep shifting forever. The 32-bit mask trick fixes this: AND both values with 0xFFFFFFFF on every step to emulate 32-bit two's complement, and at the end, if the result exceeds 0x7FFFFFFF, convert it back to negative with ~(a ^ mask). The loop runs at most 32 times, so time and space are O(1).",
+  "code": "class Solution:\n    def getSum(self, a: int, b: int) -> int:\n        mask = 0xFFFFFFFF\n        max_int = 0x7FFFFFFF\n        while b != 0:\n            carry = ((a & b) << 1) & mask\n            a = (a ^ b) & mask\n            b = carry\n        return a if a <= max_int else ~(a ^ mask)\n"
+ }
+}

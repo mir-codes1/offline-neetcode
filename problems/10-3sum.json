@@ -1,0 +1,227 @@
+{
+  "id": 10,
+  "slug": "3sum",
+  "title": "3Sum",
+  "difficulty": "Medium",
+  "topic": "Two Pointers",
+  "leetcodeUrl": "https://leetcode.com/problems/3sum/",
+  "videoUrl": null,
+  "description": "Given an integer array `nums`, return every distinct triplet `[nums[i], nums[j], nums[k]]` where `i`, `j`, `k` are all different indices and the three values sum to `0`. The result must not contain the same triplet twice. The order of triplets, and of numbers within a triplet, does not matter.",
+  "examples": [
+    {
+      "input": "nums = [-1, 0, 1, 2, -1, -4]",
+      "output": "[[-1, -1, 2], [-1, 0, 1]]"
+    },
+    {
+      "input": "nums = [0, 1, 1]",
+      "output": "[]",
+      "explanation": "No three values sum to zero."
+    }
+  ],
+  "constraints": [
+    "3 <= nums.length <= 1000",
+    "-10^5 <= nums[i] <= 10^5"
+  ],
+  "topics": [
+    "Array",
+    "Two Pointers",
+    "Sorting"
+  ],
+  "complexity": {
+    "time": "O(n^2)",
+    "space": "O(1) extra"
+  },
+  "hints": [
+    "Trying all triples is O(n^3). If the array is sorted, fixing one number reduces the rest to a two-sum problem.",
+    "After sorting, fix nums[i] and use two pointers l = i+1, r = end to look for a pair summing to -nums[i].",
+    "Move l up if the sum is too small, r down if too large. After recording a hit, and for each fixed i, skip repeated values so no triplet repeats."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "threeSum",
+  "params": [
+    {
+      "name": "nums",
+      "type": "List[int]",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "sorted_nested",
+  "starterCode": "class Solution:\n    def threeSum(self, nums: List[int]) -> List[List[int]]:\n        ",
+  "tests": [
+    {
+      "args": [
+        [
+          -1,
+          0,
+          1,
+          2,
+          -1,
+          -4
+        ]
+      ],
+      "expected": [
+        [
+          -1,
+          -1,
+          2
+        ],
+        [
+          -1,
+          0,
+          1
+        ]
+      ],
+      "example": true
+    },
+    {
+      "args": [
+        [
+          0,
+          1,
+          1
+        ]
+      ],
+      "expected": [],
+      "example": true
+    },
+    {
+      "args": [
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "expected": [
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "expected": [
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          -2,
+          0,
+          1,
+          1,
+          2
+        ]
+      ],
+      "expected": [
+        [
+          -2,
+          0,
+          2
+        ],
+        [
+          -2,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "args": [
+        [
+          -1,
+          -1,
+          -1,
+          2,
+          2
+        ]
+      ],
+      "expected": [
+        [
+          -1,
+          -1,
+          2
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          3,
+          -2,
+          1,
+          0
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "args": [
+        [
+          -100000,
+          0,
+          100000
+        ]
+      ],
+      "expected": [
+        [
+          -100000,
+          0,
+          100000
+        ]
+      ]
+    },
+    {
+      "args": [
+        {
+          "$py": "[0] * 1000"
+        }
+      ],
+      "expected": [
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "args": [
+        {
+          "$py": "list(range(1, 1001))"
+        }
+      ],
+      "expected": []
+    }
+  ],
+  "solution": {
+    "explanation": "Sort the array, then fix each element nums[i] as the smallest of the triplet and search the suffix after it with two pointers for a pair that sums to -nums[i]. A sum that is too small moves the left pointer right, too large moves the right pointer left. To avoid duplicates, skip an i equal to the previous value and, after a hit, advance past equal left values. Sorting is O(n log n) and the double loop is O(n^2), so time is O(n^2) with O(1) extra space beyond the output.",
+    "code": "class Solution:\n    def threeSum(self, nums: List[int]) -> List[List[int]]:\n        nums.sort()\n        res = []\n        for i in range(len(nums) - 2):\n            if nums[i] > 0:\n                break\n            if i > 0 and nums[i] == nums[i - 1]:\n                continue\n            l, r = i + 1, len(nums) - 1\n            while l < r:\n                s = nums[i] + nums[l] + nums[r]\n                if s < 0:\n                    l += 1\n                elif s > 0:\n                    r -= 1\n                else:\n                    res.append([nums[i], nums[l], nums[r]])\n                    l += 1\n                    while l < r and nums[l] == nums[l - 1]:\n                        l += 1\n        return res\n"
+  }
+}

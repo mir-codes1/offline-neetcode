@@ -1,0 +1,105 @@
+{
+ "id": 73,
+ "slug": "reverse-bits",
+ "title": "Reverse Bits",
+ "difficulty": "Easy",
+ "topic": "Bit Manipulation",
+ "leetcodeUrl": "https://leetcode.com/problems/reverse-bits/",
+ "videoUrl": null,
+ "description": "Given a 32-bit unsigned integer `n`, reverse the order of its 32 bits and return the result as an unsigned integer. Always treat the value as exactly 32 bits, including leading zeros.",
+ "examples": [
+  {
+   "input": "n = 21",
+   "output": "2818572288",
+   "explanation": "21 is 000...010101; reversed it is 10101000...000."
+  },
+  {
+   "input": "n = 43261596",
+   "output": "964176192"
+  }
+ ],
+ "constraints": [
+  "0 <= n <= 2^32 - 1"
+ ],
+ "topics": [
+  "Bit Manipulation"
+ ],
+ "complexity": {
+  "time": "O(1)",
+  "space": "O(1)"
+ },
+ "hints": [
+  "Build the answer one bit at a time, from the lowest bit of n to the highest.",
+  "The lowest bit of n should become the highest bit of the answer, so shift the result left as you go.",
+  "Repeat exactly 32 times: res = (res << 1) | (n & 1), then n >>= 1."
+ ],
+ "kind": "function",
+ "className": "Solution",
+ "methodName": "reverseBits",
+ "params": [
+  {
+   "name": "n",
+   "type": "int",
+   "kind": "raw"
+  }
+ ],
+ "returns": "raw",
+ "compare": "exact",
+ "starterCode": "class Solution:\n    def reverseBits(self, n: int) -> int:\n        ",
+ "tests": [
+  {
+   "args": [
+    21
+   ],
+   "expected": 2818572288,
+   "example": true
+  },
+  {
+   "args": [
+    43261596
+   ],
+   "expected": 964176192,
+   "example": true
+  },
+  {
+   "args": [
+    1
+   ],
+   "expected": 2147483648
+  },
+  {
+   "args": [
+    0
+   ],
+   "expected": 0
+  },
+  {
+   "args": [
+    2147483648
+   ],
+   "expected": 1
+  },
+  {
+   "args": [
+    4294967293
+   ],
+   "expected": 3221225471
+  },
+  {
+   "args": [
+    4294967295
+   ],
+   "expected": 4294967295
+  },
+  {
+   "args": [
+    2
+   ],
+   "expected": 1073741824
+  }
+ ],
+ "solution": {
+  "explanation": "Loop exactly 32 times. In each step shift the result left by one, append the lowest bit of n using OR with n & 1, then shift n right. After 32 steps the first bit read (the least significant) sits in the most significant position. Because the number of iterations is fixed, time and space are O(1). Looping a fixed 32 times is what keeps leading zeros correct.",
+  "code": "class Solution:\n    def reverseBits(self, n: int) -> int:\n        res = 0\n        for _ in range(32):\n            res = (res << 1) | (n & 1)\n            n >>= 1\n        return res\n"
+ }
+}

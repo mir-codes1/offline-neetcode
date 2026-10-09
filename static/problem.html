@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Problem - Neet75 Offline</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232cbb5d'/%3E%3Cpath d='M9 17l5 5 9-11' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/app.css">
+<script src="/common.js"></script>
+</head>
+<body class="prob">
+<header class="top">
+  <a class="icon-btn" href="/" title="Back to problem list" id="backBtn"></a>
+  <a class="title" href="/">Blind 75</a>
+  <span class="num" id="pnum"></span>
+  <a class="icon-btn" id="prevBtn" title="Previous problem"></a>
+  <a class="icon-btn" id="nextBtn" title="Next problem"></a>
+  <span class="spacer"></span>
+  <button class="icon-btn" data-theme-toggle title="Toggle theme" id="themebtn"></button>
+</header>
+<div class="main" id="main">
+  <section class="pane" id="left">
+    <div class="tabs" id="ltabs">
+      <button class="tab active" data-t="question"></button>
+      <button class="tab" data-t="solution"></button>
+      <button class="tab" data-t="subs"></button>
+    </div>
+    <div class="tabbody" id="lbody"><div class="empty"><span class="spin"></span>Loading...</div></div>
+  </section>
+  <div class="vsplit" id="vsplit"></div>
+  <section class="pane" id="right">
+    <div class="ehead">
+      <span class="lang">Python</span>
+      <span class="sol1">Solution 1</span>
+      <span class="state" id="saveState"></span>
+      <button class="icon-btn" id="resetCode" title="Reset to starter code"></button>
+      <span class="pos" id="pos">Ln 1, Col 1</span>
+    </div>
+    <div id="editor"><div class="loadmsg">Loading editor...</div></div>
+    <div class="hsplit" id="hsplit"></div>
+    <div id="console" class="collapsed">
+      <div class="ctabs">
+        <button class="tab active" data-c="case"></button>
+        <button class="tab" data-c="out"></button>
+      </div>
+      <div class="cbody" id="cbody"></div>
+    </div>
+    <div class="cfoot">
+      <button class="conbtn" id="conBtn">Console <span id="conChev"></span></button>
+      <span class="spacer"></span>
+      <button class="btn" id="runBtn" title="Ctrl/Cmd + Enter">Run</button>
+      <button class="btn green" id="subBtn" title="Ctrl/Cmd + '">Submit</button>
+    </div>
+  </section>
+</div>
+<script src="/vendor/monaco/vs/loader.js"></script>
+<script src="/pytheme.js"></script>
+<script src="/problem.js"></script>
+</body>
+</html>

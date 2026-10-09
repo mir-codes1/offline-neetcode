@@ -1,0 +1,194 @@
+{
+ "id": 48,
+ "slug": "alien-dictionary",
+ "title": "Alien Dictionary",
+ "difficulty": "Hard",
+ "topic": "Advanced Graphs",
+ "leetcodeUrl": "https://leetcode.com/problems/alien-dictionary/",
+ "videoUrl": null,
+ "description": "A language uses the lowercase Latin letters but in an unknown order. You receive `words`, a list that is **sorted lexicographically** according to that unknown alphabet.\n\nReturn a string containing every letter that appears in `words`, arranged in an order consistent with the sorting. If more than one order works, return any of them. If the list cannot be sorted under any alphabet (for example it contradicts itself, or a longer word precedes its own prefix), return an empty string `\"\"`.",
+ "examples": [
+  {
+   "input": "words = [\"z\",\"x\"]",
+   "output": "\"zx\""
+  },
+  {
+   "input": "words = [\"wrt\",\"wrf\",\"er\",\"ett\",\"rftt\"]",
+   "output": "\"wertf\"",
+   "explanation": "The first differing letters give t<f, w<e, r<t, e<r."
+  },
+  {
+   "input": "words = [\"z\",\"x\",\"z\"]",
+   "output": "\"\"",
+   "explanation": "z<x and x<z contradict."
+  }
+ ],
+ "constraints": [
+  "1 <= words.length <= 100",
+  "1 <= words[i].length <= 100",
+  "words[i] contains lowercase letters only"
+ ],
+ "topics": [
+  "Graph",
+  "Topological Sort"
+ ],
+ "complexity": {
+  "time": "O(total characters)",
+  "space": "O(1) (at most 26 letters, 26^2 edges)"
+ },
+ "hints": [
+  "Only the first position where two neighbouring words differ tells you anything about letter order.",
+  "Each such pair gives a directed edge a -> b. Make every letter that appears a node, even if it has no edges.",
+  "Topologically sort the letters. If a cycle blocks some letters, return \"\". Also watch for a longer word directly before its own prefix, which is impossible."
+ ],
+ "kind": "function",
+ "className": "Solution",
+ "methodName": "foreignDictionary",
+ "params": [
+  {
+   "name": "words",
+   "type": "List[str]",
+   "kind": "raw"
+  }
+ ],
+ "returns": "raw",
+ "starterCode": "class Solution:\n    def foreignDictionary(self, words: List[str]) -> str:\n        ",
+ "compare": "validator",
+ "validator": "def validate(args, got):\n    words = args[0]\n    letters = set(''.join(words))\n    edges = {c: set() for c in letters}\n    ok = True\n    for a, b in zip(words, words[1:]):\n        for x, y in zip(a, b):\n            if x != y:\n                edges[x].add(y)\n                break\n        else:\n            if len(a) > len(b):\n                ok = False\n    if ok:\n        indeg = {c: 0 for c in letters}\n        for u in edges:\n            for v in edges[u]:\n                indeg[v] += 1\n        stack = [c for c in letters if indeg[c] == 0]\n        seen = 0\n        while stack:\n            u = stack.pop()\n            seen += 1\n            for v in edges[u]:\n                indeg[v] -= 1\n                if indeg[v] == 0:\n                    stack.append(v)\n        ok = seen == len(letters)\n    if not ok:\n        return got == \"\"\n    if not isinstance(got, str) or len(got) != len(letters) or set(got) != letters:\n        return False\n    pos = {c: i for i, c in enumerate(got)}\n    return all(pos[u] < pos[v] for u in edges for v in edges[u])\n",
+ "tests": [
+  {
+   "args": [
+    [
+     "z",
+     "x"
+    ]
+   ],
+   "expected": "zx",
+   "example": true
+  },
+  {
+   "args": [
+    [
+     "wrt",
+     "wrf",
+     "er",
+     "ett",
+     "rftt"
+    ]
+   ],
+   "expected": "wertf",
+   "example": true
+  },
+  {
+   "args": [
+    [
+     "z",
+     "x",
+     "z"
+    ]
+   ],
+   "expected": ""
+  },
+  {
+   "args": [
+    [
+     "abc",
+     "ab"
+    ]
+   ],
+   "expected": ""
+  },
+  {
+   "args": [
+    [
+     "z",
+     "z"
+    ]
+   ],
+   "expected": "z"
+  },
+  {
+   "args": [
+    [
+     "ab",
+     "adc"
+    ]
+   ],
+   "expected": "abdc"
+  },
+  {
+   "args": [
+    [
+     "abc"
+    ]
+   ],
+   "expected": "abc"
+  },
+  {
+   "args": [
+    [
+     "ba",
+     "bc",
+     "ac",
+     "cab"
+    ]
+   ],
+   "expected": "bac"
+  },
+  {
+   "args": [
+    [
+     "a",
+     "b",
+     "a"
+    ]
+   ],
+   "expected": ""
+  },
+  {
+   "args": [
+    [
+     "ab",
+     "ac",
+     "bc",
+     "ba"
+    ]
+   ],
+   "expected": ""
+  },
+  {
+   "args": [
+    [
+     "x",
+     "xy",
+     "xyz"
+    ]
+   ],
+   "expected": "xyz"
+  },
+  {
+   "args": [
+    {
+     "$py": "[c*100 for c in string.ascii_lowercase[::-1]]"
+    }
+   ],
+   "expected": {
+    "$py": "string.ascii_lowercase[::-1]"
+   }
+  },
+  {
+   "args": [
+    {
+     "$py": "[\"a\"*99+c for c in string.ascii_lowercase[::-1]]"
+    }
+   ],
+   "expected": {
+    "$py": "string.ascii_lowercase[::-1]"
+   }
+  }
+ ],
+ "solution": {
+  "explanation": "Create a node for every letter that appears. For each adjacent pair of words, find the first position where they differ and add a directed edge from the earlier word's letter to the later one's; if there is no difference and the first word is longer, the input is invalid, so return \"\". Then run Kahn's topological sort over the letters. If the output contains every letter it is a valid alphabet, otherwise a cycle exists and we return \"\". Time is linear in the total number of characters, and the graph never exceeds 26 nodes.",
+  "code": "from collections import deque\n\n\nclass Solution:\n    def foreignDictionary(self, words: List[str]) -> str:\n        adj = {c: set() for w in words for c in w}\n        for a, b in zip(words, words[1:]):\n            for x, y in zip(a, b):\n                if x != y:\n                    adj[x].add(y)\n                    break\n            else:\n                if len(a) > len(b):\n                    return \"\"\n        indeg = {c: 0 for c in adj}\n        for u in adj:\n            for v in adj[u]:\n                indeg[v] += 1\n        queue = deque(c for c in adj if indeg[c] == 0)\n        order = []\n        while queue:\n            u = queue.popleft()\n            order.append(u)\n            for v in adj[u]:\n                indeg[v] -= 1\n                if indeg[v] == 0:\n                    queue.append(v)\n        return \"\".join(order) if len(order) == len(adj) else \"\"\n"
+ }
+}

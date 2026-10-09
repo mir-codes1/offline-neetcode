@@ -1,0 +1,235 @@
+{
+  "id": 4,
+  "slug": "group-anagrams",
+  "title": "Group Anagrams",
+  "difficulty": "Medium",
+  "topic": "Arrays & Hashing",
+  "leetcodeUrl": "https://leetcode.com/problems/group-anagrams/",
+  "videoUrl": null,
+  "description": "Given an array of strings `strs`, put strings that are anagrams of each other into the same group and return all the groups. The groups, and the strings inside each group, may be in any order.",
+  "examples": [
+    {
+      "input": "strs = [\"act\", \"pots\", \"tops\", \"cat\", \"stop\", \"hat\"]",
+      "output": "[[\"hat\"], [\"act\", \"cat\"], [\"stop\", \"pots\", \"tops\"]]"
+    },
+    {
+      "input": "strs = [\"x\"]",
+      "output": "[[\"x\"]]"
+    }
+  ],
+  "constraints": [
+    "1 <= strs.length <= 1000",
+    "0 <= strs[i].length <= 100",
+    "strs[i] consists of lowercase English letters"
+  ],
+  "topics": [
+    "Array",
+    "Hash Table",
+    "String",
+    "Sorting"
+  ],
+  "complexity": {
+    "time": "O(n * k)",
+    "space": "O(n * k)"
+  },
+  "hints": [
+    "Anagrams look identical once you ignore letter order. Can you compute a canonical 'signature' for each word?",
+    "A word's sorted letters, or its 26-element letter-count tuple, is the same for all anagrams of it.",
+    "Use a dictionary from signature to list of words, append each word to its signature's list, and return the values."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "groupAnagrams",
+  "params": [
+    {
+      "name": "strs",
+      "type": "List[str]",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "sorted_nested",
+  "starterCode": "class Solution:\n    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:\n        ",
+  "tests": [
+    {
+      "args": [
+        [
+          "act",
+          "pots",
+          "tops",
+          "cat",
+          "stop",
+          "hat"
+        ]
+      ],
+      "expected": [
+        [
+          "hat"
+        ],
+        [
+          "act",
+          "cat"
+        ],
+        [
+          "stop",
+          "pots",
+          "tops"
+        ]
+      ],
+      "example": true
+    },
+    {
+      "args": [
+        [
+          "x"
+        ]
+      ],
+      "expected": [
+        [
+          "x"
+        ]
+      ],
+      "example": true
+    },
+    {
+      "args": [
+        [
+          ""
+        ]
+      ],
+      "expected": [
+        [
+          ""
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          "ab",
+          "ba",
+          "abc"
+        ]
+      ],
+      "expected": [
+        [
+          "ab",
+          "ba"
+        ],
+        [
+          "abc"
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          "eat",
+          "tea",
+          "tan",
+          "ate",
+          "nat",
+          "bat"
+        ]
+      ],
+      "expected": [
+        [
+          "bat"
+        ],
+        [
+          "nat",
+          "tan"
+        ],
+        [
+          "ate",
+          "eat",
+          "tea"
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          "",
+          "",
+          ""
+        ]
+      ],
+      "expected": [
+        [
+          "",
+          "",
+          ""
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          "a",
+          "a"
+        ]
+      ],
+      "expected": [
+        [
+          "a",
+          "a"
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          "abc",
+          "def",
+          "ghi"
+        ]
+      ],
+      "expected": [
+        [
+          "abc"
+        ],
+        [
+          "def"
+        ],
+        [
+          "ghi"
+        ]
+      ]
+    },
+    {
+      "args": [
+        [
+          "aab",
+          "aba",
+          "baa",
+          "abb"
+        ]
+      ],
+      "expected": [
+        [
+          "aab",
+          "aba",
+          "baa"
+        ],
+        [
+          "abb"
+        ]
+      ]
+    },
+    {
+      "args": [
+        {
+          "$py": "['a'*i+'b'*(1000-i) for i in range(1000)]"
+        }
+      ],
+      "expected": {
+        "$py": "[['a'*i+'b'*(1000-i)] for i in range(1000)]"
+      }
+    }
+  ],
+  "solution": {
+    "explanation": "Two words are anagrams exactly when they share the same multiset of letters, so use that as a dictionary key. We build the key as a tuple of 26 letter counts (sorting the word also works), then append each word to the list stored under its key. With n words of length at most k, building each key costs O(k), giving O(n * k) time and O(n * k) space for the groups.",
+    "code": "class Solution:\n    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:\n        groups = {}\n        for w in strs:\n            count = [0] * 26\n            for c in w:\n                count[ord(c) - ord('a')] += 1\n            groups.setdefault(tuple(count), []).append(w)\n        return list(groups.values())\n"
+  }
+}

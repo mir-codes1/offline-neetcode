@@ -1,0 +1,172 @@
+{
+  "id": 61,
+  "slug": "maximum-subarray",
+  "title": "Maximum Subarray",
+  "difficulty": "Medium",
+  "topic": "Greedy",
+  "leetcodeUrl": "https://leetcode.com/problems/maximum-subarray/",
+  "videoUrl": null,
+  "description": "Given an integer array `nums`, find the contiguous, **non-empty** subarray with the largest sum and return that sum.",
+  "examples": [
+    {
+      "input": "nums = [2, -3, 4, -2, 2, 1, -1, 4]",
+      "output": "8",
+      "explanation": "The subarray [4, -2, 2, 1, -1, 4] sums to 8."
+    },
+    {
+      "input": "nums = [-1]",
+      "output": "-1"
+    }
+  ],
+  "constraints": [
+    "1 <= nums.length <= 1000",
+    "-1000 <= nums[i] <= 1000"
+  ],
+  "topics": [
+    "Array",
+    "Greedy",
+    "Dynamic Programming"
+  ],
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "hints": [
+    "Checking every subarray is O(n^2) even with prefix sums. Consider the best subarray ending at each index.",
+    "The best sum ending at i is either nums[i] alone, or nums[i] added to the best sum ending at i-1.",
+    "If the running sum becomes negative it only hurts any later subarray, so restart from the current element. Keep a global maximum."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "maxSubArray",
+  "params": [
+    {
+      "name": "nums",
+      "type": "List[int]",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "exact",
+  "starterCode": "class Solution:\n    def maxSubArray(self, nums: List[int]) -> int:\n        ",
+  "tests": [
+    {
+      "args": [
+        [
+          2,
+          -3,
+          4,
+          -2,
+          2,
+          1,
+          -1,
+          4
+        ]
+      ],
+      "expected": 8,
+      "example": true
+    },
+    {
+      "args": [
+        [
+          -1
+        ]
+      ],
+      "expected": -1,
+      "example": true
+    },
+    {
+      "args": [
+        [
+          5,
+          4,
+          -1,
+          7,
+          8
+        ]
+      ],
+      "expected": 23
+    },
+    {
+      "args": [
+        [
+          -2,
+          1,
+          -3,
+          4,
+          -1,
+          2,
+          1,
+          -5,
+          4
+        ]
+      ],
+      "expected": 6
+    },
+    {
+      "args": [
+        [
+          1
+        ]
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        [
+          -2,
+          -1
+        ]
+      ],
+      "expected": -1
+    },
+    {
+      "args": [
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "expected": 0
+    },
+    {
+      "args": [
+        [
+          -3,
+          -1,
+          -2
+        ]
+      ],
+      "expected": -1
+    },
+    {
+      "args": [
+        {
+          "$py": "[1] * 100000"
+        }
+      ],
+      "expected": 100000
+    },
+    {
+      "args": [
+        {
+          "$py": "[-1] * 100000"
+        }
+      ],
+      "expected": -1
+    },
+    {
+      "args": [
+        {
+          "$py": "[10000, -10000] * 50000"
+        }
+      ],
+      "expected": 10000
+    }
+  ],
+  "solution": {
+    "explanation": "This is Kadane's algorithm. Keep the best sum of a subarray ending at the current element: either start fresh at this element or extend the previous run, so cur = max(x, cur + x). The answer is the maximum cur seen. Starting from the first element handles all-negative arrays correctly. One pass: O(n) time, O(1) space.",
+    "code": "class Solution:\n    def maxSubArray(self, nums: List[int]) -> int:\n        cur = best = nums[0]\n        for x in nums[1:]:\n            cur = max(x, cur + x)\n            best = max(best, cur)\n        return best\n"
+  }
+}

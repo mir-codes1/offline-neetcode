@@ -1,0 +1,275 @@
+{
+ "id": 42,
+ "slug": "number-of-islands",
+ "title": "Number of Islands",
+ "difficulty": "Medium",
+ "topic": "Graphs",
+ "leetcodeUrl": "https://leetcode.com/problems/number-of-islands/",
+ "videoUrl": null,
+ "description": "The grid `grid` contains `\"1\"` for land and `\"0\"` for water. An **island** is a maximal set of land cells linked through horizontal or vertical neighbours (diagonals do not count). Everything outside the grid is water.\n\nReturn how many islands there are.",
+ "examples": [
+  {
+   "input": "grid = [[\"1\",\"1\",\"1\",\"1\",\"0\"],[\"1\",\"1\",\"0\",\"1\",\"0\"],[\"1\",\"1\",\"0\",\"0\",\"0\"],[\"0\",\"0\",\"0\",\"0\",\"0\"]]",
+   "output": "1"
+  },
+  {
+   "input": "grid = [[\"1\",\"1\",\"0\",\"0\",\"0\"],[\"1\",\"1\",\"0\",\"0\",\"0\"],[\"0\",\"0\",\"1\",\"0\",\"0\"],[\"0\",\"0\",\"0\",\"1\",\"1\"]]",
+   "output": "3"
+  }
+ ],
+ "constraints": [
+  "1 <= grid.length, grid[i].length <= 300",
+  "grid[i][j] is \"0\" or \"1\""
+ ],
+ "topics": [
+  "Graph",
+  "DFS",
+  "BFS",
+  "Matrix"
+ ],
+ "complexity": {
+  "time": "O(m * n)",
+  "space": "O(m * n)"
+ },
+ "hints": [
+  "Each island is one connected component of land cells. How could you count components?",
+  "Scan the grid; whenever you meet land you have not visited, you have found a new island.",
+  "From that cell flood-fill all connected land (mark it visited or sink it to '0'), then continue scanning. Prefer an explicit stack/queue: a 300x300 island is too deep for plain recursion."
+ ],
+ "kind": "function",
+ "className": "Solution",
+ "methodName": "numIslands",
+ "params": [
+  {
+   "name": "grid",
+   "type": "List[List[str]]",
+   "kind": "raw"
+  }
+ ],
+ "returns": "raw",
+ "starterCode": "class Solution:\n    def numIslands(self, grid: List[List[str]]) -> int:\n        ",
+ "compare": "exact",
+ "tests": [
+  {
+   "args": [
+    [
+     [
+      "1",
+      "1",
+      "1",
+      "1",
+      "0"
+     ],
+     [
+      "1",
+      "1",
+      "0",
+      "1",
+      "0"
+     ],
+     [
+      "1",
+      "1",
+      "0",
+      "0",
+      "0"
+     ],
+     [
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+     ]
+    ]
+   ],
+   "expected": 1,
+   "example": true
+  },
+  {
+   "args": [
+    [
+     [
+      "1",
+      "1",
+      "0",
+      "0",
+      "0"
+     ],
+     [
+      "1",
+      "1",
+      "0",
+      "0",
+      "0"
+     ],
+     [
+      "0",
+      "0",
+      "1",
+      "0",
+      "0"
+     ],
+     [
+      "0",
+      "0",
+      "0",
+      "1",
+      "1"
+     ]
+    ]
+   ],
+   "expected": 3,
+   "example": true
+  },
+  {
+   "args": [
+    [
+     [
+      "0"
+     ]
+    ]
+   ],
+   "expected": 0
+  },
+  {
+   "args": [
+    [
+     [
+      "1"
+     ]
+    ]
+   ],
+   "expected": 1
+  },
+  {
+   "args": [
+    [
+     [
+      "1",
+      "0",
+      "1"
+     ],
+     [
+      "0",
+      "1",
+      "0"
+     ],
+     [
+      "1",
+      "0",
+      "1"
+     ]
+    ]
+   ],
+   "expected": 5
+  },
+  {
+   "args": [
+    [
+     [
+      "1",
+      "1",
+      "1",
+      "1"
+     ]
+    ]
+   ],
+   "expected": 1
+  },
+  {
+   "args": [
+    [
+     [
+      "1"
+     ],
+     [
+      "0"
+     ],
+     [
+      "1"
+     ],
+     [
+      "1"
+     ]
+    ]
+   ],
+   "expected": 2
+  },
+  {
+   "args": [
+    [
+     [
+      "1",
+      "1",
+      "1"
+     ],
+     [
+      "1",
+      "0",
+      "1"
+     ],
+     [
+      "1",
+      "1",
+      "1"
+     ]
+    ]
+   ],
+   "expected": 1
+  },
+  {
+   "args": [
+    [
+     [
+      "1",
+      "0",
+      "1",
+      "0"
+     ],
+     [
+      "0",
+      "1",
+      "0",
+      "1"
+     ],
+     [
+      "1",
+      "0",
+      "1",
+      "0"
+     ]
+    ]
+   ],
+   "expected": 6
+  },
+  {
+   "args": [
+    {
+     "$py": "[[\"1\"]*300 for _ in range(300)]"
+    }
+   ],
+   "expected": 1
+  },
+  {
+   "args": [
+    {
+     "$py": "[[\"1\" if (i+j)%2==0 else \"0\" for j in range(300)] for i in range(300)]"
+    }
+   ],
+   "expected": 45000
+  },
+  {
+   "args": [
+    {
+     "$py": "[[\"1\" if (i%2==0 or (i%4==1 and j==299) or (i%4==3 and j==0)) else \"0\" for j in range(300)] for i in range(299)]"
+    }
+   ],
+   "expected": 1
+  }
+ ],
+ "solution": {
+  "explanation": "Scan every cell. On unvisited land, add one to the answer and flood-fill the whole island with an explicit stack, setting visited land to '0' so it is never counted again. Each cell is pushed at most once, so time is O(m*n); the stack can hold O(m*n) cells in the worst case. Using a stack instead of recursion avoids hitting the recursion limit on large islands.",
+  "code": "class Solution:\n    def numIslands(self, grid: List[List[str]]) -> int:\n        rows, cols = len(grid), len(grid[0])\n        count = 0\n        for r in range(rows):\n            for c in range(cols):\n                if grid[r][c] != '1':\n                    continue\n                count += 1\n                grid[r][c] = '0'\n                stack = [(r, c)]\n                while stack:\n                    x, y = stack.pop()\n                    for nx, ny in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):\n                        if 0 <= nx < rows and 0 <= ny < cols and grid[nx][ny] == '1':\n                            grid[nx][ny] = '0'\n                            stack.append((nx, ny))\n        return count\n"
+ }
+}

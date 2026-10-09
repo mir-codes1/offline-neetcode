@@ -1,0 +1,198 @@
+{
+  "id": 5,
+  "slug": "top-k-frequent-elements",
+  "title": "Top K Frequent Elements",
+  "difficulty": "Medium",
+  "topic": "Arrays & Hashing",
+  "leetcodeUrl": "https://leetcode.com/problems/top-k-frequent-elements/",
+  "videoUrl": null,
+  "description": "Given an integer array `nums` and an integer `k`, return the `k` values that occur most often. The answer is guaranteed to be unambiguous, and you may return it in any order. Try to beat O(n log n).",
+  "examples": [
+    {
+      "input": "nums = [1, 2, 2, 3, 3, 3], k = 2",
+      "output": "[2, 3]",
+      "explanation": "3 appears three times and 2 appears twice."
+    },
+    {
+      "input": "nums = [7, 7], k = 1",
+      "output": "[7]"
+    }
+  ],
+  "constraints": [
+    "1 <= nums.length <= 10^5",
+    "-1000 <= nums[i] <= 1000",
+    "1 <= k <= number of distinct values in nums",
+    "The answer is unique"
+  ],
+  "topics": [
+    "Array",
+    "Hash Table",
+    "Bucket Sort",
+    "Heap"
+  ],
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(n)"
+  },
+  "hints": [
+    "First you need how often each value occurs. Which structure gives you counts in one pass?",
+    "A frequency can never exceed n. What if you indexed an array by frequency?",
+    "Bucket values by their count (bucket i holds values appearing i times), then read buckets from the highest count down until you have k values."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "topKFrequent",
+  "params": [
+    {
+      "name": "nums",
+      "type": "List[int]",
+      "kind": "raw"
+    },
+    {
+      "name": "k",
+      "type": "int",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "sorted",
+  "starterCode": "class Solution:\n    def topKFrequent(self, nums: List[int], k: int) -> List[int]:\n        ",
+  "tests": [
+    {
+      "args": [
+        [
+          1,
+          2,
+          2,
+          3,
+          3,
+          3
+        ],
+        2
+      ],
+      "expected": [
+        2,
+        3
+      ],
+      "example": true
+    },
+    {
+      "args": [
+        [
+          7,
+          7
+        ],
+        1
+      ],
+      "expected": [
+        7
+      ],
+      "example": true
+    },
+    {
+      "args": [
+        [
+          4,
+          1,
+          -1,
+          2,
+          -1,
+          2,
+          3
+        ],
+        2
+      ],
+      "expected": [
+        -1,
+        2
+      ]
+    },
+    {
+      "args": [
+        [
+          1
+        ],
+        1
+      ],
+      "expected": [
+        1
+      ]
+    },
+    {
+      "args": [
+        [
+          1,
+          1,
+          1,
+          2,
+          2,
+          3
+        ],
+        2
+      ],
+      "expected": [
+        1,
+        2
+      ]
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ],
+        3
+      ],
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "args": [
+        [
+          -5,
+          -5,
+          -5,
+          0,
+          0,
+          9
+        ],
+        1
+      ],
+      "expected": [
+        -5
+      ]
+    },
+    {
+      "args": [
+        {
+          "$py": "[i for i in range(1, 441) for _ in range(i)]"
+        },
+        3
+      ],
+      "expected": [
+        440,
+        439,
+        438
+      ]
+    },
+    {
+      "args": [
+        {
+          "$py": "[i % 1000 - 500 for i in range(100000)] + [7] * 5"
+        },
+        1
+      ],
+      "expected": [
+        7
+      ]
+    }
+  ],
+  "solution": {
+    "explanation": "Count occurrences with a hash map. A value can occur at most n times, so create n+1 buckets where bucket i lists the values with count i. Then sweep the buckets from highest count to lowest, collecting values until k have been gathered. Counting and bucketing are linear, so time is O(n) and space is O(n). A min-heap of size k gives O(n log k) as an alternative.",
+    "code": "class Solution:\n    def topKFrequent(self, nums: List[int], k: int) -> List[int]:\n        count = {}\n        for x in nums:\n            count[x] = count.get(x, 0) + 1\n        buckets = [[] for _ in range(len(nums) + 1)]\n        for x, c in count.items():\n            buckets[c].append(x)\n        res = []\n        for c in range(len(nums), 0, -1):\n            for x in buckets[c]:\n                res.append(x)\n                if len(res) == k:\n                    return res\n        return res\n"
+  }
+}

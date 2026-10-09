@@ -1,0 +1,191 @@
+{
+  "id": 11,
+  "slug": "container-with-most-water",
+  "title": "Container With Most Water",
+  "difficulty": "Medium",
+  "topic": "Two Pointers",
+  "leetcodeUrl": "https://leetcode.com/problems/container-with-most-water/",
+  "videoUrl": null,
+  "description": "The array `heights` describes vertical bars, where `heights[i]` is the height of the bar at x-position `i`. Pick two bars; together with the x-axis they form a container that holds `min(left height, right height) * (distance between them)` units of water. Return the largest amount any pair can hold. The container can't be tilted.",
+  "examples": [
+    {
+      "input": "heights = [1, 7, 2, 5, 4, 7, 3, 6]",
+      "output": "36",
+      "explanation": "Bars of height 7 (index 1) and 6 (index 7): min is 6, width is 6."
+    },
+    {
+      "input": "heights = [2, 2, 2]",
+      "output": "4",
+      "explanation": "The two outer bars: 2 * 2."
+    }
+  ],
+  "constraints": [
+    "2 <= heights.length <= 10^5",
+    "0 <= heights[i] <= 10^4"
+  ],
+  "topics": [
+    "Array",
+    "Two Pointers",
+    "Greedy"
+  ],
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "hints": [
+    "Checking all pairs is O(n^2). Start from the widest container and think about how to shrink it sensibly.",
+    "The area is limited by the shorter bar. Moving the taller bar inward can only reduce width without raising that limit.",
+    "Keep pointers at both ends, record the area, and always move the pointer at the shorter bar inward."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "maxArea",
+  "params": [
+    {
+      "name": "heights",
+      "type": "List[int]",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "exact",
+  "starterCode": "class Solution:\n    def maxArea(self, heights: List[int]) -> int:\n        ",
+  "tests": [
+    {
+      "args": [
+        [
+          1,
+          7,
+          2,
+          5,
+          4,
+          7,
+          3,
+          6
+        ]
+      ],
+      "expected": 36,
+      "example": true
+    },
+    {
+      "args": [
+        [
+          2,
+          2,
+          2
+        ]
+      ],
+      "expected": 4,
+      "example": true
+    },
+    {
+      "args": [
+        [
+          1,
+          1
+        ]
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "expected": 0
+    },
+    {
+      "args": [
+        [
+          1,
+          8,
+          6,
+          2,
+          5,
+          4,
+          8,
+          3,
+          7
+        ]
+      ],
+      "expected": 49
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          1
+        ]
+      ],
+      "expected": 2
+    },
+    {
+      "args": [
+        [
+          5,
+          0,
+          0,
+          0,
+          5
+        ]
+      ],
+      "expected": 20
+    },
+    {
+      "args": [
+        [
+          3,
+          9
+        ]
+      ],
+      "expected": 3
+    },
+    {
+      "args": [
+        [
+          4,
+          3,
+          2,
+          1,
+          4
+        ]
+      ],
+      "expected": 16
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          4,
+          3
+        ]
+      ],
+      "expected": 4
+    },
+    {
+      "args": [
+        {
+          "$py": "list(range(100000))"
+        }
+      ],
+      "expected": 2499950000
+    },
+    {
+      "args": [
+        {
+          "$py": "[10000] * 100000"
+        }
+      ],
+      "expected": 999990000
+    }
+  ],
+  "solution": {
+    "explanation": "Start with pointers at both ends, which gives the widest container. The water held is limited by the shorter bar, so moving the taller pointer inward can only shrink the width without helping the limit; therefore move the pointer at the shorter bar. Track the maximum area seen at each step. The pointers cross after n steps, so time is O(n) and space is O(1).",
+    "code": "class Solution:\n    def maxArea(self, heights: List[int]) -> int:\n        l, r = 0, len(heights) - 1\n        best = 0\n        while l < r:\n            best = max(best, min(heights[l], heights[r]) * (r - l))\n            if heights[l] < heights[r]:\n                l += 1\n            else:\n                r -= 1\n        return best\n"
+  }
+}

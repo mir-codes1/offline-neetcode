@@ -1,0 +1,201 @@
+{
+  "id": 8,
+  "slug": "longest-consecutive-sequence",
+  "title": "Longest Consecutive Sequence",
+  "difficulty": "Medium",
+  "topic": "Arrays & Hashing",
+  "leetcodeUrl": "https://leetcode.com/problems/longest-consecutive-sequence/",
+  "videoUrl": null,
+  "description": "Given an unsorted integer array `nums`, return the length of the longest run of values that go up by exactly one each step (like 3, 4, 5, 6). The run is made from values present in the array; they don't have to be next to each other in it. Your algorithm must run in O(n) time.",
+  "examples": [
+    {
+      "input": "nums = [2, 20, 4, 10, 3, 4, 5]",
+      "output": "4",
+      "explanation": "The run 2, 3, 4, 5 has length 4."
+    },
+    {
+      "input": "nums = [0, 3, 2, 5, 4, 6, 1, 1]",
+      "output": "7",
+      "explanation": "Values 0 through 6."
+    }
+  ],
+  "constraints": [
+    "0 <= nums.length <= 10^5",
+    "-10^9 <= nums[i] <= 10^9"
+  ],
+  "topics": [
+    "Array",
+    "Hash Set",
+    "Union Find"
+  ],
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(n)"
+  },
+  "hints": [
+    "Sorting gives O(n log n). To reach O(n) you need constant-time membership checks on values.",
+    "Put all numbers in a set. A number x is the start of a run only if x - 1 is not in the set.",
+    "For each start x, keep stepping x+1, x+2, ... while present and track the longest length. Each element is walked at most once overall."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "longestConsecutive",
+  "params": [
+    {
+      "name": "nums",
+      "type": "List[int]",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "exact",
+  "starterCode": "class Solution:\n    def longestConsecutive(self, nums: List[int]) -> int:\n        ",
+  "tests": [
+    {
+      "args": [
+        [
+          2,
+          20,
+          4,
+          10,
+          3,
+          4,
+          5
+        ]
+      ],
+      "expected": 4,
+      "example": true
+    },
+    {
+      "args": [
+        [
+          0,
+          3,
+          2,
+          5,
+          4,
+          6,
+          1,
+          1
+        ]
+      ],
+      "expected": 7,
+      "example": true
+    },
+    {
+      "args": [
+        []
+      ],
+      "expected": 0
+    },
+    {
+      "args": [
+        [
+          9
+        ]
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        [
+          100,
+          4,
+          200,
+          1,
+          3,
+          2
+        ]
+      ],
+      "expected": 4
+    },
+    {
+      "args": [
+        [
+          0,
+          3,
+          7,
+          2,
+          5,
+          8,
+          4,
+          6,
+          0,
+          1
+        ]
+      ],
+      "expected": 9
+    },
+    {
+      "args": [
+        [
+          -1,
+          -2,
+          -3,
+          10
+        ]
+      ],
+      "expected": 3
+    },
+    {
+      "args": [
+        [
+          1,
+          1,
+          1
+        ]
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        [
+          1000000000,
+          -1000000000
+        ]
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        [
+          1,
+          3,
+          5
+        ]
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          0,
+          1
+        ]
+      ],
+      "expected": 3
+    },
+    {
+      "args": [
+        {
+          "$py": "random.sample(range(100000), 100000)"
+        }
+      ],
+      "expected": 100000
+    },
+    {
+      "args": [
+        {
+          "$py": "list(range(0, 200000, 2))"
+        }
+      ],
+      "expected": 1
+    }
+  ],
+  "solution": {
+    "explanation": "Store the numbers in a set. Only start counting from a number x whose predecessor x - 1 is absent, because that makes x the beginning of a run. From such a start, extend upward while x + length is in the set and record the best length. Every number is visited as part of exactly one run, so the work is O(n) overall, with O(n) space for the set.",
+    "code": "class Solution:\n    def longestConsecutive(self, nums: List[int]) -> int:\n        nums_set = set(nums)\n        best = 0\n        for x in nums_set:\n            if x - 1 not in nums_set:\n                length = 1\n                while x + length in nums_set:\n                    length += 1\n                best = max(best, length)\n        return best\n"
+  }
+}

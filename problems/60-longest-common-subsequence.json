@@ -1,0 +1,145 @@
+{
+  "id": 60,
+  "slug": "longest-common-subsequence",
+  "title": "Longest Common Subsequence",
+  "difficulty": "Medium",
+  "topic": "2-D Dynamic Programming",
+  "leetcodeUrl": "https://leetcode.com/problems/longest-common-subsequence/",
+  "videoUrl": null,
+  "description": "Given two strings `text1` and `text2`, return the length of their longest common subsequence, or `0` if they share none. A subsequence is formed by deleting zero or more characters without reordering the rest.",
+  "examples": [
+    {
+      "input": "text1 = \"abcde\", text2 = \"ace\"",
+      "output": "3",
+      "explanation": "The common subsequence \"ace\" has length 3."
+    },
+    {
+      "input": "text1 = \"abc\", text2 = \"abc\"",
+      "output": "3"
+    },
+    {
+      "input": "text1 = \"abc\", text2 = \"def\"",
+      "output": "0"
+    }
+  ],
+  "constraints": [
+    "1 <= text1.length, text2.length <= 1000",
+    "Both strings consist of lowercase English letters"
+  ],
+  "topics": [
+    "String",
+    "Dynamic Programming"
+  ],
+  "complexity": {
+    "time": "O(m * n)",
+    "space": "O(min(m, n))"
+  },
+  "hints": [
+    "Compare the last characters of the two strings. What happens if they are equal? If not?",
+    "Let dp[i][j] be the answer for the first i and first j characters. Equal characters give dp[i-1][j-1] + 1.",
+    "Otherwise dp[i][j] = max(dp[i-1][j], dp[i][j-1]). Each row depends only on the previous row."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "longestCommonSubsequence",
+  "params": [
+    {
+      "name": "text1",
+      "type": "str",
+      "kind": "raw"
+    },
+    {
+      "name": "text2",
+      "type": "str",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "exact",
+  "starterCode": "class Solution:\n    def longestCommonSubsequence(self, text1: str, text2: str) -> int:\n        ",
+  "tests": [
+    {
+      "args": [
+        "abcde",
+        "ace"
+      ],
+      "expected": 3,
+      "example": true
+    },
+    {
+      "args": [
+        "abc",
+        "abc"
+      ],
+      "expected": 3,
+      "example": true
+    },
+    {
+      "args": [
+        "abc",
+        "def"
+      ],
+      "expected": 0
+    },
+    {
+      "args": [
+        "bl",
+        "yby"
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        "abcba",
+        "abcbcba"
+      ],
+      "expected": 5
+    },
+    {
+      "args": [
+        "a",
+        "a"
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        "abc",
+        "cba"
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        "aaaa",
+        "aa"
+      ],
+      "expected": 2
+    },
+    {
+      "args": [
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "expected": 1000
+    },
+    {
+      "args": [
+        "ddcdaadabcddccadccccbdcdaadcdcabdcababbdcacbcbcabcdaacbcbccbccbdbbcdddcbbcdbddbdccdcaabaabdcabdadddbbbbbcaaadaccbbdcccddbbdaadbabcbbabddaccccbbbcdcbbccbdbaaacdaabcddcacddadacbbbbcaadadddadbaddabbbcbbddadddaaadacddbcdbdccbaccdbcdddacaddacbbcbbadbccabdccbcdcadbaaabcacabdcbbcaaabdbbacadbbdaadcadbddcadbaaaadbaacadddddbcaccabadadcaababcbabdcbcaaddcdacacabbadabdbacdbabdadadcdcdbaabaaaccbbdbcbbddaaaaaddcddaacaaaaabbcabadcbbaaabbbcaabdccbdccbadbddcbdbabcdadccbaadcacacadbbbbadddadacdcbbabdacddbcbbbacccbbacadabadcadcdaccaaaacbddabcacaddbdabccbbcaaaabccdcdacdacddbaadbaaddbbcdabcbcbcdbbbcbcabdbbbdaddbaaddabbdacbddadcacdadaacacaccadacbbaddabdcabcacbcacbaacdddadddbddacaacaacaabaaccbbbcdbaaddcdddbdcdcddcbdaaabdcbabdadbbaacbbcbdbaabddacadbaabdaacababbbcbbbbdcacbadcbaabbcdaaabaaacbdcaadbaabbbdbbdcacbbacabcccccaadddccaabdacdaadcbbbbbabdaaabccaabbaadbbbcbbabcbbcbdccbcccdccdacbcbddbdbbdccddbdaabdbcbacddccbbaabcbbcbbcadcbadcbaaadaabaaacbbbabadacccdbaaadbccaccbbdadccabdccdababaaadadbdaaadbabdaddbbbbcdbbccad",
+        "dcabdbbadabbaacddddcabbdcbadbdbcaddcdbaccbaabcbdbcbcbccccaaabaadcdabadadcccdbacbbddbcdccdccddbdaadaacccadcddcbbaadcdcccdabbcbcbcaaccdddbaddaaadddbcadacbcabbdccbacabcaaabccbcdababbcaadcbdbdccbbdddabbcbaadbaddccacbbdbaacddaadacadadadabadddccdadcbdadcaddbccbadbbdadcddaccaabdcbaaadbcaabcbadddcabcbdbccdaabbbdbaccaccbbdbcddacabdaaccbaadddccbccbbcacacbbbbbdaddaabaadccdcddaaaadbbddccabbadbacabbadadadcdccdadcbbadbcbbadbacccdaaaddabccdbddaaaddcbaacaaaddadcbacadcaaadbcdacbbbcccabbbbdacaaddbadaacadcccdcdccdbdcaccabdcdbabbdbdabbdbacddddbaababcdbccbcabdacabcacaddcaaaccadbbacdbcaccbdcabcddbbacbacddaaabbadaabccdbbccbbccdcabbdcbbcdcdccbcdaacbbcdbaccacbdadadaacabcaddccadadcccbbbcbddabacdcbdadbaaaddcdbaaadcabbcddccadacdbddaccdbdbcbaadddadcabbbaccdadaaddbabccdbdcbcacbcacccbccadbdacbcbaaabaddcbcbaacbdcbdbdadcbbdcbaacaccdcadccccbdbcbacadddddaacbaaacadcdacbaccdadbdaaadddbcdbcaadbcabbcadabacdaaccddaccbacbbbcbdbcdbdbacbcbcdbbadcbdddcbababccdbcbabaaddcababdadaddacdcdcbbaaabbbdddcabcadbdcccbacbabcdcdcdacdbbcdbbb"
+      ],
+      "expected": 646
+    },
+    {
+      "args": [
+        "ayqbbmjiybuotjgalpbgervjwrkkaxtltcncmdjoauowsmbqfzvwcjpihskuazgoikbjsilnarkzcosknvdelzmvarejphpnopeovdgrcgrnsraqaxbebplgigkhzxjamprjwxvarlfgthdgujgdwmccnypjghjhgzpnyncmuyqygxljshwwiiegpqpuhiarvkoizudtaxuxpzbtrodaqxkpphytutotmzehjdasfmvfrvhfrppcgfamqtzetgnqrafjypylsydocghsiioizpfdvbouqkuqcmkigcwxuhgcvvpuuhscgfhfjbfnfxoungyhsqutudblhvylrcdmztbudpejytgdwlvwatkstroqenicbwitlnoiwfmoztxwrgysxmdszogclgrsuqqezhhtmeqadcavizgfezgpnguvicumztqzacuirskbfsobcsgaxeuttujdaijqyeebfujuwndzhdljpkhcnrbblrcocrmkfelryblcqotwtwpmavxvzffqcqksxywibviryzkbidlhjjfeafraryvwmyebdfmolarfpetdlofxxbwmmdpwtpjnkovcwvppzbbmjafonydudbzlnbacijmmkxfqlxxffvtdhcfxuwqtbqhqlmfvrjwpafnqxrrudhhksgtiparukyyamuemxmdsxlzmqaasbuiyvxzfdnhbgdimjkhbutkdvnxcqgghjzaigmhkdwrbldziwhipzpoepzfgyzjaevxinlpangzzfdnqzbtklkylmdshgsnughkqgluajwnvqtjvsmxeymhkbtwxbvaegnmhkdihrogonlwtssegueazkzdzzoxnudsjhkzrkcuehzefsxxyrvqcpdsvpkheodoworyazreopzpsyzdhqlappynakgodfekjkkyrewijvilpnvnadrohqdycfrkrywydxtwalcfrtvaglmypprbnkarqvgiaomhncvgmgzqhkkvemglfifgg",
+        "rwxzsphfmnqencxwytumgqwswqvwtbkkohfsbgvfvyycdtsadkiakusoavrqndzejpeytsqdnekophzutwodqitzhylbvlhksyzucosluwtojaocuqscuesmrgcjwvbsjqctbtadmzdonfvxbctkpwbdrjuyxzjelqkpzihsqtddwtxkihzkyxncalsffawqocxgbeezqmiinpawuqrbpbsyqixbivpsowzstdrcqaeyslfgcdyknzjeihedqduupghiibkpqigowivfipngpzoevaebmqbzimqztqzmqgpfakzpnfzgcyftzdfrhkqgtgcapfdaqyhwehbcyofizmhuabqsrslzztpzadlvfavpqslbjwjnjlqlhdlhsgaulrehskovudreercnpwcevmsrzrhgrzoiqrhgaunmuduwfdrtwemmtbbjekhsebagmarvrwurbyozzdsbiglxpgldcxfnhnhssqgfgtwkaqphdycvnyszarezhzohyoixoqqgelbnderombdtswmccoxfcsqklhjbudpewxabztbrvctgqfxosmvoiovgeayyxhxoqiqpfqkjgdspjyzlngqlpyimqerbhjpthrndkawnasoqgqxsrizlqagoiyjhmvlczludxivafqlqwitnabbrsrfxhfntzolplydrqfybwiysbhmfsrlpdgngkqfpczztlksuanmokykebxmivsfhqoqxcicgsskksnsebyzybjdxlvzbgmrjatcixhlblcahlnocngjmystuozxpjfhzrqxolsqufatzjcgjpznswtheeccsvrzmmyevbmrlegmlxtexfkvonfthoiawnpqcldfvqryipcwgdqgjqclwgexszreaanvzzcudbnzkbqqentvgapukcuecewravmhaiqsmziuoqmkitiedyzkomhsikdnijudgqhoebrbzefxlishkjmgfcwfmcbrxtqmfytdldrjycnhezdst"
+      ],
+      "expected": 318
+    }
+  ],
+  "solution": {
+    "explanation": "Define dp[i][j] as the LCS length of the first i characters of text1 and first j of text2. If the characters match, extend the diagonal: dp[i-1][j-1] + 1; otherwise take the better of dropping a character from either string. Filling the table is O(m*n) time, and since each row needs only the one above, O(n) space. Exponential recursion without memoisation fails on 1000-character inputs.",
+    "code": "class Solution:\n    def longestCommonSubsequence(self, text1: str, text2: str) -> int:\n        prev = [0] * (len(text2) + 1)\n        for a in text1:\n            cur = [0]\n            for j, b in enumerate(text2):\n                if a == b:\n                    cur.append(prev[j] + 1)\n                else:\n                    cur.append(max(prev[j + 1], cur[j]))\n            prev = cur\n        return prev[-1]\n"
+  }
+}

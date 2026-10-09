@@ -1,0 +1,101 @@
+{
+  "id": 49,
+  "slug": "climbing-stairs",
+  "title": "Climbing Stairs",
+  "difficulty": "Easy",
+  "topic": "1-D Dynamic Programming",
+  "leetcodeUrl": "https://leetcode.com/problems/climbing-stairs/",
+  "videoUrl": null,
+  "description": "You are climbing a staircase with `n` steps. Each move takes you up either 1 or 2 steps. Return the number of different sequences of moves that bring you exactly to the top.",
+  "examples": [
+    {
+      "input": "n = 2",
+      "output": "2",
+      "explanation": "1+1 or 2."
+    },
+    {
+      "input": "n = 3",
+      "output": "3",
+      "explanation": "1+1+1, 1+2, or 2+1."
+    }
+  ],
+  "constraints": [
+    "1 <= n <= 45"
+  ],
+  "topics": [
+    "Dynamic Programming",
+    "Math"
+  ],
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  },
+  "hints": [
+    "Think about the last move: from which steps could you have arrived at step n?",
+    "ways(n) = ways(n-1) + ways(n-2). A plain recursion recomputes the same values exponentially often.",
+    "Build up from the bottom, remembering only the previous two counts."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "climbStairs",
+  "params": [
+    {
+      "name": "n",
+      "type": "int",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "exact",
+  "starterCode": "class Solution:\n    def climbStairs(self, n: int) -> int:\n        ",
+  "tests": [
+    {
+      "args": [
+        2
+      ],
+      "expected": 2,
+      "example": true
+    },
+    {
+      "args": [
+        3
+      ],
+      "expected": 3,
+      "example": true
+    },
+    {
+      "args": [
+        1
+      ],
+      "expected": 1
+    },
+    {
+      "args": [
+        5
+      ],
+      "expected": 8
+    },
+    {
+      "args": [
+        10
+      ],
+      "expected": 89
+    },
+    {
+      "args": [
+        20
+      ],
+      "expected": 10946
+    },
+    {
+      "args": [
+        45
+      ],
+      "expected": 1836311903
+    }
+  ],
+  "solution": {
+    "explanation": "The final move is either a single or a double step, so ways(n) = ways(n-1) + ways(n-2), the Fibonacci recurrence. Iterate upward keeping only the last two values. That is O(n) time and O(1) space; naive recursion would take exponential time.",
+    "code": "class Solution:\n    def climbStairs(self, n: int) -> int:\n        a, b = 1, 1\n        for _ in range(n - 1):\n            a, b = b, a + b\n        return b\n"
+  }
+}

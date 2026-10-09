@@ -1,0 +1,244 @@
+{
+ "id": 31,
+ "slug": "validate-binary-search-tree",
+ "title": "Validate Binary Search Tree",
+ "difficulty": "Medium",
+ "topic": "Trees",
+ "leetcodeUrl": "https://leetcode.com/problems/validate-binary-search-tree/",
+ "videoUrl": null,
+ "description": "Given the root of a binary tree, return `true` if it is a valid binary search tree. In a valid BST, for every node **all** values in its left subtree are strictly smaller and **all** values in its right subtree are strictly larger than the node's value (not just the direct children).",
+ "examples": [
+  {
+   "input": "root = [2, 1, 3]",
+   "output": "true"
+  },
+  {
+   "input": "root = [5, 1, 4, null, null, 3, 6]",
+   "output": "false",
+   "explanation": "3 sits in the right subtree of 5 but is smaller than 5."
+  }
+ ],
+ "constraints": [
+  "1 <= number of nodes <= 10^4",
+  "-2^31 <= Node.val <= 2^31 - 1"
+ ],
+ "topics": [
+  "Tree",
+  "DFS",
+  "BST"
+ ],
+ "complexity": {
+  "time": "O(n)",
+  "space": "O(h)"
+ },
+ "hints": [
+  "Checking only a node against its direct children is not enough. What extra information does a deep node need?",
+  "Each node must lie strictly between a lower bound and an upper bound inherited from its ancestors.",
+  "Recurse with (low, high), starting at (-infinity, +infinity). Going left tightens high to the node's value; going right tightens low. Use infinities so extreme values still work."
+ ],
+ "kind": "function",
+ "className": "Solution",
+ "compare": "exact",
+ "methodName": "isValidBST",
+ "params": [
+  {
+   "name": "root",
+   "type": "Optional[TreeNode]",
+   "kind": "tree"
+  }
+ ],
+ "returns": "raw",
+ "starterCode": "class Solution:\n    def isValidBST(self, root: Optional[TreeNode]) -> bool:\n        ",
+ "tests": [
+  {
+   "args": [
+    [
+     2,
+     1,
+     3
+    ]
+   ],
+   "expected": true,
+   "example": true
+  },
+  {
+   "args": [
+    [
+     5,
+     1,
+     4,
+     null,
+     null,
+     3,
+     6
+    ]
+   ],
+   "expected": false,
+   "example": true
+  },
+  {
+   "args": [
+    [
+     5,
+     4,
+     6,
+     null,
+     null,
+     3,
+     7
+    ]
+   ],
+   "expected": false
+  },
+  {
+   "args": [
+    [
+     1,
+     1
+    ]
+   ],
+   "expected": false
+  },
+  {
+   "args": [
+    [
+     2,
+     2,
+     2
+    ]
+   ],
+   "expected": false
+  },
+  {
+   "args": [
+    [
+     1,
+     2,
+     3
+    ]
+   ],
+   "expected": false
+  },
+  {
+   "args": [
+    [
+     1
+    ]
+   ],
+   "expected": true
+  },
+  {
+   "args": [
+    [
+     2147483647
+    ]
+   ],
+   "expected": true
+  },
+  {
+   "args": [
+    [
+     -2147483648,
+     null,
+     2147483647
+    ]
+   ],
+   "expected": true
+  },
+  {
+   "args": [
+    [
+     2147483647,
+     2147483647
+    ]
+   ],
+   "expected": false
+  },
+  {
+   "args": [
+    [
+     -2147483648,
+     -2147483648
+    ]
+   ],
+   "expected": false
+  },
+  {
+   "args": [
+    [
+     0,
+     -1
+    ]
+   ],
+   "expected": true
+  },
+  {
+   "args": [
+    [
+     1,
+     null,
+     1
+    ]
+   ],
+   "expected": false
+  },
+  {
+   "args": [
+    [
+     10,
+     5,
+     15,
+     null,
+     null,
+     6,
+     20
+    ]
+   ],
+   "expected": false
+  },
+  {
+   "args": [
+    {
+     "$py": "[x for i in range(1,3000) for x in (i,None)]+[3000]"
+    }
+   ],
+   "expected": true
+  },
+  {
+   "args": [
+    {
+     "$py": "[3000]+[x for i in range(2999,0,-1) for x in (i,None)][:-1]"
+    }
+   ],
+   "expected": true
+  },
+  {
+   "args": [
+    {
+     "$py": "[x for i in range(1,3000) for x in (i,None)]+[0]"
+    }
+   ],
+   "expected": false
+  },
+  {
+   "args": [
+    {
+     "$py": "[x for i in range(1,3000) for x in (i,None)]+[1]"
+    }
+   ],
+   "expected": false
+  },
+  {
+   "args": [
+    {
+     "$py": "list(range(1,2))+[]"
+    }
+   ],
+   "expected": true
+  }
+ ],
+ "solution": {
+  "explanation": "Pass down the open interval (low, high) that a node's value must fall into. The root is unbounded; moving left makes the current value the new upper bound, moving right makes it the new lower bound. A node whose value is not strictly inside the interval makes the tree invalid. Each node is checked once: O(n) time, O(h) recursion space. Using infinities avoids trouble with extreme integer values.",
+  "code": "class Solution:\n    def isValidBST(self, root: Optional[TreeNode]) -> bool:\n        def ok(node, low, high):\n            if not node:\n                return True\n            if not (low < node.val < high):\n                return False\n            return ok(node.left, low, node.val) and ok(node.right, node.val, high)\n\n        return ok(root, float('-inf'), float('inf'))\n"
+ }
+}

@@ -1,0 +1,198 @@
+{
+  "id": 7,
+  "slug": "product-of-array-except-self",
+  "title": "Product of Array Except Self",
+  "difficulty": "Medium",
+  "topic": "Arrays & Hashing",
+  "leetcodeUrl": "https://leetcode.com/problems/product-of-array-except-self/",
+  "videoUrl": null,
+  "description": "Given an integer array `nums`, return an array `output` where `output[i]` equals the product of all elements of `nums` except `nums[i]`. It must run in O(n) time and **must not use division**. Every prefix and suffix product fits in a 32-bit integer.",
+  "examples": [
+    {
+      "input": "nums = [1, 2, 4, 6]",
+      "output": "[48, 24, 12, 8]"
+    },
+    {
+      "input": "nums = [-1, 0, 1, 2, 3]",
+      "output": "[0, -6, 0, 0, 0]",
+      "explanation": "Any position other than the zero includes the zero in its product."
+    }
+  ],
+  "constraints": [
+    "2 <= nums.length <= 10^5",
+    "-20 <= nums[i] <= 20",
+    "Prefix and suffix products fit in a 32-bit integer"
+  ],
+  "topics": [
+    "Array",
+    "Prefix Sum"
+  ],
+  "complexity": {
+    "time": "O(n)",
+    "space": "O(1) extra"
+  },
+  "hints": [
+    "Without division and with zeros possible, you can't just divide the total by nums[i]. Split the product around index i instead.",
+    "output[i] = (product of everything to the left of i) * (product of everything to the right of i).",
+    "Fill the output with running left products in one pass, then sweep right-to-left multiplying in a running right product."
+  ],
+  "kind": "function",
+  "className": "Solution",
+  "methodName": "productExceptSelf",
+  "params": [
+    {
+      "name": "nums",
+      "type": "List[int]",
+      "kind": "raw"
+    }
+  ],
+  "returns": "raw",
+  "compare": "exact",
+  "starterCode": "class Solution:\n    def productExceptSelf(self, nums: List[int]) -> List[int]:\n        ",
+  "tests": [
+    {
+      "args": [
+        [
+          1,
+          2,
+          4,
+          6
+        ]
+      ],
+      "expected": [
+        48,
+        24,
+        12,
+        8
+      ],
+      "example": true
+    },
+    {
+      "args": [
+        [
+          -1,
+          0,
+          1,
+          2,
+          3
+        ]
+      ],
+      "expected": [
+        0,
+        -6,
+        0,
+        0,
+        0
+      ],
+      "example": true
+    },
+    {
+      "args": [
+        [
+          2,
+          3
+        ]
+      ],
+      "expected": [
+        3,
+        2
+      ]
+    },
+    {
+      "args": [
+        [
+          0,
+          0,
+          2
+        ]
+      ],
+      "expected": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3,
+          4
+        ]
+      ],
+      "expected": [
+        24,
+        12,
+        8,
+        6
+      ]
+    },
+    {
+      "args": [
+        [
+          -1,
+          1,
+          0,
+          -3,
+          3
+        ]
+      ],
+      "expected": [
+        0,
+        0,
+        9,
+        0,
+        0
+      ]
+    },
+    {
+      "args": [
+        [
+          -2,
+          -3
+        ]
+      ],
+      "expected": [
+        -3,
+        -2
+      ]
+    },
+    {
+      "args": [
+        [
+          5,
+          0
+        ]
+      ],
+      "expected": [
+        0,
+        5
+      ]
+    },
+    {
+      "args": [
+        {
+          "$py": "[1] * 100000"
+        }
+      ],
+      "expected": {
+        "$py": "[1] * 100000"
+      }
+    },
+    {
+      "args": [
+        {
+          "$py": "[1] * 50000 + [0] + [1] * 49999"
+        }
+      ],
+      "expected": {
+        "$py": "[0] * 50000 + [1] + [0] * 49999"
+      }
+    }
+  ],
+  "solution": {
+    "explanation": "The product excluding index i is the product of everything left of i times everything right of i. A first pass stores in `res[i]` the product of all earlier elements. A second pass from the right keeps a running product of later elements and multiplies it into `res[i]`. Two linear passes give O(n) time, and apart from the output array we use only a couple of variables, so extra space is O(1).",
+    "code": "class Solution:\n    def productExceptSelf(self, nums: List[int]) -> List[int]:\n        n = len(nums)\n        res = [1] * n\n        left = 1\n        for i in range(n):\n            res[i] = left\n            left *= nums[i]\n        right = 1\n        for i in range(n - 1, -1, -1):\n            res[i] *= right\n            right *= nums[i]\n        return res\n"
+  }
+}
